@@ -35,7 +35,7 @@ public class ObjectPool<T> where T : Component, IPoolable
         return obj;
     }
 
-    public void Return(T obj)
+    public void Release(T obj)
     {
         obj.OnDespawn();
         obj.gameObject.SetActive(false);

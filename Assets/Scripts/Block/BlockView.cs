@@ -1,23 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-public class BlockView : MonoBehaviour
+public class BlockView : MonoBehaviour, IPoolable
 {
-    private BlockControler _controler;
-
-    public void Bind(BlockControler controler)
+    public void OnSpawn()
     {
-        _controler = controler;
+        gameObject.SetActive(true);   
     }
 
-    private void Update()
-    {
-        
-    }
-
-    public void DestroyView()
+    public void OnDespawn()
     {
         gameObject.SetActive(false);
     }
-    
+
+    public void SetWorldPostion(Vector3 pos)
+    {
+        transform.position = pos;
+    }
 }
