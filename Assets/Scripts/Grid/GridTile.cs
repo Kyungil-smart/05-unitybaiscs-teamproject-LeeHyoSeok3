@@ -9,10 +9,10 @@ public class GridTile : MonoBehaviour
     public bool _blockOn;
 
     // 주변 블록 정보
-    [SerializeField] GridTile _upBlock;
-    [SerializeField] GridTile _downBlock;
-    [SerializeField] GridTile _leftBlock;
-    [SerializeField] GridTile _rightBlock;
+    public GridTile _upBlock;
+    public GridTile _downBlock;
+    public GridTile _leftBlock;
+    public GridTile _rightBlock;
     
 
     void Awake()
@@ -51,4 +51,6 @@ public class GridTile : MonoBehaviour
     //     Gizmos.color = Color.red;
     //     Gizmos.DrawSphere(transform.position, 0.2f);
     // }
+
+    
 }
