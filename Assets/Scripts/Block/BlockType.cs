@@ -1,4 +1,4 @@
 ﻿public enum BlockType
 {
-    Normal, Obstacle
+    I,O,T,S,Z,J,L
 }
