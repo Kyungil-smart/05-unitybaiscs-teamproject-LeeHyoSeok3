@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
@@ -6,6 +7,12 @@ public class PlayerView : MonoBehaviour
     private PlayerMovement _movement;
 
     public void Initialize(PlayerControler controler)
+    {
+        _controler = controler;
+        _movement = new PlayerMovement();
+    }
+
+    private void Update()
     {
         
     }
