@@ -28,5 +28,6 @@ public class ScoreSystem : MonoBehaviour
     {
         Score += (evt.Count * evt.Count) * 100;
         Debug.Log($"Score : {Score}");
+        GameEventBus.Raise(new ScoreUpdatedEvent(Score));
     }
 }
