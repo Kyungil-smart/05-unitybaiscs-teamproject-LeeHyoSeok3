@@ -6,65 +6,48 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private int _moveSpeed;
-    private Vector3 dir;
-    private Vector3 _movePos;
-    private Quaternion _rotation;
-
-    private Animator _animator;
-
-    [SerializeField] private Transform _playerBody;
-
-    private Rigidbody _rigidbody;
-
+    [SerializeField][Range(1,20)] private float _moveSpeed;
+    [SerializeField][Range(1,100)] private float _rotateSpeed;
+    
+    private Rigidbody _rb;
+    private Vector3 _moveDir;
+    public float MoveAmount { get; private set; }
+    
     private void Awake()
     {
-        Init();   
+        _rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    public void SetMoveDirection(Vector3 dir)
     {
-        dir.z = Input.GetAxisRaw("Vertical");
-        dir.x = Input.GetAxisRaw("Horizontal");
+        _moveDir = dir;
+    }
 
-        Rotate();
+    private void FixedUpdate()
+    {
+        if (_moveDir == Vector3.zero)
+        {
+            MoveAmount = 0f;
+            return;
+        }
+        
         Move();
-    }
-
-    private void Init()
-    {
-        dir = new Vector3();
-        _movePos = new Vector3();
-        _rotation = new Quaternion();
-        _rigidbody = GetComponent<Rigidbody>();
-        _moveSpeed = 24;
+        Rotate();
     }
 
     private void Move()
     {
-        _movePos = transform.position + dir * (_moveSpeed * Time.deltaTime);
-
-        _rigidbody?.MovePosition(Vector3.Lerp(transform.position,
-            _movePos, 0.875f));
-
-        //transform.position = Vector3.Lerp(transform.position,
-        //    _movePos, 0.875f);
+        Vector3 movement = _moveDir * (_moveSpeed * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + movement);
+        
+        MoveAmount = movement.magnitude / Time.fixedDeltaTime;
     }
 
     private void Rotate()
     {
-        if(Input.GetKey(KeyCode.A) ||
-            Input.GetKey(KeyCode.D) ||
-           Input.GetKey(KeyCode.W) ||
-            Input.GetKey(KeyCode.S))
-        {
-            _rotation = Quaternion.LookRotation(dir);
-        }
-        _rigidbody?.MoveRotation(Quaternion.Slerp(_playerBody.transform.rotation,
-            _rotation, 0.125f));
-
-        //_playerBody.transform.rotation = Quaternion.Slerp(_playerBody.transform.rotation,
-        //    _rotation, 0.0125f);
+        Quaternion targetRotation = Quaternion.LookRotation(_moveDir);
+        Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
+        
+        _rb.MoveRotation(smoothRotation);
     }
-
 }
