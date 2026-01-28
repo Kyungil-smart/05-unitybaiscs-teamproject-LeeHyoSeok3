@@ -15,10 +15,18 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _pauseKey;
     [SerializeField] private Image _darkOverlay;
     [SerializeField] private StageSystem _stageSystem;
+    [SerializeField] private Button _retrunTitle;
+    [SerializeField] private GameObject _gameExit;
 
     private int _currentScore;
     private int _currentStage;
     private int _targetScore;
+
+    void Awake()
+    { 
+        _currentStage = 1;
+        _targetScore = 1000;
+    }
     void Start()
     {
         ReadyState();
@@ -70,13 +78,15 @@ public class GameScene : MonoBehaviour
         _targetScore = evt.TargetScore;
     }
 
-    void ReadyState()
+    public void ReadyState()
     {
         _IncreaseScore.gameObject.SetActive(false);
         _totalScore.gameObject.SetActive(false);
         _level.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _pauseKey.gameObject.SetActive(false);
+        _retrunTitle.gameObject.SetActive(false);
+        _gameExit.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(true);
         _darkOverlay.gameObject.SetActive(true);
     }
@@ -97,13 +107,16 @@ public class GameScene : MonoBehaviour
     {
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
+        _retrunTitle.gameObject.SetActive(false);
         GameManager.Instance.StartGame();
     }
 
-    void PauseState()
+    public void PauseState()
     {
+        _gameExit.gameObject.SetActive(false);
         _darkOverlay.gameObject.SetActive(true);
         _pauseState.gameObject.SetActive(true);
+        _retrunTitle.gameObject.SetActive(true);
         GameManager.Instance.PauseGame();
     }
 
@@ -117,6 +130,16 @@ public class GameScene : MonoBehaviour
         _level.text = $"{_currentStage} Stage";
         _pauseState.text = $"게임이 일시정지 되었습니다.\n" +
             $"계속하시려면 [Esc] 키를 눌러주세요!";
-        _IncreaseScore.text = $"+ {_currentScore}";
+        _IncreaseScore.text = "+ 100";
+    }
+
+    public void ReturnTitle()
+    {
+        GameManager.Instance.InitializeGame();
+    }
+
+    public void AreYouSure()
+    {
+        _gameExit.gameObject.SetActive(true);
     }
 }
