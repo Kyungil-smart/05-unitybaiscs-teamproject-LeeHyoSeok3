@@ -25,19 +25,19 @@ public class BlockSpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             SpawnRandom();
-        if (Input.GetKeyDown(KeyCode.Q)) // 테스트 코드
-        {
-            GameEventBus.Raise(new GridUpdateEvent());
-            Debug.Log("업데이트 이벤트");
-        }
-
-        if (_current != null)
-        {
-            foreach (var block in _current)
-            {
-                block.DownGridPosition(block.GridPosition, fallSpeed);
-            }
-        }
+        // if (Input.GetKeyDown(KeyCode.Q)) // 테스트 코드
+        // {
+        //     GameEventBus.Raise(new GridUpdateEvent());
+        //     Debug.Log("업데이트 이벤트");
+        // }
+        //
+        // if (_current != null)
+        // {
+        //     foreach (var block in _current)
+        //     {
+        //         block.DownGridPosition(block.GridPosition, fallSpeed);
+        //     }
+        // }
     }
 
     void FixedUpdate()
