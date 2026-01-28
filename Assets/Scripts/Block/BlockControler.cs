@@ -9,14 +9,16 @@ public class BlockControler
     public BlockState State { get; private set; }
     
     private readonly BlockView _view;
+    private readonly BlockPoolType _poolType;
     private readonly float _blockSize;
 
-    public BlockControler(BlockView view, Vector2Int gridPosition, float blockSize)
+    public BlockControler(BlockView view, Vector2Int gridPosition, float blockSize, BlockPoolType poolType)
     {
         _view = view;
         _blockSize = blockSize;
         
         State = BlockState.Spawn;
+        _poolType = poolType;
         SetGridPosition(gridPosition);
     }
     
@@ -35,7 +37,7 @@ public class BlockControler
     
     public void Release() {
         SetState(BlockState.Release);
-        PoolManager.Instance.GetPool<BlockView>().Release(_view);
+        PoolManager.Instance.GetPool<BlockView>((int)_poolType).Release(_view);
     }
     
 }

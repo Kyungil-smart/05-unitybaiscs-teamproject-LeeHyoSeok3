@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance { get; private set; }
-    private Dictionary<System.Type, object> _pools = new();
+    private Dictionary<(System.Type, int), object> _pools = new();
 
     private void Awake()
     {
@@ -19,15 +19,17 @@ public class PoolManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public ObjectPool<T> CreatePool<T>(T prefab, int count) where T : Component, IPoolable
+    public ObjectPool<T> CreatePool<T>(int poolId, T prefab, int count) where T : Component, IPoolable
     {
+        var key = (typeof(T), poolId);
         var pool = new ObjectPool<T>(prefab, count, transform);
-        _pools[typeof(T)] = pool;
+        _pools[key] = pool;
         return pool;
     }
 
-    public ObjectPool<T> GetPool<T>() where T : Component, IPoolable
+    public ObjectPool<T> GetPool<T>(int poolId) where T : Component, IPoolable
     {
-        return _pools[typeof(T)] as ObjectPool<T>;
+        var key = (typeof(T), poolId);
+        return _pools[key] as ObjectPool<T>;
     }
 }

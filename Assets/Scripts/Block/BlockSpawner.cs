@@ -26,10 +26,11 @@ public class BlockSpawner : MonoBehaviour
     public void SpawnRandom()
     {
         BlockType type = (BlockType)Random.Range(0, 7);
+        BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
 
         // todo : Grid에서 생성가능한 좌표 가져오기
         Vector2Int baseGrid = new( Random.Range(-5, 5),  Random.Range(-5, 5));
-        _current = _factory.Create(type, baseGrid);
+        _current = _factory.Create(type, poolType, baseGrid);
 
         foreach (var block in _current)
             block.SetState(BlockState.Falling);
