@@ -7,7 +7,8 @@ using Random = UnityEngine.Random;
 public class BlockSpawner : MonoBehaviour
 {
     [SerializeField] private float blockSize = 1f;
-    
+    [SerializeField] private float fallSpeed = 0.2f;
+
     private BlockFactory _factory;
     private List<BlockControler> _current;
 
@@ -21,6 +22,22 @@ public class BlockSpawner : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
             SpawnRandom();
+
+        if(_current != null)
+        {
+            foreach(var block in _current)
+            { 
+                block.DownGridPosition(block.GridPosition, fallSpeed);
+            }
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_current == null) return;
+
+        Debug.Log("OnTriggerEnter");
     }
 
     public void SpawnRandom()

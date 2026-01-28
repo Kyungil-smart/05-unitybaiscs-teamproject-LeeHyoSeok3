@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BlockControler
 {
     public Vector2Int GridPosition { get; private set; }
     public BlockState State { get; private set; }
-    
+
+    public float YPosition; // 위에서 떨어지는 효과를 위한 Y 위치 값
+
     private readonly BlockView _view;
     private readonly BlockPoolType _poolType;
     private readonly float _blockSize;
@@ -19,13 +22,16 @@ public class BlockControler
         
         State = BlockState.Spawn;
         _poolType = poolType;
+
+        YPosition = 10f;    // y=10 에서 시작
+
         SetGridPosition(gridPosition);
     }
     
     public void SetGridPosition(Vector2Int gridPosition)
     {
         GridPosition = gridPosition;
-        Vector3 worldPos = new Vector3(gridPosition.x * _blockSize, 0, gridPosition.y * _blockSize);
+        Vector3 worldPos = new Vector3(gridPosition.x * _blockSize, YPosition, gridPosition.y * _blockSize);
         
         _view.SetWorldPostion(worldPos);
     }
@@ -40,4 +46,13 @@ public class BlockControler
         PoolManager.Instance.GetPool<BlockView>((int)_poolType).Release(_view);
     }
     
+    public void DownGridPosition(Vector2Int BlockMovePosition, float FallSpeed) {
+        GridPosition = BlockMovePosition;
+
+        float NextY = YPosition - FallSpeed * Time.deltaTime;
+
+        Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
+        _view.SetWorldPostion(MovePos);
+        YPosition = NextY;
+    }
 }
