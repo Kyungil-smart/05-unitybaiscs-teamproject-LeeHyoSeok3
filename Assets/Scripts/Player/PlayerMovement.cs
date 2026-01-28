@@ -1,23 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement
 {
-    [SerializeField] private int _moveSpeed;
-    private Vector3 dir;
-    private float _rotateValue;
-    private Animator _animator;
+    private int _moveSpeed;
+    private int _rotateSpeed;
+    
+    // private Vector3 dir;
+    // private float _rotateValue;
+    // private Animator _animator;
+    // private Rigidbody _rb;
 
-    private void Awake()
+    public PlayerMovement(int  moveSpeed, int rotateSpeed)
     {
-     Init();   
+        _moveSpeed = moveSpeed;
+        _rotateSpeed = rotateSpeed;
+    }
+    
+    
+    
+    // private void Awake()
+    // {
+    //     Init();
+    //     _rb = GetComponent<Rigidbody>();
+    // }
+
+    private void FixedUpdate()
+    {
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        Vector3 moveDir = new Vector3(h, 0f, v).normalized;
+        Vector3 targetPos = _rb.position + moveDir * (_moveSpeed * Time.fixedDeltaTime);
+
+        if (moveDir.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRot, _rotateSpeed * Time.fixedDeltaTime));
+        }
+        
+        _rb.MovePosition(targetPos);
     }
 
     private void Update()
     {
-        Rotate();
-        Move();
+        // Rotate();
+        // Move();
     }
 
     private void Init()
@@ -42,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotate()
     {
-
         _rotateValue += dir.x;
         //transform.rotation = Quaternion.LookRotation(dir);
 
@@ -51,8 +80,7 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation,
             Quaternion.LookRotation(dir), 0.01f);
 
-        
+
         //transform.Rotate(Vector3.up, 100f*dir.x * Time.deltaTime);
     }
-
 }
