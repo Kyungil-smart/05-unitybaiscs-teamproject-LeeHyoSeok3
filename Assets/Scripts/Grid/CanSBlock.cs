@@ -36,8 +36,8 @@ public class CanSBlock : MonoBehaviour
         //가능성 판독
         if( gameObject.GetComponent<GridTile>()._blockOn && 
             gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._leftBlock._blockOn )
+            gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
+            gameObject.GetComponent<GridTile>()._upBlock._upBlock._blockOn )
         {
             if(!_board.SUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.SUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));

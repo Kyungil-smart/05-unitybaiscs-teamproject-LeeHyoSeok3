@@ -1,86 +1,69 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement
+public class PlayerMovement : MonoBehaviour
 {
-    private int _moveSpeed;
-    private int _rotateSpeed;
-    
-    // private Vector3 dir;
-    // private float _rotateValue;
-    // private Animator _animator;
-    // private Rigidbody _rb;
+    [SerializeField] private int _moveSpeed;
+    private Vector3 dir;
+    private Vector3 _movePos;
+    private Quaternion _rotation;
 
-    public PlayerMovement(int  moveSpeed, int rotateSpeed)
+    private Animator _animator;
+
+    [SerializeField] private Transform _playerBody;
+
+    private Rigidbody _rigidbody;
+
+    private void Awake()
     {
-        _moveSpeed = moveSpeed;
-        _rotateSpeed = rotateSpeed;
-    }
-    
-    
-    
-    // private void Awake()
-    // {
-    //     Init();
-    //     _rb = GetComponent<Rigidbody>();
-    // }
-
-    private void FixedUpdate()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Vector3 moveDir = new Vector3(h, 0f, v).normalized;
-        Vector3 targetPos = _rb.position + moveDir * (_moveSpeed * Time.fixedDeltaTime);
-
-        if (moveDir.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
-            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRot, _rotateSpeed * Time.fixedDeltaTime));
-        }
-        
-        _rb.MovePosition(targetPos);
+        Init();   
     }
 
     private void Update()
     {
-        // Rotate();
-        // Move();
+        dir.z = Input.GetAxisRaw("Vertical");
+        dir.x = Input.GetAxisRaw("Horizontal");
+
+        Rotate();
+        Move();
     }
 
     private void Init()
     {
-        _rotateValue = 0;
+        dir = new Vector3();
+        _movePos = new Vector3();
+        _rotation = new Quaternion();
+        _rigidbody = GetComponent<Rigidbody>();
+        _moveSpeed = 24;
     }
 
     private void Move()
     {
-        dir.z = Input.GetAxisRaw("Vertical");
-        dir.x = Input.GetAxisRaw("Horizontal");
+        _movePos = transform.position + dir * (_moveSpeed * Time.deltaTime);
 
-        //transform.Translate(Vector3.forward * _moveSpeed * dir.z * Time.deltaTime);
-        if (Input.GetKey(KeyCode.A) ||
-            Input.GetKey(KeyCode.D) ||
-            Input.GetKey(KeyCode.W) ||
-            Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.forward * _moveSpeed * Time.deltaTime);
-        }
+        _rigidbody?.MovePosition(Vector3.Lerp(transform.position,
+            _movePos, 0.875f));
+
+        //transform.position = Vector3.Lerp(transform.position,
+        //    _movePos, 0.875f);
     }
 
     private void Rotate()
     {
-        _rotateValue += dir.x;
-        //transform.rotation = Quaternion.LookRotation(dir);
+        if(Input.GetKey(KeyCode.A) ||
+            Input.GetKey(KeyCode.D) ||
+           Input.GetKey(KeyCode.W) ||
+            Input.GetKey(KeyCode.S))
+        {
+            _rotation = Quaternion.LookRotation(dir);
+        }
+        _rigidbody?.MoveRotation(Quaternion.Slerp(_playerBody.transform.rotation,
+            _rotation, 0.125f));
 
-        //transform.rotation = Quaternion.Slerp(transform.rotation,
-        //    Quaternion.Euler(0, _rotateValue, 0), 0.5f);
-        transform.rotation = Quaternion.Slerp(transform.rotation,
-            Quaternion.LookRotation(dir), 0.01f);
-
-
-        //transform.Rotate(Vector3.up, 100f*dir.x * Time.deltaTime);
+        //_playerBody.transform.rotation = Quaternion.Slerp(_playerBody.transform.rotation,
+        //    _rotation, 0.0125f);
     }
+
 }
