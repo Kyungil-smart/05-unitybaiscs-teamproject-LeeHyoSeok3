@@ -80,19 +80,25 @@ namespace SlimUI.ModernMenu{
         [Tooltip("The GameObject holding the Audio Source component for the SWOOSH SOUND when switching to the Settings Screen")]
         public AudioSource swooshSound;
 
-		void Start(){
-			CameraObject = transform.GetComponent<Animator>();
+        public GameStateMachine StateMachine { get; private set; }
 
-			//playMenu.SetActive(false);
-			exitMenu.SetActive(false);
-			if(extrasMenu) extrasMenu.SetActive(false);
-			firstMenu.SetActive(true);
-			mainMenu.SetActive(true);
 
-			SetThemeColors();
-		}
+        void Start(){
+            CameraObject = transform.GetComponent<Animator>();
+            StateMachine = new GameStateMachine();
 
-		void SetThemeColors()
+            //playMenu.SetActive(false);
+            exitMenu.SetActive(false);
+            if (extrasMenu) extrasMenu.SetActive(false);
+            firstMenu.SetActive(true);
+            mainMenu.SetActive(true);
+
+            SetThemeColors();
+            StateMachine.ChangeState(new PlayingState(StateMachine));
+        }
+
+
+        void SetThemeColors()
 		{
 			switch (theme)
 			{
@@ -119,8 +125,10 @@ namespace SlimUI.ModernMenu{
 
 		public void PlayCampaign(){
 			exitMenu.SetActive(false);
-			SceneManager.LoadScene("Game");
-		}
+			// SceneManager.LoadScene("Game");
+            StateMachine.ChangeState(new ReadyState(StateMachine));
+            GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
+        }
 		
 		public void PlayCampaignMobile(){
 			exitMenu.SetActive(false);
