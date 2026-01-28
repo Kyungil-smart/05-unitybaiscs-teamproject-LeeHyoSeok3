@@ -14,11 +14,20 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _pauseState;
     [SerializeField] private TextMeshProUGUI _pauseKey;
     [SerializeField] private Image _darkOverlay;
+    [SerializeField] private StageSystem _stageSystem;
 
-    private ScoreUpdatedEvent _scoreUpdatedEvent;
+    private int _currentScore;
+    private int _currentStage;
+    private int _targetScore;
     void Start()
     {
         ReadyState();
+    }
+
+    private void OnEnable()
+    {
+        GameEventBus.Subscribe<ScoreUpdatedEvent>(OnScoreUpdated);
+        GameEventBus.Subscribe<StageStartedEvent>(OnStageStarted);
     }
 
     void Update()
@@ -39,9 +48,26 @@ public class GameScene : MonoBehaviour
             }
             else if (GameManager.Instance.StateMachine.CurrnetState is PausedState)
             {
-                PlayingState();
+                ResumeGame();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        GameEventBus.Unsubscribe<ScoreUpdatedEvent>(OnScoreUpdated);
+        GameEventBus.Unsubscribe<StageStartedEvent>(OnStageStarted);
+    }
+
+    private void OnScoreUpdated(ScoreUpdatedEvent evt)
+    {
+        _currentScore = evt.Score;
+    }
+
+    private void OnStageStarted(StageStartedEvent evt)
+    {
+        _currentStage = evt.Stage;
+        _targetScore = evt.TargetScore;
     }
 
     void ReadyState()
@@ -53,8 +79,6 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(true);
         _darkOverlay.gameObject.SetActive(true);
-
-        _scoreUpdatedEvent = new ScoreUpdatedEvent(0);
     }
 
     void PlayingState()
@@ -65,6 +89,14 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(true);
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
+        GameManager.Instance.StartGame();
+        _stageSystem.StartFirstStage();
+        
+    }
+    void ResumeGame()
+    {
+        _darkOverlay.gameObject.SetActive(false);
+        _pauseState.gameObject.SetActive(false);
         GameManager.Instance.StartGame();
     }
 
@@ -77,14 +109,14 @@ public class GameScene : MonoBehaviour
 
     void TextUpdate()
     {
-        _totalScore.text = $"목표 점수 : {_scoreUpdatedEvent.Score} 점\n" +
-            $"현재 점수 : {_scoreUpdatedEvent.Score} 점";
+        _totalScore.text = $"목표 점수 : {_targetScore} 점\n" +
+            $"현재 점수 : {_currentScore} 점";
         _readyState.text = $"게임을 시작하시려면 [SpaceBar] 키를 눌러주세요!\n" +
-            $"현재 스테이지 : {_scoreUpdatedEvent.Score} Stage\n" +
-            $"목표 점수 : {_scoreUpdatedEvent.Score} 점";
-        _level.text = $"{_scoreUpdatedEvent.Score} Stage";
+            $"현재 스테이지 : {_currentStage} Stage\n" +
+            $"목표 점수 : {_targetScore} 점";
+        _level.text = $"{_currentStage} Stage";
         _pauseState.text = $"게임이 일시정지 되었습니다.\n" +
             $"계속하시려면 [Esc] 키를 눌러주세요!";
-        _IncreaseScore.text = $"+ {_scoreUpdatedEvent.Score}";
+        _IncreaseScore.text = $"+ {_currentScore}";
     }
 }
