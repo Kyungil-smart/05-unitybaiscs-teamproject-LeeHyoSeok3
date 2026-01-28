@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 // XZ 좌표계 기준
@@ -34,17 +34,7 @@ public static class BlockShape
                     new Vector2Int(0, 0),
                     new Vector2Int(-1, 0),
                     new Vector2Int(1, 0),
-                    new Vector2Int(0, 1),
-                }
-            },
-            {
-                BlockType.Z,
-                new[]
-                {
-                    new Vector2Int(0, 0),
-                    new Vector2Int(1, 0),
-                    new Vector2Int(0, 1),
-                    new Vector2Int(-1, 1),
+                    new Vector2Int(0, -1),
                 }
             },
             {
@@ -58,13 +48,23 @@ public static class BlockShape
                 }
             },
             {
+                BlockType.Z,
+                new[]
+                {
+                    new Vector2Int(0, 0),
+                    new Vector2Int(-1, 0),
+                    new Vector2Int(0, -1),
+                    new Vector2Int(1, -1),
+                }
+            },
+            {
                 BlockType.J,
                 new[]
                 {
                     new Vector2Int(0, 0),
                     new Vector2Int(0, 1),
-                    new Vector2Int(0, 2),
-                    new Vector2Int(-1, 0),
+                    new Vector2Int(0, -1),
+                    new Vector2Int(-1, -1),
                 }
             },
             {
@@ -73,8 +73,8 @@ public static class BlockShape
                 {
                     new Vector2Int(0, 0),
                     new Vector2Int(0, 1),
-                    new Vector2Int(0, 2),
-                    new Vector2Int(1, 0),
+                    new Vector2Int(0, -1),
+                    new Vector2Int(1, -1),
                 }
             },
         };
