@@ -22,12 +22,12 @@ public class PlayerInput : MonoBehaviour
         MoveInput = new Vector3(h, 0f, v).normalized;
     }
 
-    private void Interact()
+    public bool Interact()
     {
-        
+        return Input.GetKeyDown(KeyCode.E);
     }
     
-    private void RotateBlock()
+    public void RotateBlock()
     {
         
     }
