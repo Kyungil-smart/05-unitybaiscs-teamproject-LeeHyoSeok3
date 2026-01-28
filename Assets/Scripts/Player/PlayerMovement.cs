@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _movePos = transform.position + dir * (_moveSpeed * Time.deltaTime);
 
-        _rigidbody.MovePosition(Vector3.Lerp(transform.position,
+        _rigidbody?.MovePosition(Vector3.Lerp(transform.position,
             _movePos, 0.875f));
 
         //transform.position = Vector3.Lerp(transform.position,
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rotation = Quaternion.LookRotation(dir);
         }
-        _rigidbody.MoveRotation(Quaternion.Slerp(_playerBody.transform.rotation,
+        _rigidbody?.MoveRotation(Quaternion.Slerp(_playerBody.transform.rotation,
             _rotation, 0.125f));
 
         //_playerBody.transform.rotation = Quaternion.Slerp(_playerBody.transform.rotation,
