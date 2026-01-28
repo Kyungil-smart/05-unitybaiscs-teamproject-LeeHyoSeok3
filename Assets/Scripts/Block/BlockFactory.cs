@@ -3,16 +3,22 @@ using UnityEngine;
 
 public class BlockFactory
 {
-    private readonly ObjectPool<BlockView> _pool;
+    private readonly ObjectPool<BlockView>[] _pools;
     private readonly float _blockSize;
 
     public BlockFactory(float blockSize)
     {
         _blockSize = blockSize;
-        _pool = PoolManager.Instance.GetPool<BlockView>();
+        int count = System.Enum.GetValues(typeof(BlockPoolType)).Length;
+        _pools = new ObjectPool<BlockView>[count];
+        for (int i = 0; i < count; i++) {
+            _pools[i] = PoolManager.Instance.GetPool<BlockView>(i);
+        }
+        
+        // _pool = PoolManager.Instance.GetPool<BlockView>();
     }
 
-    public List<BlockControler> Create(BlockType type, Vector2Int baseGrid)
+    public List<BlockControler> Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid)
     {
         Vector2Int[] shape = BlockShape.Shapes[type];
         List<BlockControler> blocks = new(shape.Length);
@@ -20,9 +26,10 @@ public class BlockFactory
         foreach (var offset in shape)
         {
             Vector2Int grid = baseGrid + offset;
-            BlockView view = _pool.Get();
+            // BlockView view = _pool.Get();
+            BlockView view = _pools[(int)poolType].Get();
             
-            var controler = new BlockControler(view, grid, _blockSize);
+            var controler = new BlockControler(view, grid, _blockSize, poolType);
             blocks.Add(controler);
         }
 
