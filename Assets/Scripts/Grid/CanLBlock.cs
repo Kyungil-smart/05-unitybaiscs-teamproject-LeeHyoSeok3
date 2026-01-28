@@ -37,8 +37,8 @@ public class CanLBlock : MonoBehaviour
         //가능성 판독
         if( gameObject.GetComponent<GridTile>()._blockOn && 
             gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._rightBlock._blockOn )
+            gameObject.GetComponent<GridTile>()._upBlock._upBlock._blockOn &&
+            gameObject.GetComponent<GridTile>()._rightBlock._blockOn )
         {
             if(!_board.LUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.LUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
@@ -53,9 +53,9 @@ public class CanLBlock : MonoBehaviour
     {
         //가능성 판독
         if( gameObject.GetComponent<GridTile>()._blockOn && 
-            gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
             gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._leftBlock._blockOn )
+            gameObject.GetComponent<GridTile>()._rightBlock._rightBlock._blockOn &&
+            gameObject.GetComponent<GridTile>()._downBlock._blockOn )
         {
             if(!_board.LRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.LRightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
@@ -70,9 +70,9 @@ public class CanLBlock : MonoBehaviour
     {
         //가능성 판독
         if( gameObject.GetComponent<GridTile>()._blockOn && 
-            gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
             gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._upBlock._leftBlock._blockOn )
+            gameObject.GetComponent<GridTile>()._downBlock._downBlock._blockOn &&
+            gameObject.GetComponent<GridTile>()._leftBlock._blockOn )
         {
             if(!_board.LDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.LDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
@@ -88,8 +88,8 @@ public class CanLBlock : MonoBehaviour
         //가능성 판독
         if( gameObject.GetComponent<GridTile>()._blockOn && 
             gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._upBlock._rightBlock._blockOn )
+            gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._blockOn &&
+            gameObject.GetComponent<GridTile>()._upBlock._blockOn )
         {
             //리스트에 업
             if(!_board.LLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))

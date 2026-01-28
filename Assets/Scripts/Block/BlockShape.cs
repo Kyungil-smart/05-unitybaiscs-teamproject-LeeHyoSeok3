@@ -38,7 +38,7 @@ public static class BlockShape
                 }
             },
             {
-                BlockType.S,
+                BlockType.Z,
                 new[]
                 {
                     new Vector2Int(0, 0),
@@ -48,7 +48,7 @@ public static class BlockShape
                 }
             },
             {
-                BlockType.Z,
+                BlockType.S,
                 new[]
                 {
                     new Vector2Int(0, 0),
@@ -64,7 +64,7 @@ public static class BlockShape
                     new Vector2Int(0, 0),
                     new Vector2Int(0, 1),
                     new Vector2Int(0, 2),
-                    new Vector2Int(-1, 2),
+                    new Vector2Int(-1, 0),
                 }
             },
             {
@@ -74,7 +74,7 @@ public static class BlockShape
                     new Vector2Int(0, 0),
                     new Vector2Int(0, 1),
                     new Vector2Int(0, 2),
-                    new Vector2Int(1, 2),
+                    new Vector2Int(1, 0),
                 }
             },
         };
