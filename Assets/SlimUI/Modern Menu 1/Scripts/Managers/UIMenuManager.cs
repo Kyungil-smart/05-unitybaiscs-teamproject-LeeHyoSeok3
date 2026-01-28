@@ -125,7 +125,6 @@ namespace SlimUI.ModernMenu{
 
 		public void PlayCampaign(){
 			exitMenu.SetActive(false);
-			// SceneManager.LoadScene("Game");
             StateMachine.ChangeState(new ReadyState(StateMachine));
             GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
         }

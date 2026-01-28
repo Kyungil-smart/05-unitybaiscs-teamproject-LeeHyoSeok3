@@ -5,7 +5,7 @@ using TMPro;
 
 public class ScorePopup : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro _scoreText3D; // TextMeshPro (3D) 타입
+    [SerializeField] private TextMeshPro _scoreText3D;
     [SerializeField] private float moveUpDistance = 1f;
     [SerializeField] private float duration = 1f;
 
@@ -17,7 +17,7 @@ public class ScorePopup : MonoBehaviour
     {
         _scoreText3D.text = $"+{score}";
         timer = 0f;
-        startPos = box.position + Vector3.up * 1f; // 박스 위
+        startPos = box.position + Vector3.up * 1f; // 점수 표출될 위치
         _scoreText3D.transform.position = startPos;
         _scoreText3D.alpha = 1f; // 완전히 보이게
         gameObject.SetActive(true);

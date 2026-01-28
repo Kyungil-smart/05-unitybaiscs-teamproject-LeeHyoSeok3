@@ -13,6 +13,7 @@ public class BlockView : MonoBehaviour, IPoolable
 
     private void Update()
     {
+        // 테스트용: D키 누르면 박스 비활성화
         if (Input.GetKeyDown(KeyCode.D))
         {
             OnDespawn();
@@ -21,11 +22,14 @@ public class BlockView : MonoBehaviour, IPoolable
 
     public void OnDespawn()
     {
+        // 이펙트 표출하는 기능
         if (_destroyEffectPrefab != null)
         {
             Instantiate(_destroyEffectPrefab, transform.position, Quaternion.identity);
         }
+        // 박스 비활성화
         gameObject.SetActive(false);
+        // 점수 표출하는 기능
         if (scorePopup != null)
         {
             scorePopup.Show(100, transform);
