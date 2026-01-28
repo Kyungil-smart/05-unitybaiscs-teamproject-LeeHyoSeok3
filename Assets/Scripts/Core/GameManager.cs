@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
    public void StartGame()
    {
       StateMachine.ChangeState(new PlayingState(StateMachine));
-      GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
    }
 
    public void PauseGame()

@@ -1,58 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private int _moveSpeed;
-    private Vector3 dir;
-    private float _rotateValue;
-    private Animator _animator;
-
+    [SerializeField][Range(1,20)] private float _moveSpeed;
+    [SerializeField][Range(1,100)] private float _rotateSpeed;
+    
+    private Rigidbody _rb;
+    private Vector3 _moveDir;
+    public float MoveAmount { get; private set; }
+    
     private void Awake()
     {
-     Init();   
+        _rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    public void SetMoveDirection(Vector3 dir)
     {
-        Rotate();
+        _moveDir = dir;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_moveDir == Vector3.zero)
+        {
+            MoveAmount = 0f;
+            return;
+        }
+        
         Move();
-    }
-
-    private void Init()
-    {
-        _rotateValue = 0;
+        Rotate();
     }
 
     private void Move()
     {
-        dir.z = Input.GetAxisRaw("Vertical");
-        dir.x = Input.GetAxisRaw("Horizontal");
-
-        //transform.Translate(Vector3.forward * _moveSpeed * dir.z * Time.deltaTime);
-        if (Input.GetKey(KeyCode.A) ||
-            Input.GetKey(KeyCode.D) ||
-            Input.GetKey(KeyCode.W) ||
-            Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.forward * _moveSpeed * Time.deltaTime);
-        }
+        Vector3 movement = _moveDir * (_moveSpeed * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + movement);
+        
+        MoveAmount = movement.magnitude / Time.fixedDeltaTime;
     }
 
     private void Rotate()
     {
-
-        _rotateValue += dir.x;
-        //transform.rotation = Quaternion.LookRotation(dir);
-
-        //transform.rotation = Quaternion.Slerp(transform.rotation,
-        //    Quaternion.Euler(0, _rotateValue, 0), 0.5f);
-        transform.rotation = Quaternion.Slerp(transform.rotation,
-            Quaternion.LookRotation(dir), 0.01f);
-
+        Quaternion targetRotation = Quaternion.LookRotation(_moveDir);
+        Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
         
-        //transform.Rotate(Vector3.up, 100f*dir.x * Time.deltaTime);
+        _rb.MoveRotation(smoothRotation);
     }
-
 }

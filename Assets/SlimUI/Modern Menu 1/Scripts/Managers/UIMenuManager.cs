@@ -24,7 +24,7 @@ namespace SlimUI.ModernMenu{
         public enum Theme {custom1, custom2, custom3};
         [Header("THEME SETTINGS")]
         public Theme theme;
-        private int themeIndex;
+        // private int themeIndex;
         public ThemedUIData themeController;
 
         [Header("PANELS")]
@@ -80,36 +80,42 @@ namespace SlimUI.ModernMenu{
         [Tooltip("The GameObject holding the Audio Source component for the SWOOSH SOUND when switching to the Settings Screen")]
         public AudioSource swooshSound;
 
-		void Start(){
-			CameraObject = transform.GetComponent<Animator>();
+        public GameStateMachine StateMachine { get; private set; }
 
-			//playMenu.SetActive(false);
-			exitMenu.SetActive(false);
-			if(extrasMenu) extrasMenu.SetActive(false);
-			firstMenu.SetActive(true);
-			mainMenu.SetActive(true);
 
-			SetThemeColors();
-		}
+        void Start(){
+            CameraObject = transform.GetComponent<Animator>();
+            StateMachine = new GameStateMachine();
 
-		void SetThemeColors()
+            //playMenu.SetActive(false);
+            exitMenu.SetActive(false);
+            if (extrasMenu) extrasMenu.SetActive(false);
+            firstMenu.SetActive(true);
+            mainMenu.SetActive(true);
+
+            SetThemeColors();
+            StateMachine.ChangeState(new PlayingState(StateMachine));
+        }
+
+
+        void SetThemeColors()
 		{
 			switch (theme)
 			{
 				case Theme.custom1:
 					themeController.currentColor = themeController.custom1.graphic1;
 					themeController.textColor = themeController.custom1.text1;
-					themeIndex = 0;
+					// themeIndex = 0;
 					break;
 				case Theme.custom2:
 					themeController.currentColor = themeController.custom2.graphic2;
 					themeController.textColor = themeController.custom2.text2;
-					themeIndex = 1;
+					// themeIndex = 1;
 					break;
 				case Theme.custom3:
 					themeController.currentColor = themeController.custom3.graphic3;
 					themeController.textColor = themeController.custom3.text3;
-					themeIndex = 2;
+					// themeIndex = 2;
 					break;
 				default:
 					Debug.Log("Invalid theme selected.");
@@ -119,8 +125,10 @@ namespace SlimUI.ModernMenu{
 
 		public void PlayCampaign(){
 			exitMenu.SetActive(false);
-			SceneManager.LoadScene("Game");
-		}
+			// SceneManager.LoadScene("Game");
+            StateMachine.ChangeState(new ReadyState(StateMachine));
+            GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
+        }
 		
 		public void PlayCampaignMobile(){
 			exitMenu.SetActive(false);
