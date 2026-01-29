@@ -35,10 +35,10 @@ public class CanLBlock : MonoBehaviour
     void CanUp()
     {
         //가능성 판독
-        if( gameObject.GetComponent<GridTile>()._blockOn && 
-            gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._upBlock._upBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._rightBlock._blockOn )
+        if( !gameObject.GetComponent<GridTile>()._blockOn && 
+            !gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._rightBlock._downBlock._blockOn )
         {
             if(!_board.LUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.LUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
@@ -52,10 +52,10 @@ public class CanLBlock : MonoBehaviour
     void CanRight()
     {
         //가능성 판독
-        if( gameObject.GetComponent<GridTile>()._blockOn && 
-            gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._rightBlock._rightBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._blockOn )
+        if( !gameObject.GetComponent<GridTile>()._blockOn && 
+            !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._rightBlock._rightBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._downBlock._blockOn )
         {
             if(!_board.LRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.LRightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
@@ -69,10 +69,10 @@ public class CanLBlock : MonoBehaviour
     void CanDown()
     {
         //가능성 판독
-        if( gameObject.GetComponent<GridTile>()._blockOn && 
-            gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._downBlock._downBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._leftBlock._blockOn )
+        if( !gameObject.GetComponent<GridTile>()._blockOn && 
+            !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._downBlock._downBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._leftBlock._blockOn )
         {
             if(!_board.LDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
             _board.LDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
@@ -80,16 +80,16 @@ public class CanLBlock : MonoBehaviour
         else
         {
             if(_board.LDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            _board.LDownList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
         }
     }
     void CanLeft()
     {
         //가능성 판독
-        if( gameObject.GetComponent<GridTile>()._blockOn && 
-            gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._blockOn &&
-            gameObject.GetComponent<GridTile>()._upBlock._blockOn )
+        if( !gameObject.GetComponent<GridTile>()._blockOn && 
+            !gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._upBlock._blockOn )
         {
             //리스트에 업
             if(!_board.LLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
@@ -99,7 +99,7 @@ public class CanLBlock : MonoBehaviour
         {
             //리스트에서 해제
             if(_board.LLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LLeftList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            _board.LLeftList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
         }
     }
 }

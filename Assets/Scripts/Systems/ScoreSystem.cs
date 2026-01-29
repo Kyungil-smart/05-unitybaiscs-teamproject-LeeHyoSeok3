@@ -9,6 +9,13 @@ public class ScoreSystem : MonoBehaviour
 
     private int _currentStageTargetScore;
 
+    GameScene _gameScene;
+
+    void Start()
+    {
+        _gameScene = FindAnyObjectByType<GameScene>();
+    }
+
     // 테스트 코드
     private void Update()
     {
@@ -37,6 +44,9 @@ public class ScoreSystem : MonoBehaviour
         if (Score >= _currentStageTargetScore)
         {
             GameEventBus.Raise(new StageClearedEvent());
+            GameManager.Instance.StateMachine.ChangeState(new ReadyState(GameManager.Instance.StateMachine));
+            if (_gameScene != null)
+                _gameScene.ReadyState();
         }
     }
 

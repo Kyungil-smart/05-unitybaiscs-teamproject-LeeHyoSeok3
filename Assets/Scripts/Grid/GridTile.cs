@@ -22,7 +22,7 @@ public class GridTile : MonoBehaviour
 
     void Init()
     {
-        _blockOn = false;
+        if(!_blockOn) _blockOn = false;
     }
 
     
