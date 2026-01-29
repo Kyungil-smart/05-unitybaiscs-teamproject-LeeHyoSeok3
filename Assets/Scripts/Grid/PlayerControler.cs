@@ -21,6 +21,7 @@ public class PlayerControler : MonoBehaviour
     {
         HandleState();
         HandleAnimation();
+        HandleBlock();
     }
 
     private void HandleState()
@@ -34,6 +35,13 @@ public class PlayerControler : MonoBehaviour
     {
         // _animator.UpdateMove(State == PlayerState.Move);
     }
-    
+
+    private void HandleBlock()
+    {
+        if (_input.Interact())
+        {
+            
+        }
+    }
     
 }

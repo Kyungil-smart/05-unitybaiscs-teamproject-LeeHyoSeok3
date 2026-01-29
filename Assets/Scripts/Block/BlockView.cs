@@ -6,6 +6,9 @@ public class BlockView : MonoBehaviour, IPoolable
 {
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [SerializeField] private ScorePopup scorePopup;
+    private Transform _follwTarget;
+    private bool _isFollowing;
+    
     public void OnSpawn()
     {
         gameObject.SetActive(true);   
@@ -35,9 +38,29 @@ public class BlockView : MonoBehaviour, IPoolable
             scorePopup.Show(100, transform);
         }
     }
-
+    
     public void SetWorldPostion(Vector3 pos)
     {
         transform.position = pos;
+    }
+
+    public void AttachTo(Transform target)
+    {
+        _follwTarget = target;
+        _isFollowing = true;
+    }
+
+    public void Detach()
+    {
+        _isFollowing = false;
+        _follwTarget = null;
+    }
+
+    private void LateUpdate()
+    {
+        if (_isFollowing && _follwTarget != null)
+        {
+            transform.position = _follwTarget.position;
+        }
     }
 }

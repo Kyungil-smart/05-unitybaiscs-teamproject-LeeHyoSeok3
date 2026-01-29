@@ -307,63 +307,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &628967529
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1298791428808373834, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_Name
-      value: Grid
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5675136786260269316, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
 --- !u!1 &657788390
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,25 +445,25 @@ MonoBehaviour:
   _pool:
   - poolType: 0
     prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 0
+    poolsize: 30
   - poolType: 1
     prefab: {fileID: 4417234801419838253, guid: dd9b36a2500ad2a4ca9ef20944499097, type: 3}
-    poolsize: 0
+    poolsize: 30
   - poolType: 2
     prefab: {fileID: 5791683627932484040, guid: 268db9f85bc29724aaebf3171dd23a53, type: 3}
-    poolsize: 0
+    poolsize: 30
   - poolType: 3
     prefab: {fileID: 7851918191166399781, guid: 46e63d4ec54c8024794ee6c2d7814267, type: 3}
-    poolsize: 0
+    poolsize: 30
   - poolType: 4
     prefab: {fileID: 4145610320027274048, guid: 8e596fe266221f84cae12d9c5cd34ee5, type: 3}
-    poolsize: 0
+    poolsize: 30
   - poolType: 5
     prefab: {fileID: 604663684128487078, guid: d59c7ba21e5d5714988b7f7922a4375a, type: 3}
-    poolsize: 0
+    poolsize: 30
   - poolType: 6
     prefab: {fileID: 4784809604795887357, guid: 2ceefe17950fedc499eef9c043d7a83d, type: 3}
-    poolsize: 0
+    poolsize: 30
 --- !u!4 &734244761
 Transform:
   m_ObjectHideFlags: 0
@@ -725,7 +668,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockSize: 1
-  _cangeneratelist: {fileID: 7018184447198058843, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
   fallSpeed: 0.2
 --- !u!4 &2099397223
 Transform:
@@ -753,4 +695,3 @@ SceneRoots:
   - {fileID: 1256301597}
   - {fileID: 657788394}
   - {fileID: 119093187}
-  - {fileID: 628967529}
