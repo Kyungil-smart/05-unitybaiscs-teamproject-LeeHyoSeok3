@@ -33,7 +33,7 @@ public class BlockControler
         GridPosition = gridPosition;
         Vector3 worldPos = new Vector3(gridPosition.x * _blockSize, YPosition, gridPosition.y * _blockSize);
 
-        _view.SetWorldPostion(worldPos);
+        _view.SetWorldPosition(worldPos);
     }
 
     public void SetState(BlockState state) => State = state;
@@ -56,7 +56,7 @@ public class BlockControler
         float NextY = YPosition - FallSpeed * Time.deltaTime;
 
         Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
-        _view.SetWorldPostion(MovePos);
+        _view.SetWorldPosition(MovePos);
         YPosition = NextY;
     }
 
@@ -68,7 +68,7 @@ public class BlockControler
         float NextY = 0f;
 
         Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
-        _view.SetWorldPostion(MovePos);
+        _view.SetWorldPosition(MovePos);
         YPosition = NextY;
     }
 
