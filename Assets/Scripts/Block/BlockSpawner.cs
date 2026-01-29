@@ -13,9 +13,9 @@ public class BlockSpawner : MonoBehaviour
     [SerializeField] private CangenerateBolockList _cangeneratelist;
 
     private BlockFactory _factory;
-    private List<BlockControler> _current;
+    private BlockGroup _current;
 
-    private List<List<BlockControler>> _fallingBlockps = new(); // 떨어지는 블록들을 관리하기 위한 리스트
+    // private List<List<BlockControler>> _fallingBlockps = new(); // 떨어지는 블록들을 관리하기 위한 리스트
 
     private void Start()
     {
@@ -30,7 +30,7 @@ public class BlockSpawner : MonoBehaviour
             SpawnRandom();
         }
 
-        FallingBlocks();
+        // FallingBlocks();
         // if (Input.GetKeyDown(KeyCode.Q)) // 테스트 코드
         // {
         //     GameEventBus.Raise(new GridUpdateEvent());
@@ -56,28 +56,29 @@ public class BlockSpawner : MonoBehaviour
         if (_current == null) return;
 
         Debug.Log("OnTriggerEnter");
+        
     }
 
     // 생성된 블록들이 떨어지는 처리
     private void FallingBlocks()
     {
-        if (_fallingBlockps != null)
-        {
-            foreach (var blocks in _fallingBlockps)
-            {
-                foreach (var block in blocks)
-                {
-                    if (block.State == BlockState.Falling)   // 떨어지는 상태이면 계속 떨어짐
-                        block.DownGridPosition(block.GridPosition, fallSpeed);
-
-                    if (block.YPosition <= 0.1f && block.State == BlockState.Falling) // 떨어지는 중에 땅에 닿기 직전
-                    {
-                        block.SetState(BlockState.Locked);
-                        block.GroundGridPosition(block.GridPosition);
-                    }
-                }
-            }
-        }
+        // if (_fallingBlockps != null)
+        // {
+        //     foreach (var blocks in _fallingBlockps)
+        //     {
+        //         foreach (var block in blocks)
+        //         {
+        //             if (block.State == BlockState.Falling)   // 떨어지는 상태이면 계속 떨어짐
+        //                 block.DownGridPosition(block.GridPosition, fallSpeed);
+        //
+        //             if (block.YPosition <= 0.1f && block.State == BlockState.Falling) // 떨어지는 중에 땅에 닿기 직전
+        //             {
+        //                 block.SetState(BlockState.Locked);
+        //                 block.GroundGridPosition(block.GridPosition);
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     public void SpawnRandom()
@@ -106,12 +107,13 @@ public class BlockSpawner : MonoBehaviour
         if (IsCanGenerate(type)) // 해당 타입이 생성 불가능하면 동작 안함
         {
             Vector2Int baseGrid = GetVectortoList(type);
+            Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
             _current = _factory.Create(type, poolType, baseGrid);
 
-            foreach (var block in _current)
+            foreach (var block in _current.Blocks)
                 block.SetState(BlockState.Falling);
             
-            _fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
+            // _fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
             // type 추출 코드 테스트
         }
     }

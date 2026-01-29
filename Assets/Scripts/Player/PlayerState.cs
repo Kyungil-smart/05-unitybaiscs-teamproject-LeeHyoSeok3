@@ -1,4 +1,4 @@
 ﻿public enum PlayerState
 {
-    Idle,Move,Dead
+    Idle,Move,Held,Dead
 }
