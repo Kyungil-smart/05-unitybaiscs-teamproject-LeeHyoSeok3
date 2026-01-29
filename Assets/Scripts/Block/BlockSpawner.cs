@@ -84,7 +84,18 @@ public class BlockSpawner : MonoBehaviour
     {
         BlockType type = (BlockType)Random.Range(0, 7);
         BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
-        
+
+        // 테스트용 랜덤 위치 생성
+        //Vector2Int TestPosition = new Vector2Int(Random.Range(-5,5), Random.Range(-5,5));
+        // Vector2Int TestPosition = new Vector2Int(0, -4);
+        // 테스트용 블록 생성 코드
+        // _current = _factory.Create(type, poolType, TestPosition);
+
+       // foreach (var block in _current)
+            //block.SetState(BlockState.Falling);
+
+        //_fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
+        // type 추출 코드 테스트
         while (!IsCanGenerate(type))
         {
             type = (BlockType)Random.Range(0, 7);
@@ -111,7 +122,7 @@ public class BlockSpawner : MonoBehaviour
             foreach (var block in _current)
                 block.SetState(BlockState.Falling);
             
-            _fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
+            //_fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
             // type 추출 코드 테스트
         }
     }
