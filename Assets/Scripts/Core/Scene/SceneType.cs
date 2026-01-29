@@ -1,5 +1,5 @@
 ﻿
 public enum SceneType
 {
-    Menu, Game, GameOver
+    Menu, GameOver, Game_1, Game_2, Game_3
 }
