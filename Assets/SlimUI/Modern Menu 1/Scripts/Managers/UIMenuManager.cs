@@ -152,7 +152,7 @@ namespace SlimUI.ModernMenu{
             yield return StartCoroutine(MoveCamera(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation, moveDuration));
 
             // 이동 끝나면 기존 코드 실행
-            GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
+            GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game_1));
         }
 
         private IEnumerator MoveCamera(Transform cam, Vector3 targetPos, Quaternion targetRot, float duration)

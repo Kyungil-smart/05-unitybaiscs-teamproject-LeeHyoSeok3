@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 30314c13610214a4e9c81a857abadd39
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/Game_1.unity
     guid: 0727df172c5d8fd44a4cd9b2ef8c1132
   - enabled: 1
-    path: Assets/Scenes/Test/JJH_TestScene.unity
-    guid: 004006a86323262448dedf668b4a8920
+    path: Assets/Scenes/Game_2.unity
+    guid: c6f5f9e85c1861e4db1b65553db21e9e
+  - enabled: 1
+    path: Assets/Scenes/Game_3.unity
+    guid: ef89de8b6abc39745a4569089809e5b6
   m_configObjects: {}
