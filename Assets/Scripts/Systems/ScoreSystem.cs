@@ -2,40 +2,41 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ScoreSystem : MonoBehaviour
+public class ScoreSystem
 {
+    public static ScoreSystem Instance { get; private set; }
+
+    public ScoreSystem()
+    {
+        Instance = this;
+    }
     public int Score { get; private set; }
 
     private int _currentStageTargetScore;
-
-    GameScene _gameScene;
-
-    void Start()
-    {
-        _gameScene = FindAnyObjectByType<GameScene>();
-    }
+    private int _currentStageIndex;
 
     // 테스트 코드
-    private void Update()
+    public void Test()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.P))
             GameEventBus.Raise(new LineClearedEvent(1));
     }
 
-    private void OnEnable()
+    public void Subscribe()
     {
         GameEventBus.Subscribe<LineClearedEvent>(OnLineCleared);
         GameEventBus.Subscribe<StageStartedEvent>(OnStageStarted);
     }
 
-    private void OnDisable()
+    public void Unsubscribe()
     {
         GameEventBus.Unsubscribe<LineClearedEvent>(OnLineCleared);
         GameEventBus.Unsubscribe<StageStartedEvent>(OnStageStarted);
     }
 
-    private void OnLineCleared(LineClearedEvent evt)
+    public void OnLineCleared(LineClearedEvent evt)
     {
         Score += (evt.Count * evt.Count) * 100;
         Debug.Log($"Score : {Score}");
@@ -44,15 +45,13 @@ public class ScoreSystem : MonoBehaviour
         if (Score >= _currentStageTargetScore)
         {
             GameEventBus.Raise(new StageClearedEvent());
-            GameManager.Instance.StateMachine.ChangeState(new ReadyState(GameManager.Instance.StateMachine));
-            if (_gameScene != null)
-                _gameScene.ReadyState();
         }
     }
 
-    private void OnStageStarted(StageStartedEvent evt)
+    public void OnStageStarted(StageStartedEvent evt)
     {
         _currentStageTargetScore = evt.TargetScore;
+        _currentStageIndex = evt.Stage;
         Score = 0;
         GameEventBus.Raise(new ScoreUpdatedEvent(Score));
     }

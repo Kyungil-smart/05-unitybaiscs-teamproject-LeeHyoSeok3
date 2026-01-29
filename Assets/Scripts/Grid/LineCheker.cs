@@ -5,30 +5,28 @@ using UnityEngine.Tilemaps;
 
 public class LineCheker : MonoBehaviour
 {
-    [SerializeField] GridTile[] _tielOnLine; // 라인에 있는 타일 그리드 
-    void OnEnable()
-    {
-        GameEventBus.Subscribe<GridUpdateEvent>(NullAction);
-    }
-    void OnDisable()
-    {
-        GameEventBus.Unsubscribe<GridUpdateEvent>(NullAction);
-    }
+    public GridTile[] _tielOnLine; // 라인에 있는 타일 그리드 
 
-    void NullAction(GridUpdateEvent evt)
+
+    void Awake()
     {
-        IsLineFull();
+       
     }
-    void IsLineFull()  // 라인에 전부 블록이 있는지 체크
+    
+    public bool IsLineFull()  // 라인에 전부 블록이 있는지 체크
     {
         foreach(GridTile boxON in _tielOnLine)
         {
             if(!boxON._blockOn)
             {
-                return;
+                return false;
             }
         }
-        GameEventBus.Raise(new LineClearedEvent(1));
-        
+        foreach(GridTile boxON in _tielOnLine)
+        {
+            boxON.GetComponent<OnBlockInteract>().IsNeedClear = true;
+        }
+        return true;
     }
+    
 }

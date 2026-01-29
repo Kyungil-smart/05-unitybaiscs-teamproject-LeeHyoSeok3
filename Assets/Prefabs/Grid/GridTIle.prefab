@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -5868646999862645833}
   - component: {fileID: 3719838809692250961}
   - component: {fileID: -3370347343503825384}
+  - component: {fileID: 3605189956624140507}
   m_Layer: 0
   m_Name: GridTIle
   m_TagString: Untagged
@@ -169,3 +170,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board: {fileID: 0}
+--- !u!114 &3605189956624140507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2204956522608156434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d814f9a46cfcf8048ab48a2d23a7500e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
