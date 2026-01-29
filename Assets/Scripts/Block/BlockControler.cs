@@ -46,10 +46,23 @@ public class BlockControler
         PoolManager.Instance.GetPool<BlockView>((int)_poolType).Release(_view);
     }
     
+    // 아래로 이동하는 로직
     public void DownGridPosition(Vector2Int BlockMovePosition, float FallSpeed) {
         GridPosition = BlockMovePosition;
 
         float NextY = YPosition - FallSpeed * Time.deltaTime;
+
+        Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
+        _view.SetWorldPostion(MovePos);
+        YPosition = NextY;
+    }
+
+    // 땅에 착지할 때 지면에 위치 고정
+    public void GroundGridPosition(Vector2Int BlockMovePosition)
+    {
+        GridPosition = BlockMovePosition;
+
+        float NextY = 0f;
 
         Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
         _view.SetWorldPostion(MovePos);
