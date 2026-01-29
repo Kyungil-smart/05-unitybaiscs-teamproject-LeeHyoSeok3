@@ -23,13 +23,13 @@ public class BlockSpawner : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
             SpawnRandom();
 
-        if(_current != null)
-        {
-            foreach(var block in _current)
-            { 
-                block.DownGridPosition(block.GridPosition, fallSpeed);
-            }
-        }
+        // if(_current != null)
+        // {
+        //     foreach(var block in _current)
+        //     { 
+        //         block.DownGridPosition(block.GridPosition, fallSpeed);
+        //     }
+        // }
 
     }
 
