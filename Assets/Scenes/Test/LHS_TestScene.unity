@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5388827840647361502, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       propertyPath: _moveSpeed
-      value: 2
+      value: 8.5
       objectReference: {fileID: 0}
     - target: {fileID: -5388827840647361502, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       propertyPath: _rotateSpeed
@@ -191,12 +191,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 775033308826059200, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
+      propertyPath: m_AngularDrag
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 775033308826059200, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       propertyPath: m_Constraints
       value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 775033308826059200, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       propertyPath: m_Interpolate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 775033308826059200, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 775033308826059200, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       propertyPath: m_CollisionDetection
@@ -216,6 +224,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 135035064706988738, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1829536915}
+    - targetCorrespondingSourceObject: {fileID: 135035064706988738, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 461375392}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7214567898295189066, guid: 6830470d2864e1b4aa86265a71fc1713, type: 3}
       insertIndex: 7
@@ -368,7 +379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1969105281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &657788390
 GameObject:
@@ -726,7 +737,7 @@ Transform:
   m_GameObject: {fileID: 1829536914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.468, z: 0.765}
+  m_LocalPosition: {x: 0, y: 1.468, z: 1.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -797,8 +808,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockSize: 1
+  fallSpeed: 10
   _cangeneratelist: {fileID: 716202072}
-  fallSpeed: 0.2
 --- !u!4 &2099397223
 Transform:
   m_ObjectHideFlags: 0
@@ -819,7 +830,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 789744234}
-  - {fileID: 461375392}
   - {fileID: 734244761}
   - {fileID: 2099397223}
   - {fileID: 1256301597}
