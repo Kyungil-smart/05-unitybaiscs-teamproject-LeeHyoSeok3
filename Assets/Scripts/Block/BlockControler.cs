@@ -9,7 +9,7 @@ public class BlockControler
     public Vector2Int GridPosition { get; private set; }
     public BlockState State { get; private set; }
 
-    public float YPosition; // À§¿¡¼­ ¶³¾îÁö´Â È¿°ú¸¦ À§ÇÑ Y À§Ä¡ °ª
+    public float YPosition; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ä¡ ï¿½ï¿½
 
     private readonly BlockView _view;
     private readonly BlockPoolType _poolType;
@@ -19,34 +19,37 @@ public class BlockControler
     {
         _view = view;
         _blockSize = blockSize;
-        
+
         State = BlockState.Spawn;
         _poolType = poolType;
 
-        YPosition = 10f;    // y=10 ¿¡¼­ ½ÃÀÛ
+        YPosition = 10f; // y=10 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         SetGridPosition(gridPosition);
     }
-    
+
     public void SetGridPosition(Vector2Int gridPosition)
     {
         GridPosition = gridPosition;
         Vector3 worldPos = new Vector3(gridPosition.x * _blockSize, YPosition, gridPosition.y * _blockSize);
-        
+
         _view.SetWorldPostion(worldPos);
     }
 
     public void SetState(BlockState state) => State = state;
-    public bool IsMoveable() {
-        return  State == BlockState.Spawn || State == BlockState.Falling || State == BlockState.Locked;
+
+    public bool IsMoveable()
+    {
+        return State == BlockState.Spawn || State == BlockState.Falling || State == BlockState.Locked;
     }
-    
-    public void Release() {
+
+    public void Release()
+    {
         SetState(BlockState.Release);
         PoolManager.Instance.GetPool<BlockView>((int)_poolType).Release(_view);
     }
     
-    // ¾Æ·¡·Î ÀÌµ¿ÇÏ´Â ·ÎÁ÷
+    // ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void DownGridPosition(Vector2Int BlockMovePosition, float FallSpeed) {
         GridPosition = BlockMovePosition;
 
@@ -57,7 +60,7 @@ public class BlockControler
         YPosition = NextY;
     }
 
-    // ¶¥¿¡ ÂøÁöÇÒ ¶§ Áö¸é¿¡ À§Ä¡ °íÁ¤
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½é¿¡ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
     public void GroundGridPosition(Vector2Int BlockMovePosition)
     {
         GridPosition = BlockMovePosition;
@@ -69,3 +72,20 @@ public class BlockControler
         YPosition = NextY;
     }
 }
+    public void PickUp(Transform followTarget)
+    {
+        SetState(BlockState.Held);
+        _view.AttachTo(followTarget);
+    }
+
+    public void Drop(Vector2Int dropGridPos, float dropStartY)
+    {
+        SetState(BlockState.Falling);
+        YPosition = dropStartY;
+        SetGridPosition(dropGridPos);
+        
+        _view.Detach();
+    }
+}
+    
+    

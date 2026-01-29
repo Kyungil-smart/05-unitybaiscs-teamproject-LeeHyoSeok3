@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 2459457139111078755}
   - component: {fileID: 6577128755054055350}
   - component: {fileID: 4681075329137010427}
-  - component: {fileID: 1051781365927997262}
   - component: {fileID: 7851918191166399781}
   - component: {fileID: 3809080647048920726}
   - component: {fileID: 1274135386578887355}
   m_Layer: 0
   m_Name: BOX4
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,28 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1051781365927997262
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8170348010768808031}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2388806372275396263, guid: f2613643dc1b91047ab5b07c123b467b, type: 3}
 --- !u!114 &7851918191166399781
 MonoBehaviour:
   m_ObjectHideFlags: 0

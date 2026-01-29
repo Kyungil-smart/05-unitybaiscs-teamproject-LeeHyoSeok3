@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 6524961214394349317}
   - component: {fileID: 1719063883717555838}
   - component: {fileID: 3963254905080239020}
-  - component: {fileID: 5623874438237341816}
   - component: {fileID: 4145610320027274048}
   - component: {fileID: -9031919784285133548}
   - component: {fileID: 1102756406982813434}
   m_Layer: 0
   m_Name: BOX5
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,28 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5623874438237341816
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7945650505479094499}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1953723390312084291, guid: 74ff7790b0d0b504d85bc23c4a028eeb, type: 3}
 --- !u!114 &4145610320027274048
 MonoBehaviour:
   m_ObjectHideFlags: 0
