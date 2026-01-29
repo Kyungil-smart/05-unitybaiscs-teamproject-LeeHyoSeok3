@@ -8,7 +8,7 @@ public class BlockView : MonoBehaviour, IPoolable
     [SerializeField] private ScorePopup scorePopup;
     private Transform _follwTarget;
     private bool _isFollowing;
-    
+
     public void OnSpawn()
     {
         gameObject.SetActive(true);   
@@ -38,7 +38,7 @@ public class BlockView : MonoBehaviour, IPoolable
             scorePopup.Show(100, transform);
         }
     }
-    
+
     public void SetWorldPostion(Vector3 pos)
     {
         transform.position = pos;

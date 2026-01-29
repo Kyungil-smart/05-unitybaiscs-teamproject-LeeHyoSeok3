@@ -85,6 +85,11 @@ public class BlockSpawner : MonoBehaviour
         BlockType type = (BlockType)Random.Range(0, 7);
         BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
 
+        // 테스트용 랜덤 위치 생성
+        //Vector2Int TestPosition = new Vector2Int(Random.Range(-5,5), Random.Range(-5,5));
+        Vector2Int TestPosition = new Vector2Int(0, -4);
+        // 테스트용 블록 생성 코드
+        _current = _factory.Create(type, poolType, TestPosition);
 
         foreach (var block in _current)
             block.SetState(BlockState.Falling);

@@ -71,7 +71,7 @@ public class BlockControler
         _view.SetWorldPostion(MovePos);
         YPosition = NextY;
     }
-}
+
     public void PickUp(Transform followTarget)
     {
         SetState(BlockState.Held);
