@@ -20,6 +20,8 @@ namespace SlimUI.ModernMenu{
         public GameObject exitMenu;
         [Tooltip("Optional 4th Menu")]
         public GameObject extrasMenu;
+        [Tooltip("Background")]
+        public GameObject background;
 
         public enum Theme {custom1, custom2, custom3};
         [Header("THEME SETTINGS")]
@@ -92,9 +94,11 @@ namespace SlimUI.ModernMenu{
             if (extrasMenu) extrasMenu.SetActive(false);
             firstMenu.SetActive(true);
             mainMenu.SetActive(true);
+			background.SetActive(true);
 
             SetThemeColors();
             StateMachine.ChangeState(new PlayingState(StateMachine));
+            DynamicGI.UpdateEnvironment();
         }
 
 
