@@ -9,7 +9,7 @@ public class StageSystem : MonoBehaviour
     public static StageSystem Instance { get; private set; }
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
-    public int EndStage { get; private set; }
+    private int EndStage;
     private void Awake()
     {
         if (Instance != null)
