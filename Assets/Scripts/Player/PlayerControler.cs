@@ -7,6 +7,7 @@ public class PlayerControler : MonoBehaviour
     private PlayerInput _input;
     private PlayerMovement _movement;
     private PlayerAnimator _animator;
+    private PlayerInteraction _interaction;
     
     public PlayerState State {get; private set;}
 
@@ -15,6 +16,7 @@ public class PlayerControler : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _movement = GetComponent<PlayerMovement>();
         _animator = GetComponent<PlayerAnimator>();
+        _interaction = GetComponent<PlayerInteraction>();
     }
 
     private void Update()
@@ -40,7 +42,12 @@ public class PlayerControler : MonoBehaviour
     {
         if (_input.Interact())
         {
-            
+            if(_interaction.HoldingBlock == null)
+                _interaction.TryPickUp();
+            else
+            {
+                _interaction.Drop();
+            }
         }
     }
     
