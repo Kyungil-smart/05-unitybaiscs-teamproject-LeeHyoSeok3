@@ -31,7 +31,7 @@ public class BlockFactory
             
             var controler = new BlockControler(view, grid, _blockSize, poolType);
             view.Initialize(controler);
-            
+
             blocks.Add(controler);
         }
 
