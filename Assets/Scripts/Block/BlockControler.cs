@@ -48,9 +48,9 @@ public class BlockControler
         SetState(BlockState.Release);
         PoolManager.Instance.GetPool<BlockView>((int)_poolType).Release(_view);
     }
-
-    public void DownGridPosition(Vector2Int BlockMovePosition, float FallSpeed)
-    {
+    
+    // �Ʒ��� �̵��ϴ� ����
+    public void DownGridPosition(Vector2Int BlockMovePosition, float FallSpeed) {
         GridPosition = BlockMovePosition;
 
         float NextY = YPosition - FallSpeed * Time.deltaTime;
@@ -60,6 +60,18 @@ public class BlockControler
         YPosition = NextY;
     }
 
+    // ���� ������ �� ���鿡 ��ġ ����
+    public void GroundGridPosition(Vector2Int BlockMovePosition)
+    {
+        GridPosition = BlockMovePosition;
+
+        float NextY = 0f;
+
+        Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
+        _view.SetWorldPostion(MovePos);
+        YPosition = NextY;
+    }
+}
     public void PickUp(Transform followTarget)
     {
         SetState(BlockState.Held);
