@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class GameScene : MonoBehaviour
 {
+    [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI _totalScore;
     [SerializeField] private TextMeshProUGUI _IncreaseScore;
     [SerializeField] private TextMeshProUGUI _level;
@@ -19,20 +20,16 @@ public class GameScene : MonoBehaviour
     [SerializeField] private Button _retrunTitle;
     [SerializeField] private GameObject _gameExit;
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
-    [Tooltip("Camera")]
-    public Camera mainCamera;
-    [Tooltip("CameraMoveSpeed")]
-    public float moveDuration;
-    [Tooltip("FirstCameraMove")]
-    public GameObject firstCameraMove;
-    [Tooltip("SecondCameraMove")]
-    public GameObject secondCameraMove;
-    [Tooltip("ThirdCameraMove")]
-    public GameObject thirdCameraMove;
-    [Tooltip("FourthCameraMove")]
-    public GameObject fourthCameraMove;
-    [Tooltip("RemoveSPSet")]
-    public GameObject removeSPSet;
+    [Header("Camera")]
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float moveDuration;
+    [SerializeField] private GameObject firstCameraMove;
+    [SerializeField] private GameObject secondCameraMove;
+    [SerializeField] private GameObject thirdCameraMove;
+    [SerializeField] private GameObject fourthCameraMove;
+    [Header("Remove")]
+    [SerializeField] private GameObject removeSPSet;
+
     private int _currentScore;
     private int _currentStage;
     private int _targetScore;
