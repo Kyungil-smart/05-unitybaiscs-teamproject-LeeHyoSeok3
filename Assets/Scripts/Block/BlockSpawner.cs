@@ -84,13 +84,7 @@ public class BlockSpawner : MonoBehaviour
     {
         BlockType type = (BlockType)Random.Range(0, 7);
         BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
-
-
-        foreach (var block in _current)
-            block.SetState(BlockState.Falling);
-
-        _fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
-        // type 추출 코드 테스트
+        
         while (!IsCanGenerate(type))
         {
             type = (BlockType)Random.Range(0, 7);
@@ -114,9 +108,11 @@ public class BlockSpawner : MonoBehaviour
             Vector2Int baseGrid = GetVectortoList(type);
             _current = _factory.Create(type, poolType, baseGrid);
 
-
             foreach (var block in _current)
                 block.SetState(BlockState.Falling);
+            
+            _fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
+            // type 추출 코드 테스트
         }
     }
 
