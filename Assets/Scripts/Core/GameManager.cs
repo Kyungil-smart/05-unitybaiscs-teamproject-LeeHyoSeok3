@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
       StateMachine.ChangeState(new ReadyState(StateMachine));
       GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Menu));
    }
+
+   public void ReadyState()
+   {
+      StateMachine.ChangeState(new ReadyState(StateMachine));
+   }
    
    public void StartGame()
    {

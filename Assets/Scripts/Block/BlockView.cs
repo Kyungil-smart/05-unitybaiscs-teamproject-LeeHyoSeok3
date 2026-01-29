@@ -6,10 +6,13 @@ public class BlockView : MonoBehaviour, IPoolable
 {
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [SerializeField] private ScorePopup scorePopup;
-    public BlockControler Controler {get; private set;}
-    public void Initialize(BlockControler controler) => Controler = controler;
-
-
+    public BlockControler Controler { get; private set; }
+    
+    private Transform _follwTarget;
+    private bool _isFollowing;
+    
+    public void Initialize(BlockControler controler) =>  Controler = controler;
+    
     public void OnSpawn()
     {
         gameObject.SetActive(true);   
@@ -18,10 +21,10 @@ public class BlockView : MonoBehaviour, IPoolable
     private void Update()
     {
         // 테스트용: D키 누르면 박스 비활성화
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            OnDespawn();
-        }
+        // if (Input.GetKeyDown(KeyCode.D))
+        // {
+        //     OnDespawn();
+        // }
     }
 
     public void OnDespawn()
@@ -39,9 +42,31 @@ public class BlockView : MonoBehaviour, IPoolable
             scorePopup.Show(100, transform);
         }
     }
-
-    public void SetWorldPostion(Vector3 pos)
+    
+    public void SetWorldPosition(Vector3 pos)
     {
         transform.position = pos;
     }
+
+    public void AttachTo(Transform target)
+    {
+        _follwTarget = target;
+        _isFollowing = true;
+    }
+
+    public void Detach()
+    {
+        _isFollowing = false;
+        _follwTarget = null;
+    }
+
+    private void LateUpdate()
+    {
+        if (_isFollowing && _follwTarget != null)
+        {
+            transform.position = _follwTarget.position;
+        }
+    }
+    
+    
 }

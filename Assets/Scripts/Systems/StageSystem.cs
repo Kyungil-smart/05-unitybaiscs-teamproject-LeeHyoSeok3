@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class StageSystem : MonoBehaviour
 {
+    public static StageSystem Instance { get; private set; }
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
-    public int EndStage { get; private set; }
+    private int EndStage;
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         CurrentStage = 1;
         StageTargetScore = 1000;
         EndStage = 10;
@@ -25,7 +35,7 @@ public class StageSystem : MonoBehaviour
         GameEventBus.Unsubscribe<StageClearedEvent>(OnStageCleared);
     }
 
-    public void StartFirstStage()
+    public void StartStage()
     {
         GameEventBus.Raise(
             new StageStartedEvent(CurrentStage, StageTargetScore)
@@ -45,5 +55,11 @@ public class StageSystem : MonoBehaviour
         StageTargetScore *= 2;
 
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
+    }
+
+    public void InitializationStage()
+    {
+        CurrentStage = 1;
+        StageTargetScore = 1000;
     }
 }
