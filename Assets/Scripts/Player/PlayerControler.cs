@@ -49,11 +49,11 @@ public class PlayerControler : MonoBehaviour
 
     private void HandleMovement()
     {
-        if(State == PlayerState.Dead || State == PlayerState.Block) 
-        {
-            _movement.SetMoveDirection(Vector3.zero);
-            return; 
-        }
+        // if(State == PlayerState.Dead || State == PlayerState.Block) 
+        // {
+        //     _movement.SetMoveDirection(Vector3.zero);
+        //     return; 
+        // }
 
         State = _input.MoveInput == Vector3.zero ? PlayerState.Idle : PlayerState.Move;
         _movement.SetMoveDirection(_input.MoveInput);
