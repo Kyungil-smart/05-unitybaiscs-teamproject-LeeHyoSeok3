@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameScene : MonoBehaviour
@@ -14,28 +15,42 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _pauseState;
     [SerializeField] private TextMeshProUGUI _pauseKey;
     [SerializeField] private Image _darkOverlay;
-    [SerializeField] private StageSystem _stageSystem;
     [SerializeField] private Button _retrunTitle;
     [SerializeField] private GameObject _gameExit;
-
+    [Tooltip("Camera")]
+    public Camera mainCamera;
+    [Tooltip("CameraMoveSpeed")]
+    public float moveDuration;
+    [Tooltip("FirstCameraMove")]
+    public GameObject firstCameraMove;
+    [Tooltip("SecondCameraMove")]
+    public GameObject secondCameraMove;
+    [Tooltip("ThirdCameraMove")]
+    public GameObject thirdCameraMove;
+    [Tooltip("FourthCameraMove")]
+    public GameObject fourthCameraMove;
+    [Tooltip("RemoveSPSet")]
+    public GameObject removeSPSet;
     private int _currentScore;
     private int _currentStage;
     private int _targetScore;
 
     void Awake()
-    { 
-        _currentStage = 1;
-        _targetScore = 1000;
+    {
+        if (mainCamera == null) mainCamera = Camera.main;
     }
     void Start()
     {
-        ReadyState();
+        _currentStage = StageSystem.Instance.CurrentStage;
+        _targetScore = StageSystem.Instance.StageTargetScore;
+        StartCoroutine(CameraMoveThenStartGame());
     }
 
     private void OnEnable()
     {
         GameEventBus.Subscribe<ScoreUpdatedEvent>(OnScoreUpdated);
         GameEventBus.Subscribe<StageStartedEvent>(OnStageStarted);
+        GameEventBus.Subscribe<StageClearedEvent>(StageCleared);
     }
 
     void Update()
@@ -59,12 +74,14 @@ public class GameScene : MonoBehaviour
                 ResumeGame();
             }
         }
+
     }
 
     private void OnDisable()
     {
         GameEventBus.Unsubscribe<ScoreUpdatedEvent>(OnScoreUpdated);
         GameEventBus.Unsubscribe<StageStartedEvent>(OnStageStarted);
+        GameEventBus.Unsubscribe<StageClearedEvent>(StageCleared);
     }
 
     private void OnScoreUpdated(ScoreUpdatedEvent evt)
@@ -80,6 +97,7 @@ public class GameScene : MonoBehaviour
 
     public void ReadyState()
     {
+        Debug.Log("ReadyState CALLED");
         _IncreaseScore.gameObject.SetActive(false);
         _totalScore.gameObject.SetActive(false);
         _level.gameObject.SetActive(false);
@@ -89,10 +107,12 @@ public class GameScene : MonoBehaviour
         _gameExit.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(true);
         _darkOverlay.gameObject.SetActive(true);
+        GameManager.Instance.ReadyState();
     }
 
     void PlayingState()
     {
+        Debug.Log("PlayingState CALLED");
         _darkOverlay.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
@@ -100,7 +120,7 @@ public class GameScene : MonoBehaviour
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
         GameManager.Instance.StartGame();
-        _stageSystem.StartFirstStage();
+        StageSystem.Instance.StartStage();
         
     }
     void ResumeGame()
@@ -141,5 +161,47 @@ public class GameScene : MonoBehaviour
     public void AreYouSure()
     {
         _gameExit.gameObject.SetActive(true);
+    }
+
+    private IEnumerator CameraMoveThenStartGame()
+    {
+        yield return StartCoroutine(MoveCamera(mainCamera.transform, firstCameraMove.transform.position, firstCameraMove.transform.rotation, moveDuration));
+        yield return StartCoroutine(MoveCamera(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation, moveDuration));
+        ReadyState();
+    }
+
+    private IEnumerator CameraMoveThenClearGame()
+    {
+        removeSPSet.SetActive(false);
+        yield return StartCoroutine(MoveCamera(mainCamera.transform, thirdCameraMove.transform.position, thirdCameraMove.transform.rotation, moveDuration));
+        yield return StartCoroutine(MoveCamera(mainCamera.transform, fourthCameraMove.transform.position, fourthCameraMove.transform.rotation, moveDuration));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private IEnumerator MoveCamera(Transform cam, Vector3 targetPos, Quaternion targetRot, float duration)
+    {
+        Vector3 startPos = cam.position;
+        Quaternion startRot = cam.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            cam.position = Vector3.Lerp(startPos, targetPos, t);
+            cam.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+            yield return null;
+        }
+
+        cam.position = targetPos;
+        cam.rotation = targetRot;
+    }
+
+    private void StageCleared(StageClearedEvent evt)
+    {
+        StartCoroutine(CameraMoveThenClearGame());
     }
 }

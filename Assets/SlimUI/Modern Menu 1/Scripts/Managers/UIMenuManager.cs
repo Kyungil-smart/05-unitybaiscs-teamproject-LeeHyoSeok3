@@ -109,6 +109,7 @@ namespace SlimUI.ModernMenu{
             SetThemeColors();
             StateMachine.ChangeState(new PlayingState(StateMachine));
             DynamicGI.UpdateEnvironment();
+			StageSystem.Instance.StartStage();
         }
 
 
@@ -152,7 +153,6 @@ namespace SlimUI.ModernMenu{
 
             // 이동 끝나면 기존 코드 실행
             GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
-            StateMachine.ChangeState(new ReadyState(StateMachine));
         }
 
         private IEnumerator MoveCamera(Transform cam, Vector3 targetPos, Quaternion targetRot, float duration)
