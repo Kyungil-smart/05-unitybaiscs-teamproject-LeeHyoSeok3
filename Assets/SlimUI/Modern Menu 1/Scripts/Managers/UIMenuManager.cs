@@ -22,6 +22,14 @@ namespace SlimUI.ModernMenu{
         public GameObject extrasMenu;
         [Tooltip("Background")]
         public GameObject background;
+        [Tooltip("Camera")]
+        public Camera mainCamera;
+        [Tooltip("CameraMoveSpeed")]
+        public float moveDuration;
+        [Tooltip("FirstCameraMove")]
+        public GameObject firstCameraMove;
+        [Tooltip("SecondCameraMove")]
+        public GameObject secondCameraMove;
 
         public enum Theme {custom1, custom2, custom3};
         [Header("THEME SETTINGS")]
@@ -96,6 +104,8 @@ namespace SlimUI.ModernMenu{
             mainMenu.SetActive(true);
 			background.SetActive(true);
 
+			if (mainCamera == null) mainCamera = Camera.main;
+
             SetThemeColors();
             StateMachine.ChangeState(new PlayingState(StateMachine));
             DynamicGI.UpdateEnvironment();
@@ -129,11 +139,44 @@ namespace SlimUI.ModernMenu{
 
 		public void PlayCampaign(){
 			exitMenu.SetActive(false);
-            StateMachine.ChangeState(new ReadyState(StateMachine));
-            GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
+            CameraObject.enabled = false; // Coroutine 시작 전에 Animator 끄기
+            StartCoroutine(CameraMoveThenStartGame());
         }
-		
-		public void PlayCampaignMobile(){
+
+        private IEnumerator CameraMoveThenStartGame()
+        {
+            // 1단계 이동
+            yield return StartCoroutine(MoveCamera(mainCamera.transform, firstCameraMove.transform.position, firstCameraMove.transform.rotation, moveDuration));
+            // 2단계 이동
+            yield return StartCoroutine(MoveCamera(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation, moveDuration));
+
+            // 이동 끝나면 기존 코드 실행
+            GameEventBus.Raise(new LoadSceneRequestedEvent(SceneType.Game));
+            StateMachine.ChangeState(new ReadyState(StateMachine));
+        }
+
+        private IEnumerator MoveCamera(Transform cam, Vector3 targetPos, Quaternion targetRot, float duration)
+        {
+            Vector3 startPos = cam.position;
+            Quaternion startRot = cam.rotation;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                t = Mathf.SmoothStep(0f, 1f, t);
+
+                cam.position = Vector3.Lerp(startPos, targetPos, t);
+                cam.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+                yield return null;
+            }
+
+            cam.position = targetPos;
+            cam.rotation = targetRot;
+        }
+        public void PlayCampaignMobile(){
 			exitMenu.SetActive(false);
 			if(extrasMenu) extrasMenu.SetActive(false);
 			playMenu.SetActive(true);
