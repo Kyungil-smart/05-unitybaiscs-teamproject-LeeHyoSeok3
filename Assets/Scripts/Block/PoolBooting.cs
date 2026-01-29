@@ -17,7 +17,7 @@ public class PoolBooting : MonoBehaviour
     [SerializeField] private BlockPoolEntry[] _pool;
     
     
-    private void Start()
+    private void Awake()
     {
         foreach (var ety in _pool) {
             PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
