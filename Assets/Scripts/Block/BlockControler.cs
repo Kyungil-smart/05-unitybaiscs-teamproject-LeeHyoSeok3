@@ -68,7 +68,7 @@ public class BlockControler
         float NextY = 0f;
 
         Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
-        _view.SetWorldPostion(MovePos);
+        _view.SetWorldPosition(MovePos);
         YPosition = NextY;
     }
 
