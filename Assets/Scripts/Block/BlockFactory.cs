@@ -30,6 +30,8 @@ public class BlockFactory
             BlockView view = _pools[(int)poolType].Get();
             
             var controler = new BlockControler(view, grid, _blockSize, poolType);
+            view.Initialize(controler);
+            
             blocks.Add(controler);
         }
 
