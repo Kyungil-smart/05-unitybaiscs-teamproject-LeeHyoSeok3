@@ -1,13 +1,14 @@
 ﻿using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerControler : MonoBehaviour
 {
     private PlayerInput _input;
     private PlayerMovement _movement;
     private PlayerAnimator _animator;
-    
+
     public PlayerState State {get; private set;}
 
     private void Awake()
@@ -15,6 +16,7 @@ public class PlayerControler : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _movement = GetComponent<PlayerMovement>();
         _animator = GetComponent<PlayerAnimator>();
+        State = PlayerState.Idle;
     }
 
     private void Update()
@@ -26,8 +28,13 @@ public class PlayerControler : MonoBehaviour
 
     private void HandleState()
     {
+        if(State == PlayerState.Dead || State == PlayerState.Block) 
+        {
+            _movement.SetMoveDirection(Vector3.zero);
+            return; 
+        }
+
         State = _input.MoveInput == Vector3.zero ? PlayerState.Idle : PlayerState.Move;
-        
         _movement.SetMoveDirection(_input.MoveInput);
     }
 
@@ -43,5 +50,9 @@ public class PlayerControler : MonoBehaviour
             
         }
     }
-    
+
+    public void SetState(PlayerState state)
+    {
+        State = state;
+    }
 }
