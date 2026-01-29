@@ -6,6 +6,10 @@ public class BlockView : MonoBehaviour, IPoolable
 {
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [SerializeField] private ScorePopup scorePopup;
+    public BlockControler Controler {get; private set;}
+    public void Initialize(BlockControler controler) => Controler = controler;
+
+
     public void OnSpawn()
     {
         gameObject.SetActive(true);   
