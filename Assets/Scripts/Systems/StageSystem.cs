@@ -57,7 +57,7 @@ public class StageSystem : MonoBehaviour
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
     }
 
-    private void Start()
+    public void InitializationStage()
     {
         CurrentStage = 1;
         StageTargetScore = 1000;

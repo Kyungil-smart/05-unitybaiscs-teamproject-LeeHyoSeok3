@@ -1,3 +1,4 @@
+using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,7 @@ public class GameScene : MonoBehaviour
     [SerializeField] private Image _darkOverlay;
     [SerializeField] private Button _retrunTitle;
     [SerializeField] private GameObject _gameExit;
+    [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [Tooltip("Camera")]
     public Camera mainCamera;
     [Tooltip("CameraMoveSpeed")]
@@ -49,7 +51,6 @@ public class GameScene : MonoBehaviour
     private void OnEnable()
     {
         GameEventBus.Subscribe<ScoreUpdatedEvent>(OnScoreUpdated);
-        GameEventBus.Subscribe<StageStartedEvent>(OnStageStarted);
         GameEventBus.Subscribe<StageClearedEvent>(StageCleared);
     }
 
@@ -80,19 +81,12 @@ public class GameScene : MonoBehaviour
     private void OnDisable()
     {
         GameEventBus.Unsubscribe<ScoreUpdatedEvent>(OnScoreUpdated);
-        GameEventBus.Unsubscribe<StageStartedEvent>(OnStageStarted);
         GameEventBus.Unsubscribe<StageClearedEvent>(StageCleared);
     }
 
     private void OnScoreUpdated(ScoreUpdatedEvent evt)
     {
         _currentScore = evt.Score;
-    }
-
-    private void OnStageStarted(StageStartedEvent evt)
-    {
-        _currentStage = evt.Stage;
-        _targetScore = evt.TargetScore;
     }
 
     public void ReadyState()
@@ -172,6 +166,10 @@ public class GameScene : MonoBehaviour
 
     private IEnumerator CameraMoveThenClearGame()
     {
+        if (_destroyEffectPrefab != null)
+        {
+            Instantiate(_destroyEffectPrefab, removeSPSet.transform.position, Quaternion.identity);
+        }
         removeSPSet.SetActive(false);
         yield return StartCoroutine(MoveCamera(mainCamera.transform, thirdCameraMove.transform.position, thirdCameraMove.transform.rotation, moveDuration));
         yield return StartCoroutine(MoveCamera(mainCamera.transform, fourthCameraMove.transform.position, fourthCameraMove.transform.rotation, moveDuration));
