@@ -15,40 +15,32 @@ public class BlockSpawner : MonoBehaviour
     private BlockFactory _factory;
     private BlockGroup _current;
 
-    // private List<List<BlockControler>> _fallingBlockps = new(); // 떨어지는 블록들을 관리하기 위한 리스트
+    [Serializable]
+    public struct BlockPoolEntry
+    {
+        public BlockPoolType poolType;
+        public BlockView prefab;
+        public int poolsize;
+    }
 
+    [SerializeField] private BlockPoolEntry[] _pool;
+    
     private void Start()
     {
+        foreach (var ety in _pool) {
+            PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
+        }
+        
         _factory = new BlockFactory(blockSize);
     }
 
     // 테스트 코드
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnRandom();
-        }
-
-        // FallingBlocks();
-        // if (Input.GetKeyDown(KeyCode.Q)) // 테스트 코드
-        // {
-        //     GameEventBus.Raise(new GridUpdateEvent());
-        //     Debug.Log("업데이트 이벤트");
-        // }
-        //
-        // if (_current != null)
-        // {
-        //     foreach (var block in _current)
-        //     {
-        //         block.DownGridPosition(block.GridPosition, fallSpeed);
-        //     }
-        // }
-    }
-
-    void FixedUpdate()
-    {
-        // GameEventBus.Raise(new GridUpdateEvent());
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,43 +51,11 @@ public class BlockSpawner : MonoBehaviour
         
     }
 
-    // 생성된 블록들이 떨어지는 처리
-    private void FallingBlocks()
-    {
-        // if (_fallingBlockps != null)
-        // {
-        //     foreach (var blocks in _fallingBlockps)
-        //     {
-        //         foreach (var block in blocks)
-        //         {
-        //             if (block.State == BlockState.Falling)   // 떨어지는 상태이면 계속 떨어짐
-        //                 block.DownGridPosition(block.GridPosition, fallSpeed);
-        //
-        //             if (block.YPosition <= 0.1f && block.State == BlockState.Falling) // 떨어지는 중에 땅에 닿기 직전
-        //             {
-        //                 block.SetState(BlockState.Locked);
-        //                 block.GroundGridPosition(block.GridPosition);
-        //             }
-        //         }
-        //     }
-        // }
-    }
-
     public void SpawnRandom()
     {
         BlockType type = (BlockType)Random.Range(0, 7);
         BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
 
-        // 테스트용 랜덤 위치 생성
-        //Vector2Int TestPosition = new Vector2Int(Random.Range(-5,5), Random.Range(-5,5));
-        // Vector2Int TestPosition = new Vector2Int(0, -4);
-        // 테스트용 블록 생성 코드
-        // _current = _factory.Create(type, poolType, TestPosition);
-
-       // foreach (var block in _current)
-            //block.SetState(BlockState.Falling);
-
-        //_fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
         // type 추출 코드 테스트
         while (!IsCanGenerate(type))
         {
@@ -120,14 +80,32 @@ public class BlockSpawner : MonoBehaviour
             Vector2Int baseGrid = GetVectortoList(type);
             Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
             _current = _factory.Create(type, poolType, baseGrid);
-
-            
-            
-            //_fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
-            // type 추출 코드 테스트
         }
     }
 
+    public void SpawnObstacle(int howmany)
+    {
+        BlockType type = BlockType.B;
+        BlockPoolType poolType = BlockPoolType.Rock;
+
+
+        if(_cangeneratelist.ObList.Count < howmany) // 빈 자리보다 생성 블럭이 많을 때 처리
+        {
+            howmany = _cangeneratelist.ObList.Count;
+        }
+
+        for(int i = 0; i < howmany; i++) // 요청한 수 만큼 반복
+        {
+            // 좌표 탐색
+            
+            // _cangeneratelist.ObList 에서 좌표 받아오기
+            int index = Random.Range(0,_cangeneratelist.ObList.Count);
+            // 생성
+            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            _cangeneratelist.ObList.RemoveAt(index);
+        }
+    }
+    
 
     private bool IsCanGenerate(BlockType shape)
     {

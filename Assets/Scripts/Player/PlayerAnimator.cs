@@ -7,6 +7,7 @@ public class PlayerAnimator :  MonoBehaviour
     [SerializeField]private Rigidbody _rb;
     private static readonly int Speed = Animator.StringToHash("Speed");
     private static readonly int IsMove = Animator.StringToHash("IsMove");
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
 
     private void Update()
     {
@@ -18,5 +19,11 @@ public class PlayerAnimator :  MonoBehaviour
     public void UpdateMove(bool isMoving)
     {
         _animator.SetBool(IsMove, isMoving);
+    }
+
+    public void PlayerDeath()
+    {
+        _animator.SetBool(IsMove, false);
+        _animator.SetBool(IsDead, true);
     }
 }

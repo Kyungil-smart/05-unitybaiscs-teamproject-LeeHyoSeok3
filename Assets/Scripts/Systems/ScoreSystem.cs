@@ -20,7 +20,7 @@ public class ScoreSystem
     // 테스트 코드
     public void Test()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
             GameEventBus.Raise(new LineClearedEvent(1));
     }
 
