@@ -32,8 +32,6 @@ public class BlockGroup
         }
 
         SyncRootToGrid();
-
-        //GameEventBus.Subscribe<BlockCollisionToFloor>(SetBlocksStateToLanded);  // 바닥 충돌 이벤트 구독
     }
 
     // ------------------------
@@ -175,22 +173,4 @@ public class BlockGroup
         foreach (var block in _blocks)
             block.View.HideOutLine();
     }
-
-    // ------------------------
-    // Block State
-    // ------------------------
-
-    // 블록이 바닥에 닿았을 때 블록의 상태를 Landed로 변경
-    /*
-    public void SetBlocksStateToLanded(BlockCollisionToFloor _event)
-    {
-
-        foreach (var block in _blocks)
-        {
-            block.SetState(BlockState.Landed);
-            Debug.Log($"Block State = {block.State}");
-        }
-
-    }
-    */
 }

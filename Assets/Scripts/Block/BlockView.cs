@@ -24,6 +24,9 @@ public class BlockView : MonoBehaviour, IPoolable
         
         _rb = GetComponent<Rigidbody>();
         _cd = GetComponent<Collider>();
+
+        // LineClearedEvent가 발생하면 Locked 상태 변경을 위한 구독 등록
+        GameEventBus.Subscribe<LineClearedEvent>(SetStateToLocked);
     }
 
     public void OnSpawn()
@@ -135,6 +138,14 @@ public class BlockView : MonoBehaviour, IPoolable
         _cd.enabled = false;
         _rb.isKinematic = true;
     }
-    
-    
+
+    // ------------------------
+    // 구독한 이벤트 처리
+    // ------------------------
+
+    public void SetStateToLocked(LineClearedEvent evt)
+    {
+        if (Controler == null) return;
+
+    }
 }

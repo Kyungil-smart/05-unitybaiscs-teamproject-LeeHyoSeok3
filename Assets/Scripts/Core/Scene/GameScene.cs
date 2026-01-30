@@ -16,7 +16,6 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _readyState;
     [SerializeField] private TextMeshProUGUI _pauseState;
     [SerializeField] private TextMeshProUGUI _pauseKey;
-    [SerializeField] private TextMeshProUGUI _gameOverState;
     [SerializeField] private Image _darkOverlay;
     [SerializeField] private Button _retrunTitle;
     [SerializeField] private GameObject _gameExit;
@@ -31,7 +30,6 @@ public class GameScene : MonoBehaviour
     [Header("Remove")]
     [SerializeField] private GameObject removeSPSet;
 
-    private PlayerCollision PlayerCollision;
     private int _currentScore;
     private int _currentStage;
     private int _targetScore;
@@ -44,7 +42,6 @@ public class GameScene : MonoBehaviour
     {
         _currentStage = StageSystem.Instance.CurrentStage;
         _targetScore = StageSystem.Instance.StageTargetScore;
-        PlayerCollision = FindObjectOfType<PlayerCollision>();
         StartCoroutine(CameraMoveThenStartGame());
     }
 
@@ -76,11 +73,6 @@ public class GameScene : MonoBehaviour
             }
         }
 
-        if (PlayerCollision._playerDead &&
-            !(GameManager.Instance.StateMachine.CurrnetState is GameOverState))
-        {
-            GameOver();
-        }
     }
 
     private void OnDisable()
@@ -104,7 +96,6 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
         _gameExit.gameObject.SetActive(false);
-        _gameOverState.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(true);
         _darkOverlay.gameObject.SetActive(true);
         GameManager.Instance.ReadyState();
@@ -119,7 +110,7 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(true);
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
-        GameManager.Instance.PlayGame();
+        GameManager.Instance.StartGame();
         StageSystem.Instance.StartStage();
         
     }
@@ -128,32 +119,16 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
-        GameManager.Instance.PlayGame();
+        GameManager.Instance.StartGame();
     }
 
     public void PauseState()
     {
+        _gameExit.gameObject.SetActive(false);
         _darkOverlay.gameObject.SetActive(true);
         _pauseState.gameObject.SetActive(true);
         _retrunTitle.gameObject.SetActive(true);
         GameManager.Instance.PauseGame();
-    }
-
-    private void GameOver()
-    {
-        StartCoroutine(GameOverRoutine());
-    }
-
-    private IEnumerator GameOverRoutine()
-    {
-        PlayerCollision.GetComponent<PlayerAnimator>().PlayerDeath();
-
-        yield return new WaitForSeconds(4f);
-
-        _darkOverlay.gameObject.SetActive(true);
-        _retrunTitle.gameObject.SetActive(true);
-        _gameOverState.gameObject.SetActive(true);
-        GameManager.Instance.GameOver();
     }
 
     void TextUpdate()
@@ -167,7 +142,6 @@ public class GameScene : MonoBehaviour
         _pauseState.text = $"게임이 일시정지 되었습니다.\n" +
             $"계속하시려면 [Esc] 키를 눌러주세요!";
         _IncreaseScore.text = "+ 100";
-        _gameOverState.text = $"플레이어가 죽었습니다. 게임 오버!";
     }
 
     public void ReturnTitle()
@@ -223,7 +197,6 @@ public class GameScene : MonoBehaviour
 
     private void StageCleared(StageClearedEvent evt)
     {
-        GameManager.Instance.StartGame();
         StartCoroutine(CameraMoveThenClearGame());
     }
 }
