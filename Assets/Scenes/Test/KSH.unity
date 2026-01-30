@@ -225,7 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 524563904}
-  - component: {fileID: 524563903}
+  - component: {fileID: 524563905}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -233,18 +233,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &524563903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 524563902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9b9a061ee1e42bcbeef06a609eddf42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &524563904
 Transform:
   m_ObjectHideFlags: 0
@@ -260,6 +248,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &524563905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524563902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b9a061ee1e42bcbeef06a609eddf42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &603816777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -326,7 +326,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1046147910}
-  - component: {fileID: 1046147911}
   m_Layer: 0
   m_Name: BlockSpawner
   m_TagString: Untagged
@@ -349,21 +348,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1046147911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1046147908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 663568b14da69884fb50cb496eb06b2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockSize: 1
-  _cangeneratelist: {fileID: 2087165788}
-  fallSpeed: 0.2
 --- !u!1 &1422223923
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +412,10 @@ MonoBehaviour:
     prefab: {fileID: 604663684128487078, guid: 52ce90ff3b0df27499345e609c1991b5, type: 3}
     poolsize: 30
   - poolType: 6
-    prefab: {fileID: 4784809604795887357, guid: bb65a549f634be74f963e0338133194a, type: 3}
+    prefab: {fileID: 604663684128487078, guid: 52ce90ff3b0df27499345e609c1991b5, type: 3}
+    poolsize: 30
+  - poolType: 7
+    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
     poolsize: 30
 --- !u!1 &1552903889
 GameObject:
@@ -656,25 +643,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2087165788 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7018184447198058843, guid: e26a08ebccc7fa747a3818d360d17f76, type: 3}
-  m_PrefabInstance: {fileID: 603816777}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 777cf931ce9a6384b808cbc25252133e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1617439483}
   - {fileID: 126753507}
-  - {fileID: 1046147910}
   - {fileID: 524563904}
   - {fileID: 1422223925}
+  - {fileID: 1046147910}
   - {fileID: 1552903893}
   - {fileID: 603816777}

@@ -42,15 +42,30 @@ public class BlockGroup
     {
         _followTarget = holdPoint;
         _isHeld = true;
-        _holdOffset = Root.position - holdPoint.position;
+        
+        foreach (var block in  _blocks)
+            block.PickUp();
     }
 
     public void FollowHeld()
     {
         if (!_isHeld || _followTarget == null)
             return;
+        
+        Vector3 targetPos =
+            _followTarget.position +
+            _followTarget.forward * 1f;
 
-        Root.position = _followTarget.position + _holdOffset;
+        targetPos.y = 1.5f;
+        
+        BlockControler closest = FindClosestBlock(_followTarget.position);
+        if (closest == null)
+            return;
+
+        Vector3 blockPos = closest.View.transform.position;
+
+        Vector3 delta = targetPos - blockPos;
+        Root.position += delta;
     }
 
     public void Drop(float y)
@@ -61,10 +76,66 @@ public class BlockGroup
         PivotGrid = WorldToGrid(Root.position);
 
         foreach (var block in _blocks)
+        {
             block.SetGridPosition(PivotGrid + block.LocalOffset, y);
-
+            block.Drop();
+        }
+        
         SyncRootToGrid();
     }
+    
+    private BlockControler FindClosestBlock(Vector3 offset)
+    {
+        BlockControler closest = null;
+        float minSqrDist = float.MaxValue;
+
+        foreach (var block in _blocks)
+        {
+            float sqrDist =
+                (block.View.transform.position - offset).sqrMagnitude;
+
+            if (sqrDist < minSqrDist)
+            {
+                minSqrDist = sqrDist;
+                closest = block;
+            }
+        }
+
+        return closest;
+    }
+    
+    // ------------------------
+    // Rotate
+    // ------------------------
+
+    public void Rotate(bool clockwise)
+    {
+        // foreach (var block in _blocks)
+        //     block.RotateLocalOffset(clockwise);
+        //
+        // foreach (var block in _blocks)
+        //     block.SetGridPosition(
+        //         PivotGrid + block.LocalOffset,
+        //         block.View.transform.position.y
+        //     );
+        //
+        // Debug.Log($"Pivot: {PivotGrid}, Root: {Root.position}");
+        foreach (var block in _blocks)
+        {
+            block.RotateLocalOffset(clockwise);
+            
+            // 해당 로직 controler로 옮기기.
+            Vector3 localWorld =
+                new Vector3(
+                    block.LocalOffset.x * 1f,
+                    2f,
+                    block.LocalOffset.y * 1f
+                );
+
+            block.View.transform.localPosition = localWorld;
+        }
+    }
+    
 
     // ------------------------
     // Utilities

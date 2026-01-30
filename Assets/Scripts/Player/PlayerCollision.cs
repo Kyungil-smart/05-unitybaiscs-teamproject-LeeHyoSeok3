@@ -24,7 +24,7 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // tag·Î ¹Ú½º¿ÀºêÁ§Æ® ±¸ºÐ
+        // tagï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         if(collision.gameObject.CompareTag("Block"))
         {
             CollisionWhere(collision);
@@ -33,6 +33,8 @@ public class PlayerCollision : MonoBehaviour
 
     private void CollisionWhere(Collision collision)
     {
+        
+        
         if(collision.transform.position.y > transform.position.y)
         {
             _playerController.SetState(PlayerState.Dead);

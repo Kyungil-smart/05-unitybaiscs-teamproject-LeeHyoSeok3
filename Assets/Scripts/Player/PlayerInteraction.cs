@@ -64,7 +64,7 @@ public class PlayerInteraction : MonoBehaviour
             LookingGroup.SetOutline(Color.red);
     }
 
-    public void PickUp()
+    public void PickUpBlock()
     {
         if (LookingGroup == null)
             return;
@@ -74,14 +74,20 @@ public class PlayerInteraction : MonoBehaviour
         HoldingGroup.SetOutline(Color.blue);
     }
 
-    public void Drop()
+    public void DropBlock()
     {
         if (HoldingGroup == null)
             return;
 
-        HoldingGroup.Drop(_holdPoint.position.y);
+        HoldingGroup.Drop(2f);
         HoldingGroup.HideOutline();
         HoldingGroup = null;
+    }
+
+    public void RotateBlock(float? rotateInput)
+    {
+        bool clockwise = rotateInput > 0f;
+        HoldingGroup.Rotate(clockwise);
     }
 
     private void OnDrawGizmos()

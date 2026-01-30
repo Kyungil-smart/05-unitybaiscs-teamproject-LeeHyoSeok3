@@ -10,6 +10,7 @@ public class BlockView : MonoBehaviour, IPoolable
     
     private Outline _outline;
     private Rigidbody _rb;
+    private Collider _cd;
     
     private Transform _follwTarget;
     private bool _isFollowing;
@@ -22,6 +23,7 @@ public class BlockView : MonoBehaviour, IPoolable
         if(_outline != null) _outline.enabled = false;
         
         _rb = GetComponent<Rigidbody>();
+        _cd = GetComponent<Collider>();
     }
 
     public void OnSpawn()
@@ -96,6 +98,18 @@ public class BlockView : MonoBehaviour, IPoolable
     {
         if (_outline == null) return;
         _outline.enabled = false;
+    }
+
+    public void EnableCollision()
+    {
+        _cd.enabled = true;
+        _rb.isKinematic = false;
+    }
+
+    public void DisableCollision()
+    {
+        _cd.enabled = false;
+        _rb.isKinematic = true;
     }
     
     
