@@ -15,7 +15,7 @@ public class OnBlockInteract : MonoBehaviour
 
     public void ClearBlock()
     {
-        if(_onBlock != null && IsNeedClear)
+        if (_onBlock != null && IsNeedClear)
         {
             _onBlock.Controler.Release();
             _onBlock = null;

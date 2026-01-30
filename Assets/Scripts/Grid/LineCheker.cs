@@ -15,7 +15,8 @@ public class LineCheker : MonoBehaviour
     
     public bool IsLineFull()  // 라인에 전부 블록이 있는지 체크
     {
-        foreach(GridTile boxON in _tielOnLine)
+        Debug.Log("라인 체크 시작");
+        foreach (GridTile boxON in _tielOnLine)
         {
             if(!boxON._blockOn)
             {
@@ -24,6 +25,7 @@ public class LineCheker : MonoBehaviour
         }
         foreach(GridTile boxON in _tielOnLine)
         {
+            Debug.Log("라인 클리어 시작");
             boxON.GetComponent<OnBlockInteract>().IsNeedClear = true;
         }
         return true;

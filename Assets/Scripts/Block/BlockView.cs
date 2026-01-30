@@ -13,7 +13,7 @@ public class BlockView : MonoBehaviour, IPoolable
     
     private Transform _follwTarget;
     private bool _isFollowing;
-    
+
     public void Initialize(BlockControler controler) =>  Controler = controler;
 
     private void Awake()
@@ -97,6 +97,28 @@ public class BlockView : MonoBehaviour, IPoolable
         if (_outline == null) return;
         _outline.enabled = false;
     }
-    
-    
+
+    // ------------------------
+    // Block Colision Event
+    // ------------------------
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 바닥과 충돌했을 때
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            Controler.SetState(BlockState.Landed);
+            Debug.Log($"Block State : {Controler.State}");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // 그리드와 충돌했을 때
+        if (other.gameObject.CompareTag("Grid"))
+        {
+            Debug.Log("Block Triggered Grid");
+            GameEventBus.Raise(new GridUpdateEvent());
+        }
+    }
 }
