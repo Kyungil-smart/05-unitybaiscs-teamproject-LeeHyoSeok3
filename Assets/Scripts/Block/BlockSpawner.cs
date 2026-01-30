@@ -128,6 +128,22 @@ public class BlockSpawner : MonoBehaviour
         }
     }
 
+    public void SpawnObstacle(int howmany)
+    {
+        BlockPoolType obstacle = BlockPoolType.Rock1; // 방해물 pool 타입 
+        BlockType type = BlockType.Ob; // 방해물 타입 [0,0]
+
+        for(int i = 0; i < howmany; i++) // 요청한 수 만큼 반복
+        {
+            // 좌표 탐색
+            List<Vector2Int> Grid = new List<Vector2Int>(howmany);
+            // _cangeneratelist.ObList 에서 좌표 받아오기
+
+
+            // 생성
+            _factory.Create(type, obstacle, Grid[i]);
+        }
+    }
 
     private bool IsCanGenerate(BlockType shape)
     {

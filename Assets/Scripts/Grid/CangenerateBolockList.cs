@@ -39,6 +39,7 @@ public class CangenerateBolockList : MonoBehaviour
     public List<Vector2Int> IRightList;
     public List<Vector2Int> IDownList;
     public List<Vector2Int> ILeftList;
+    public List<Vector2Int> ObList;
 
     void Awake()
     {
@@ -70,5 +71,6 @@ public class CangenerateBolockList : MonoBehaviour
     IRightList = new List<Vector2Int>();
     IDownList = new List<Vector2Int>();
     ILeftList = new List<Vector2Int>();
+    
     }
 }

@@ -7,4 +7,5 @@
     Box5,
     Box6,
     Box7,
+    Rock1
 }
