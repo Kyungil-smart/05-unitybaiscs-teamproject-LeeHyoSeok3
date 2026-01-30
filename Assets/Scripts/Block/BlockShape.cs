@@ -78,12 +78,12 @@ public static class BlockShape
                 }
             },
             {
-                BlockType.Ob,
+                BlockType.B,
                 new[]
                 {
-                    new Vector2Int(0, 0)
+                    new Vector2Int(0, 0)                  
                 }
-            },
+            }
             
         };
 }

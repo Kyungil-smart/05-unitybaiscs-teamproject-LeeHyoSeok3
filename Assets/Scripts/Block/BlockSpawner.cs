@@ -130,9 +130,9 @@ public class BlockSpawner : MonoBehaviour
 
     public void SpawnObstacle(int howmany)
     {
-        BlockPoolType obstacle = BlockPoolType.Rock1; // 방해물 pool 타입 
-        BlockType type = BlockType.Ob; // 방해물 타입 [0,0]
-        List<GridTile> Grid = new List<GridTile>(howmany);
+        BlockType type = BlockType.B;
+        BlockPoolType poolType = BlockPoolType.Rock;
+
 
         if(_cangeneratelist.ObList.Count < howmany) // 빈 자리보다 생성 블럭이 많을 때 처리
         {
@@ -145,17 +145,12 @@ public class BlockSpawner : MonoBehaviour
             
             // _cangeneratelist.ObList 에서 좌표 받아오기
             int index = Random.Range(0,_cangeneratelist.ObList.Count);
-            while(!Grid.Contains(_cangeneratelist.ObList[index]))
-            {
-                index = Random.Range(0,_cangeneratelist.ObList.Count);
-            }
-            Grid.Add(_cangeneratelist.ObList[index]);
-
-
             // 생성
-            _factory.Create(type, obstacle, new Vector2Int((int)Grid[i].transform.position.x, (int)Grid[i].transform.position.z));
+            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            _cangeneratelist.ObList.RemoveAt(index);
         }
     }
+    
 
     private bool IsCanGenerate(BlockType shape)
     {
