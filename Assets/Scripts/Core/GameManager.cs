@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             blockTimer += Time.deltaTime;
-            float blockSpawnInterval = BlockSpawnTime / (float)StageSystem.CurrentStage;
+            float blockSpawnInterval = Mathf.Max(1, BlockSpawnTime - (float)(StageSystem.CurrentStage * 0.5));
 
             if(blockTimer >= blockSpawnInterval)
             {
