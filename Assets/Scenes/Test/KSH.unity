@@ -428,7 +428,7 @@ MonoBehaviour:
     prefab: {fileID: 604663684128487078, guid: 52ce90ff3b0df27499345e609c1991b5, type: 3}
     poolsize: 30
   - poolType: 6
-    prefab: {fileID: 4784809604795887357, guid: bb65a549f634be74f963e0338133194a, type: 3}
+    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
     poolsize: 30
 --- !u!1 &1552903889
 GameObject:
