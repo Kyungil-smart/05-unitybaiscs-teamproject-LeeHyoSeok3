@@ -77,5 +77,13 @@ public static class BlockShape
                     new Vector2Int(1, -1),
                 }
             },
+            {
+                BlockType.B,
+                new[]
+                {
+                    new Vector2Int(0, 0)                  
+                }
+            }
+            
         };
 }
