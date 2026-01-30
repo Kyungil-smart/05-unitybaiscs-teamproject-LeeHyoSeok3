@@ -8,6 +8,8 @@ public class PlayerCollision : MonoBehaviour
 
     private PlayerControler _playerController;
 
+    public bool _playerDead;
+
     private void Awake()
     {
         Init();
@@ -17,6 +19,7 @@ public class PlayerCollision : MonoBehaviour
     {
         _collider = GetComponent<CapsuleCollider>();
         _playerController = GetComponent<PlayerControler>();
+        _playerDead = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -35,6 +38,7 @@ public class PlayerCollision : MonoBehaviour
         if(collision.transform.position.y > transform.position.y)
         {
             _playerController.SetState(PlayerState.Dead);
+            _playerDead = true;
             Debug.Log("Game Over");
         }
     }
