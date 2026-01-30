@@ -25,10 +25,10 @@ public class BlockSpawner : MonoBehaviour
     // 테스트 코드
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnRandom();
-        }
+        }*/
 
         // FallingBlocks();
         // if (Input.GetKeyDown(KeyCode.Q)) // 테스트 코드

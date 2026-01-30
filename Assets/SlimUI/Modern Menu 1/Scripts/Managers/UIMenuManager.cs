@@ -107,7 +107,7 @@ namespace SlimUI.ModernMenu{
 			if (mainCamera == null) mainCamera = Camera.main;
 
             SetThemeColors();
-            StateMachine.ChangeState(new PlayingState(StateMachine));
+            StateMachine.ChangeState(new StartingState(StateMachine));
             DynamicGI.UpdateEnvironment();
         }
 

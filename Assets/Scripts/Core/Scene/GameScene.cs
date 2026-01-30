@@ -110,7 +110,7 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(true);
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
-        GameManager.Instance.StartGame();
+        GameManager.Instance.PlayGame();
         StageSystem.Instance.StartStage();
         
     }
@@ -119,7 +119,7 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
-        GameManager.Instance.StartGame();
+        GameManager.Instance.PlayGame();
     }
 
     public void PauseState()
@@ -197,6 +197,7 @@ public class GameScene : MonoBehaviour
 
     private void StageCleared(StageClearedEvent evt)
     {
+        GameManager.Instance.StartGame();
         StartCoroutine(CameraMoveThenClearGame());
     }
 }
