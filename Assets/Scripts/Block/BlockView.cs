@@ -8,11 +8,24 @@ public class BlockView : MonoBehaviour, IPoolable
     [SerializeField] private ScorePopup scorePopup;
     public BlockControler Controler { get; private set; }
     
+    private Outline _outline;
+    private Rigidbody _rb;
+    private Collider _cd;
+    
     private Transform _follwTarget;
     private bool _isFollowing;
     
     public void Initialize(BlockControler controler) =>  Controler = controler;
-    
+
+    private void Awake()
+    {
+        _outline = GetComponent<Outline>();
+        if(_outline != null) _outline.enabled = false;
+        
+        _rb = GetComponent<Rigidbody>();
+        _cd = GetComponent<Collider>();
+    }
+
     public void OnSpawn()
     {
         gameObject.SetActive(true);   
@@ -47,6 +60,10 @@ public class BlockView : MonoBehaviour, IPoolable
     {
         transform.position = pos;
     }
+    public void SetWorldPosition(Vector2Int pos)
+    {
+        transform.position = new Vector3(pos.x, transform.position.y, pos.y);
+    }
 
     public void AttachTo(Transform target)
     {
@@ -58,6 +75,7 @@ public class BlockView : MonoBehaviour, IPoolable
     {
         _isFollowing = false;
         _follwTarget = null;
+        _rb.velocity = Vector3.zero;
     }
 
     private void LateUpdate()
@@ -66,6 +84,32 @@ public class BlockView : MonoBehaviour, IPoolable
         {
             transform.position = _follwTarget.position;
         }
+    }
+
+    public void ShowOutLine(Color color)
+    {
+        if (_outline == null) return;
+        
+        _outline.OutlineColor = color;
+        _outline.enabled = true;
+    }
+
+    public void HideOutLine()
+    {
+        if (_outline == null) return;
+        _outline.enabled = false;
+    }
+
+    public void EnableCollision()
+    {
+        _cd.enabled = true;
+        _rb.isKinematic = false;
+    }
+
+    public void DisableCollision()
+    {
+        _cd.enabled = false;
+        _rb.isKinematic = true;
     }
     
     

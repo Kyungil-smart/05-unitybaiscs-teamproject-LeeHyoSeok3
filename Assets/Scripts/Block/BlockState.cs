@@ -1,4 +1,4 @@
 ﻿public enum BlockState
 {
-    Spawn, Falling, Locked, Held, Release
+    Spawn, Falling, Landed, Locked, Held, Release
 }

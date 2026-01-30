@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField][Range(1,20)] private float _moveSpeed;
     [SerializeField][Range(1,100)] private float _rotateSpeed;
-    
+
     private Rigidbody _rb;
     private Vector3 _moveDir;
     public float MoveAmount { get; private set; }
@@ -37,10 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 movement = _moveDir * (_moveSpeed * Time.fixedDeltaTime);
-        _rb.MovePosition(_rb.position + movement);
-        
-        MoveAmount = movement.magnitude / Time.fixedDeltaTime;
+        _rb.MovePosition(GetNextPos());
     }
 
     private void Rotate()
@@ -49,5 +46,14 @@ public class PlayerMovement : MonoBehaviour
         Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
         
         _rb.MoveRotation(smoothRotation);
+    }
+
+    private Vector3 GetNextPos()
+    {
+        Vector3 movement = _moveDir * (_moveSpeed * Time.fixedDeltaTime);
+
+        MoveAmount = movement.magnitude / Time.fixedDeltaTime;
+
+        return _rb.position + movement;
     }
 }

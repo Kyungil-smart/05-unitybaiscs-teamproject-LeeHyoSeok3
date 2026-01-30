@@ -6,12 +6,13 @@ using UnityEngine.UIElements;
 public class PlayerInput : MonoBehaviour
 {
     public Vector3 MoveInput { get; private set; }
+    public float? RotateInput { get; private set; }
 
     private void Update()
     {
         Move();
         Interact();
-        RotateBlock();
+        Rotate();
     }
 
     private void Move()
@@ -24,11 +25,16 @@ public class PlayerInput : MonoBehaviour
 
     public bool Interact()
     {
-        return Input.GetKeyDown(KeyCode.E);
+        return Input.GetKeyDown(KeyCode.F);
     }
     
-    public void RotateBlock()
+    public void Rotate()
     {
+        RotateInput = null;
         
+        if (Input.GetKeyDown(KeyCode.E))
+            RotateInput = 1f;
+        else if (Input.GetKeyDown(KeyCode.Q))
+            RotateInput = -1f;
     }
 }
