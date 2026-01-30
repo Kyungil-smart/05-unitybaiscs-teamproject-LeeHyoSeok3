@@ -12,12 +12,6 @@ public class GameManager : MonoBehaviour
     public ScoreSystem ScoreSystem { get; private set; }
     public StageSystem StageSystem { get; private set; }
 
-    [SerializeField] private float BlockSpawnTime = 5;
-
-    private BlockSpawner blockSpawner;
-    private float blockTimer = 0f;
-    private Coroutine blockRoutine;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,6 +34,11 @@ public class GameManager : MonoBehaviour
         StageSystem.Subscribe();
     }
 
+    private void Update()
+    {
+        StageSystem.BlockSpawn();
+        ScoreSystem.Test();
+    }
 
     private void OnDisable()
     {
@@ -61,50 +60,24 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         StateMachine.ChangeState(new StartingState(StateMachine));
-        StopCoroutine(BlockRoutine());
+        StageSystem.StopStage();
     }
 
     public void PlayGame()
     {
         StateMachine.ChangeState(new PlayingState(StateMachine));
-        if (blockRoutine == null)
-        {
-            blockSpawner = FindObjectOfType<BlockSpawner>();
-            blockRoutine = StartCoroutine(BlockRoutine());
-        }
+        StageSystem.StartStage();
     }
 
     public void PauseGame()
     {
         StateMachine.ChangeState(new PausedState(StateMachine));
-
-        if (blockRoutine != null)
-        {
-            StopCoroutine(blockRoutine);
-            blockRoutine = null;
-        }
+        StageSystem.StopStage();
     }
 
     public void GameOver()
     {
         StateMachine.ChangeState(new GameOverState(StateMachine));
-        StopCoroutine(BlockRoutine());
-    }
-
-    IEnumerator BlockRoutine()
-    {
-        while (true)
-        {
-            blockTimer += Time.deltaTime;
-            float blockSpawnInterval = Mathf.Max(1, BlockSpawnTime - (float)(StageSystem.CurrentStage * 0.5));
-
-            if(blockTimer >= blockSpawnInterval)
-            {
-                blockSpawner.SpawnRandom();
-                blockTimer = 0f;
-            }
-            Debug.Log($"Block Spawn Interval: {blockSpawnInterval}, Timer: {blockTimer}");
-            yield return null;
-        }
+        StageSystem.StopStage();
     }
 }

@@ -12,9 +12,16 @@ public class StageSystem
     {
         Instance = this;
     }
+
+    [SerializeField] private float BlockSpawnTime = 5f;
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
+    public bool IsPlaying { get; private set; } = false;
+
     public int EndStage;
+
+    public BlockSpawner blockSpawner;
+    private CooldownTimer _timer;
 
     public void Subscribe()
     {
@@ -28,13 +35,24 @@ public class StageSystem
 
     public void StartStage()
     {
-        GameEventBus.Raise(
-            new StageStartedEvent(CurrentStage, StageTargetScore)
-        );
+        GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
+        IsPlaying = true;
+
+        if (_timer == null)
+            _timer = new CooldownTimer(Mathf.Max(1, BlockSpawnTime - (float)(CurrentStage * 0.2)));
+        else
+            _timer.Resume();
+    }
+
+    public void StopStage()
+    {
+        IsPlaying = false;
+        _timer?.Pause();
     }
 
     public void OnStageCleared(StageClearedEvent evt)
     {
+        blockSpawner = null;
         CurrentStage++;
 
         if (CurrentStage > EndStage)
@@ -54,4 +72,19 @@ public class StageSystem
         StageTargetScore = 1000;
         EndStage = 10;
     }
+
+    public void BlockSpawn()
+    {
+        if (!IsPlaying || blockSpawner == null)
+        {
+            blockSpawner = GameObject.FindObjectOfType<BlockSpawner>();
+            return;
+        }
+
+        if (_timer.IsReady(Time.time))
+        {
+            blockSpawner.SpawnRandom();
+        }
+    }
+
 }
