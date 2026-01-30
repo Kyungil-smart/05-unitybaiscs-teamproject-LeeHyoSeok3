@@ -128,11 +128,13 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
+        _gameExit.gameObject.SetActive(false);
         GameManager.Instance.PlayGame();
     }
 
     public void PauseState()
     {
+        _gameExit.gameObject.SetActive(false);
         _darkOverlay.gameObject.SetActive(true);
         _pauseState.gameObject.SetActive(true);
         _retrunTitle.gameObject.SetActive(true);
