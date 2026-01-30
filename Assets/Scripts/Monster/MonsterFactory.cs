@@ -15,7 +15,7 @@ public class MonsterFactory
     public List<MonsterController> Create(MonsterPoolType poolType, Vector2Int baseGrid)
     {
         List<MonsterController> monsters = new(1);
-
+        
         Vector2Int grid = baseGrid;
         MonsterView view = _monsterPools.Get();
 

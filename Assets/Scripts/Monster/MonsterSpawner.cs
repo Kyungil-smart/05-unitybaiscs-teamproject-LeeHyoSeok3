@@ -7,6 +7,8 @@ public class MonsterSpawner : MonoBehaviour
     private MonsterFactory _monFactory;
     private List<MonsterController> _current;
 
+    [SerializeField] private List<Vector2Int> _monVecList;
+
     private void Start()
     {
         _monFactory = new MonsterFactory();
@@ -22,13 +24,46 @@ public class MonsterSpawner : MonoBehaviour
 
     private void SpawnRandom()
     {
-       // if(생성가능한 위치인지)
-        //Vector2Int baseGrid = new Vector2Int(Random.Range(0, 10), Random.Range(0, 10));
         //MonsterPoolType poolType = (MonsterPoolType)Random.Range(0, 0); 
-        _current = _monFactory.Create(MonsterPoolType.Scout, new Vector2Int(0,0));
-       foreach(var mon in _current)
+
+        while(!IsCanGenerate(0))
         {
-            mon.SetState(MonsterState.Chasing);
+            if(!IsCanGenerate(0)) { break; }
         }
+
+
+        if (IsCanGenerate(0))
+        {
+            Vector2Int baseGrid = GetVectortoList(0);
+            _current = _monFactory.Create(MonsterPoolType.Scout, baseGrid);
+            foreach (var mon in _current)
+            {
+                mon.SetState(MonsterState.Chasing);
+            }
+        }
+    }
+
+    // 몬스터 타입이 없어서 임시로 정수 0사용
+    private bool IsCanGenerate(int index)
+    {
+        switch(index)
+        {
+            case 0:
+                if(_monVecList.Count == 0) { return false; }
+                return true;
+        }
+
+        return false;
+    }
+
+    private Vector2Int GetVectortoList(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return _monVecList[index];
+        }
+
+        return new Vector2Int(0, 0);
     }
 }
