@@ -28,6 +28,7 @@ public class BlockGroup
         {
             block.SetGroup(this);
             block.View.transform.SetParent(Root, true);
+            block.SetState(BlockState.Falling);
         }
 
         SyncRootToGrid();

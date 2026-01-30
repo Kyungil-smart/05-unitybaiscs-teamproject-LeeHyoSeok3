@@ -121,8 +121,7 @@ public class BlockSpawner : MonoBehaviour
             Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
             _current = _factory.Create(type, poolType, baseGrid);
 
-            foreach (var block in _current.Blocks)
-                block.SetState(BlockState.Falling);
+            
             
             //_fallingBlockps.Add(_current); // 생성된 블록은 생성되자마자 _fallingBlockps 리스트에 추가하여 떨어지는 상태 일괄 관리할 예정
             // type 추출 코드 테스트
