@@ -13,7 +13,7 @@ public class test : MonoBehaviour
     [SerializeField] private float fallSpeed = 0.2f;
 
     private BlockFactory _factory;
-    private List<BlockControler> _current;
+    private BlockGroup _current;
 
     private void Start()
     {
@@ -87,7 +87,7 @@ public class test : MonoBehaviour
             _current = _factory.Create(type, poolType, baseGrid);
 
 
-            foreach (var block in _current)
+            foreach (var block in _current.Blocks)
                 block.SetState(BlockState.Falling);
         }
     }
@@ -103,7 +103,7 @@ public class test : MonoBehaviour
             _current = _factory.Create(type, poolType, baseGrid);
 
 
-            foreach (var block in _current)
+            foreach (var block in _current.Blocks)
                 block.SetState(BlockState.Falling);
         }
         for(int i = 2; i < 10; i = i +2)    
@@ -112,7 +112,7 @@ public class test : MonoBehaviour
             _current = _factory.Create(type, poolType, baseGrid);
 
 
-            foreach (var block in _current)
+            foreach (var block in _current.Blocks)
                 block.SetState(BlockState.Falling);
         }
         
@@ -127,7 +127,7 @@ public class test : MonoBehaviour
             _current = _factory.Create(type, poolType, baseGrid);
 
 
-            foreach (var block in _current)
+            foreach (var block in _current.Blocks)
                 block.SetState(BlockState.Falling);
         
     }

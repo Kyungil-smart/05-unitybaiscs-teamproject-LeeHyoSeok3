@@ -18,14 +18,15 @@ public class BlockFactory
         // _pool = PoolManager.Instance.GetPool<BlockView>();
     }
 
-    public List<BlockControler> Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid)
+    public BlockGroup Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid)
     {
         Vector2Int[] shape = BlockShape.Shapes[type];
         List<BlockControler> blocks = new(shape.Length);
     
         foreach (var offset in shape)
         {
-            Vector2Int grid = baseGrid + offset;
+            // Vector2Int grid = baseGrid + offset;
+            Vector2Int grid = offset;
             // BlockView view = _pool.Get();
             BlockView view = _pools[(int)poolType].Get();
             
@@ -35,7 +36,7 @@ public class BlockFactory
             blocks.Add(controler);
         }
 
-        return blocks;
+        return new BlockGroup(type, baseGrid, blocks);
     }
 
     public void Release(List<BlockControler> blocks)

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7851918191166399781}
   - component: {fileID: 3809080647048920726}
   - component: {fileID: 1274135386578887355}
+  - component: {fileID: 6820921591397493527}
   m_Layer: 0
   m_Name: BOX4
   m_TagString: Block
@@ -98,6 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destroyEffectPrefab: {fileID: 0}
+  scorePopup: {fileID: 0}
 --- !u!54 &3809080647048920726
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -121,9 +124,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!65 &1274135386578887355
 BoxCollider:
@@ -146,3 +149,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1138138, y: 0.9050708, z: 0.90507084}
   m_Center: {x: 0, y: 0.45253527, z: 0.00012207031}
+--- !u!114 &6820921591397493527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8170348010768808031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

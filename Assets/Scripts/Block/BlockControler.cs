@@ -1,91 +1,108 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BlockControler
 {
     public Vector2Int GridPosition { get; private set; }
+    public Vector2Int LocalOffset { get; private set; }
+
     public BlockState State { get; private set; }
+    public BlockGroup Group { get; private set; }
+    public BlockView View { get; }
 
-    public float YPosition; // ������ �������� ȿ���� ���� Y ��ġ ��
-
-    private readonly BlockView _view;
-    private readonly BlockPoolType _poolType;
     private readonly float _blockSize;
+    private readonly BlockPoolType _poolType;
 
-    public BlockControler(BlockView view, Vector2Int gridPosition, float blockSize, BlockPoolType poolType)
+    // public float YPosition { get; private set; }
+
+    public BlockControler(
+        BlockView view,
+        Vector2Int gridPosition,
+        float blockSize,
+        BlockPoolType poolType)
     {
-        _view = view;
+        View = view;
         _blockSize = blockSize;
-
-        State = BlockState.Spawn;
         _poolType = poolType;
 
-        YPosition = 10f; // y=10 ���� ����
+        State = BlockState.Spawn;
 
-        SetGridPosition(gridPosition);
+        SetGridPosition(gridPosition, 3f);
+        LocalOffset = gridPosition;
     }
 
-    public void SetGridPosition(Vector2Int gridPosition)
+    // ------------------------
+    // Group
+    // ------------------------
+
+    public void SetGroup(BlockGroup group)
     {
-        GridPosition = gridPosition;
-        Vector3 worldPos = new Vector3(gridPosition.x * _blockSize, YPosition, gridPosition.y * _blockSize);
-
-        _view.SetWorldPosition(worldPos);
+        Group = group;
+        // LocalOffset = GridPosition - group.PivotGrid;
     }
 
-    public void SetState(BlockState state) => State = state;
+    // ------------------------
+    // Grid / World
+    // ------------------------
+
+    public void SetGridPosition(Vector2Int grid, float dropY)
+    {
+        GridPosition = grid;
+        SyncWorldPosition(dropY);
+    }
+
+    private void SyncWorldPosition(float dropY)
+    {
+        Vector3 worldPos = new Vector3(
+            GridPosition.x * _blockSize,
+            dropY,
+            GridPosition.y * _blockSize
+        );
+
+        View.SetWorldPosition(worldPos);
+    }
+
+    // ------------------------
+    // State
+    // ------------------------
+
+    public void SetState(BlockState state)
+    {
+        State = state;
+    }
 
     public bool IsMoveable()
     {
-        return State == BlockState.Spawn || State == BlockState.Falling || State == BlockState.Locked;
+        return State is BlockState.Spawn or BlockState.Falling or BlockState.Locked;
     }
+
+    // ------------------------
+    // Falling / Ground
+    // ------------------------
+
+    // public void FallTo(Vector2Int targetGrid, float fallSpeed)
+    // {
+    //     GridPosition = targetGrid;
+    //
+    //     YPosition -= fallSpeed * Time.deltaTime;
+    //     SyncWorldPosition();
+    // }
+    //
+    // public void GroundAt(Vector2Int targetGrid)
+    // {
+    //     GridPosition = targetGrid;
+    //     YPosition = 0f;
+    //     SyncWorldPosition();
+    // }
+
+    // ------------------------
+    // Pool
+    // ------------------------
 
     public void Release()
     {
         SetState(BlockState.Release);
-        PoolManager.Instance.GetPool<BlockView>((int)_poolType).Release(_view);
-    }
-    
-    // �Ʒ��� �̵��ϴ� ����
-    public void DownGridPosition(Vector2Int BlockMovePosition, float FallSpeed) {
-        GridPosition = BlockMovePosition;
-
-        float NextY = YPosition - FallSpeed * Time.deltaTime;
-
-        Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
-        _view.SetWorldPosition(MovePos);
-        YPosition = NextY;
-    }
-
-    // ���� ������ �� ���鿡 ��ġ ����
-    public void GroundGridPosition(Vector2Int BlockMovePosition)
-    {
-        GridPosition = BlockMovePosition;
-
-        float NextY = 0f;
-
-        Vector3 MovePos = new Vector3(BlockMovePosition.x * _blockSize, NextY, BlockMovePosition.y * _blockSize);
-        _view.SetWorldPosition(MovePos);
-        YPosition = NextY;
-    }
-
-    public void PickUp(Transform followTarget)
-    {
-        SetState(BlockState.Held);
-        _view.AttachTo(followTarget);
-    }
-
-    public void Drop(Vector2Int dropGridPos, float dropStartY)
-    {
-        SetState(BlockState.Falling);
-        YPosition = dropStartY;
-        SetGridPosition(dropGridPos);
-        
-        _view.Detach();
+        PoolManager.Instance
+            .GetPool<BlockView>((int)_poolType)
+            .Release(View);
     }
 }
-    
-    

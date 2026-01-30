@@ -4,50 +4,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ScoreSystem : MonoBehaviour
+public class ScoreSystem
 {
     public static ScoreSystem Instance { get; private set; }
+
+    public ScoreSystem()
+    {
+        Instance = this;
+    }
     public int Score { get; private set; }
 
     private int _currentStageTargetScore;
     private int _currentStageIndex;
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
-    }
-
     // 테스트 코드
-    private void Update()
+    public void Test()
     {
         if(Input.GetKeyDown(KeyCode.P))
             GameEventBus.Raise(new LineClearedEvent(1));
     }
 
-    private void OnEnable()
+    public void Subscribe()
     {
         GameEventBus.Subscribe<LineClearedEvent>(OnLineCleared);
         GameEventBus.Subscribe<StageStartedEvent>(OnStageStarted);
     }
 
-    private void OnDisable()
+    public void Unsubscribe()
     {
         GameEventBus.Unsubscribe<LineClearedEvent>(OnLineCleared);
         GameEventBus.Unsubscribe<StageStartedEvent>(OnStageStarted);
     }
 
-    private void OnLineCleared(LineClearedEvent evt)
+    public void OnLineCleared(LineClearedEvent evt)
     {
         Score += (evt.Count * evt.Count) * 100;
         Debug.Log($"Score : {Score}");
@@ -59,7 +48,7 @@ public class ScoreSystem : MonoBehaviour
         }
     }
 
-    private void OnStageStarted(StageStartedEvent evt)
+    public void OnStageStarted(StageStartedEvent evt)
     {
         _currentStageTargetScore = evt.TargetScore;
         _currentStageIndex = evt.Stage;
