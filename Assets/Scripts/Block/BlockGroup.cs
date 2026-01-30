@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class BlockGroup
 {
-    public BlockType Type { get; }
+    public BlockType BlockType { get; }
+    public BlockPoolType  PoolType { get; }
     public Vector2Int PivotGrid { get; private set; }
     public IReadOnlyList<BlockControler> Blocks => _blocks;
     public Transform Root { get; }
@@ -14,18 +15,21 @@ public class BlockGroup
     private bool _isHeld;
 
     private Transform _ghostRoot;
+    private ObjectPool<GhostBlock> _ghostPool;
     private List<GhostBlock> _ghostBlocks;
 
     public BlockGroup(
-        BlockType type,
+        BlockType blockType,
+        BlockPoolType poolType,
         Vector2Int pivotGrid,
         List<BlockControler> blocks)
     {
-        Type = type;
+        BlockType = blockType;
+        PoolType = poolType;
         PivotGrid = pivotGrid;
         _blocks = blocks;
 
-        Root = new GameObject($"BlockGroupRoot_{type}").transform;
+        Root = new GameObject($"BlockGroupRoot_{blockType}").transform;
 
         foreach (var block in _blocks)
         {
@@ -46,7 +50,7 @@ public class BlockGroup
         _followTarget = holdPoint;
         _isHeld = true;
         
-        CreateGhost();
+        CreateGhost(PoolManager.Instance.GetPool<GhostBlock>((int)PoolType));
             
         foreach (var block in  _blocks)
             block.PickUp();
@@ -71,6 +75,8 @@ public class BlockGroup
 
         Vector3 delta = targetPos - blockPos;
         Root.position += delta;
+        
+        UpdateGhostTransform();
     }
 
     public void Drop(float y)
@@ -87,6 +93,7 @@ public class BlockGroup
         }
         
         SyncRootToGrid();
+        DestroyGhost();
     }
     
     private BlockControler FindClosestBlock(Vector3 offset)
@@ -136,39 +143,51 @@ public class BlockGroup
     // Ghost
     // ------------------------
 
-    public void CreateGhost(Material material)
+    public void CreateGhost(ObjectPool<GhostBlock> pool)
     {
         if (_ghostRoot != null) return;
 
-        _ghostRoot = new GameObject($"GhostBlock_{Type}").transform;
+        _ghostPool = pool;
+        _ghostRoot = new GameObject("GhostRoot").transform;
         _ghostBlocks = new List<GhostBlock>();
 
         foreach (var block in _blocks)
         {
-            var ghost = new GhostBlock(
-                block.View,
-                _ghostRoot,
-                material);
-            
+            var ghost = _ghostPool.Get();
+            ghost.transform.SetParent(_ghostRoot, false);
             _ghostBlocks.Add(ghost);
         }
 
         UpdateGhostTransform();
     }
-
-
+    
     public void UpdateGhostTransform()
     {
-        if (_ghostRoot == null) return;
+        if(_ghostRoot == null || _ghostBlocks == null) return;
         
-        Vector2Int ghostPivot = WorldToGrid(Root.position);
-        
-        _ghostRoot.position = new Vector3(ghostPivot.x, 0f, ghostPivot.y);
+        Vector2Int grid = WorldToGrid(Root.position);
+        _ghostRoot.position = new Vector3(grid.x, 0f, grid.y);
 
-        for (int i = 0; i < _ghostBlocks.Count; i++) {
-            Vector3 local = new Vector3(_blocks[i].LocalOffset.x, 0f, _blocks[i].LocalOffset.y);
-            _ghostBlocks[i].Transform.localPosition = local;
+        for (int i = 0; i < _ghostBlocks.Count; i++)
+        {
+            _ghostBlocks[i].transform.localPosition =
+                new Vector3(
+                    _blocks[i].LocalOffset.x,
+                    0f,
+                    _blocks[i].LocalOffset.y
+                );
         }
+    }
+
+    private void DestroyGhost()
+    {
+        foreach (var ghost in _ghostBlocks)
+            ghost.OnDespawn();
+        
+        GameObject.Destroy(_ghostRoot.gameObject);
+
+        _ghostRoot = null;
+        _ghostBlocks = null;
     }
     
     // ------------------------

@@ -2,28 +2,24 @@
 
 public class GhostBlock : MonoBehaviour, IPoolable
 {
-    private Renderer _renderer;
+    [SerializeField] private Renderer _renderer;
+
     private MaterialPropertyBlock _mpb;
+    private static readonly int BaseColorId =
+        Shader.PropertyToID("_BaseColor"); // Built-in이면 "_Color"
 
     private void Awake()
     {
-        _renderer = GetComponentInChildren<Renderer>();
         _mpb = new MaterialPropertyBlock();
     }
-
-    public void SetColor(Color color)
-    {
-        _mpb.SetColor("_BaseColor", color);
-        _renderer.SetPropertyBlock(_mpb);
-    }
-
+    
     // IPoolable
     public void OnSpawn()
     {
         gameObject.SetActive(true);
     }
 
-    public void OnRelease()
+    public void OnDespawn()
     {
         gameObject.SetActive(false);
     }

@@ -57,10 +57,10 @@ public class BlockSpawner : MonoBehaviour
     // 테스트 코드
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnRandom();
-        }*/
+        }
     }
 
     private void OnTriggerEnter(Collider other)
