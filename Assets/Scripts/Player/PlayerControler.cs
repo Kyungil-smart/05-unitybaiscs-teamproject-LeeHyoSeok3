@@ -72,12 +72,15 @@ public class PlayerControler : MonoBehaviour
         if (_input.Interact())
         {
             if(_interaction.HoldingGroup == null)
-                _interaction.PickUp();
+                _interaction.PickUpBlock();
             else
             {
-                _interaction.Drop();
+                _interaction.DropBlock();
             }
         }
+        
+        if(_input.RotateInput != null && _interaction.HoldingGroup != null)
+            _interaction.RotateBlock(_input.RotateInput);
     }
 
     public void SetState(PlayerState state)

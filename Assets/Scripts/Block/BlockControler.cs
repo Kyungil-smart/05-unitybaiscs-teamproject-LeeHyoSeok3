@@ -76,24 +76,33 @@ public class BlockControler
     }
 
     // ------------------------
-    // Falling / Ground
+    // Pickup Drop
     // ------------------------
 
-    // public void FallTo(Vector2Int targetGrid, float fallSpeed)
-    // {
-    //     GridPosition = targetGrid;
-    //
-    //     YPosition -= fallSpeed * Time.deltaTime;
-    //     SyncWorldPosition();
-    // }
-    //
-    // public void GroundAt(Vector2Int targetGrid)
-    // {
-    //     GridPosition = targetGrid;
-    //     YPosition = 0f;
-    //     SyncWorldPosition();
-    // }
+    public void PickUp()
+    {
+        View.DisableCollision();
+        SetState(BlockState.Held);
+    }
 
+    public void Drop()
+    {
+        View.EnableCollision();
+        SetState(BlockState.Landed);
+    }
+    
+    
+    // ------------------------
+    // Pickup Drop
+    // ------------------------
+
+    public void RotateLocalOffset(bool clockwise)
+    {
+        LocalOffset = clockwise ?
+            new Vector2Int(LocalOffset.y, -LocalOffset.x) :
+            new Vector2Int(-LocalOffset.y, LocalOffset.x);
+    }
+    
     // ------------------------
     // Pool
     // ------------------------

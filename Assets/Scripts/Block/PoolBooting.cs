@@ -17,17 +17,17 @@ public class PoolBooting : MonoBehaviour
     [SerializeField] private BlockPoolEntry[] _pool;
     
    
-    // private void Start()
-    // {
-    //     foreach (var ety in _pool) {
-    //         PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
-    //     }
-    // }
-
-    private void Awake()
+    private void Start()
     {
         foreach (var ety in _pool) {
             PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
         }
     }
+
+    // private void Awake()
+    // {
+    //     foreach (var ety in _pool) {
+    //         PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
+    //     }
+    // }
 }
