@@ -19,7 +19,6 @@ public class BlockBuster : MonoBehaviour
     }
     void NullAct(GridUpdateEvent evt)
     {
-        Debug.Log("그리드 업데이트 이벤트 수신");
         ClearLineAction();
     }
 
@@ -59,7 +58,6 @@ public class BlockBuster : MonoBehaviour
                 grid.GetComponent<OnBlockInteract>().ClearBlock();
             }
         }
-        Debug.Log("라인 클리어 실행");
     }
    
 }
