@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class CangenerateBolockList : MonoBehaviour
 {
     
+    public List<GridTile> Grids;
     public List<Vector2Int> JUpList;
     public List<Vector2Int> JRightList;
     public List<Vector2Int> JDownList;
@@ -39,7 +41,7 @@ public class CangenerateBolockList : MonoBehaviour
     public List<Vector2Int> IRightList;
     public List<Vector2Int> IDownList;
     public List<Vector2Int> ILeftList;
-    public List<Vector2Int> ObList;
+    public List<GridTile> ObList;
 
     void Awake()
     {
@@ -71,6 +73,32 @@ public class CangenerateBolockList : MonoBehaviour
     IRightList = new List<Vector2Int>();
     IDownList = new List<Vector2Int>();
     ILeftList = new List<Vector2Int>();
+    ObList = new List<GridTile>(Grids.Count);
+    GetNonBlockList();
     
+    }
+
+    void OnEnable()
+    {
+        GameEventBus.Subscribe<GridUpdateEvent>(CheckAll);
+    }
+    void OnDisable()
+    {
+        GameEventBus.Unsubscribe<GridUpdateEvent>(CheckAll);
+    }
+    void CheckAll(GridUpdateEvent evt)
+    {
+        GetNonBlockList();
+    }
+    void GetNonBlockList()
+    {
+        ObList.Clear();
+        foreach(GridTile grid in Grids)
+        {
+            if(!grid._blockOn)
+            {
+                ObList.Add(grid);
+            }
+        }
     }
 }

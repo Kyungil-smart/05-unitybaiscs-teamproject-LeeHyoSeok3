@@ -132,16 +132,28 @@ public class BlockSpawner : MonoBehaviour
     {
         BlockPoolType obstacle = BlockPoolType.Rock1; // 방해물 pool 타입 
         BlockType type = BlockType.Ob; // 방해물 타입 [0,0]
+        List<GridTile> Grid = new List<GridTile>(howmany);
+
+        if(_cangeneratelist.ObList.Count < howmany) // 빈 자리보다 생성 블럭이 많을 때 처리
+        {
+            howmany = _cangeneratelist.ObList.Count;
+        }
 
         for(int i = 0; i < howmany; i++) // 요청한 수 만큼 반복
         {
             // 좌표 탐색
-            List<Vector2Int> Grid = new List<Vector2Int>(howmany);
+            
             // _cangeneratelist.ObList 에서 좌표 받아오기
+            int index = Random.Range(0,_cangeneratelist.ObList.Count);
+            while(!Grid.Contains(_cangeneratelist.ObList[index]))
+            {
+                index = Random.Range(0,_cangeneratelist.ObList.Count);
+            }
+            Grid.Add(_cangeneratelist.ObList[index]);
 
 
             // 생성
-            _factory.Create(type, obstacle, Grid[i]);
+            _factory.Create(type, obstacle, new Vector2Int((int)Grid[i].transform.position.x, (int)Grid[i].transform.position.z));
         }
     }
 
