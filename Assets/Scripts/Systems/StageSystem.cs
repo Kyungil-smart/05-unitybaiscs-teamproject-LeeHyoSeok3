@@ -22,6 +22,8 @@ public class StageSystem
 
     public BlockSpawner blockSpawner;
     private CooldownTimer _timer;
+    private CooldownTimer _obstacletimer;
+    private float obstacleSpawnTime;
 
     public void Subscribe()
     {
@@ -79,6 +81,12 @@ public class StageSystem
         {
             blockSpawner = GameObject.FindObjectOfType<BlockSpawner>();
             return;
+        }
+
+        obstacleSpawnTime += Random.Range(0.01f, 0.02f);
+
+        if (_obstacletimer.IsReady(obstacleSpawnTime))
+        {
         }
 
         if (_timer.IsReady(Time.time))
