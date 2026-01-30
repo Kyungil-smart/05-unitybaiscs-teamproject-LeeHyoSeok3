@@ -13,6 +13,9 @@ public class BlockGroup
     private Vector3 _holdOffset;
     private bool _isHeld;
 
+    private Transform _ghostRoot;
+    private List<GhostBlock> _ghostBlocks;
+
     public BlockGroup(
         BlockType type,
         Vector2Int pivotGrid,
@@ -43,6 +46,8 @@ public class BlockGroup
         _followTarget = holdPoint;
         _isHeld = true;
         
+        CreateGhost();
+            
         foreach (var block in  _blocks)
             block.PickUp();
     }
@@ -110,16 +115,6 @@ public class BlockGroup
 
     public void Rotate(bool clockwise)
     {
-        // foreach (var block in _blocks)
-        //     block.RotateLocalOffset(clockwise);
-        //
-        // foreach (var block in _blocks)
-        //     block.SetGridPosition(
-        //         PivotGrid + block.LocalOffset,
-        //         block.View.transform.position.y
-        //     );
-        //
-        // Debug.Log($"Pivot: {PivotGrid}, Root: {Root.position}");
         foreach (var block in _blocks)
         {
             block.RotateLocalOffset(clockwise);
@@ -137,6 +132,45 @@ public class BlockGroup
     }
     
 
+    // ------------------------
+    // Ghost
+    // ------------------------
+
+    public void CreateGhost(Material material)
+    {
+        if (_ghostRoot != null) return;
+
+        _ghostRoot = new GameObject($"GhostBlock_{Type}").transform;
+        _ghostBlocks = new List<GhostBlock>();
+
+        foreach (var block in _blocks)
+        {
+            var ghost = new GhostBlock(
+                block.View,
+                _ghostRoot,
+                material);
+            
+            _ghostBlocks.Add(ghost);
+        }
+
+        UpdateGhostTransform();
+    }
+
+
+    public void UpdateGhostTransform()
+    {
+        if (_ghostRoot == null) return;
+        
+        Vector2Int ghostPivot = WorldToGrid(Root.position);
+        
+        _ghostRoot.position = new Vector3(ghostPivot.x, 0f, ghostPivot.y);
+
+        for (int i = 0; i < _ghostBlocks.Count; i++) {
+            Vector3 local = new Vector3(_blocks[i].LocalOffset.x, 0f, _blocks[i].LocalOffset.y);
+            _ghostBlocks[i].Transform.localPosition = local;
+        }
+    }
+    
     // ------------------------
     // Utilities
     // ------------------------

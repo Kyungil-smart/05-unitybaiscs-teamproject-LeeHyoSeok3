@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class BlockSpawner : MonoBehaviour
@@ -22,15 +23,34 @@ public class BlockSpawner : MonoBehaviour
         public BlockView prefab;
         public int poolsize;
     }
+    
+    [Serializable]
+    public struct GhostPoolEntry
+    {
+        public BlockPoolType poolType;
+        public GhostBlock prefab;
+        public int poolsize;
+    }
 
-    [SerializeField] private BlockPoolEntry[] _pool;
+    [SerializeField] private BlockPoolEntry[] _blockPools;
+    [SerializeField]private GhostPoolEntry[] _ghostPools;
     
     private void Start()
     {
-        foreach (var ety in _pool) {
-            PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
-        }
-        
+        foreach (var e in _blockPools)
+            PoolManager.Instance.CreatePool(
+                (int)e.poolType,
+                e.prefab,
+                e.poolsize
+            );
+
+        foreach (var e in _ghostPools)
+            PoolManager.Instance.CreatePool(
+                (int)e.poolType,
+                e.prefab,
+                e.poolsize
+            );
+
         _factory = new BlockFactory(blockSize);
     }
 

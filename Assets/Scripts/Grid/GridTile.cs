@@ -51,7 +51,7 @@ public class GridTile : MonoBehaviour
     {
         for(int i = 0; i < shape.Length; i++)
         {
-            if(!CanSetTargetBlock(shape[i]))
+            if(CanSetTargetBlock(shape[i]))
                 return false;
         }
         return true;
