@@ -23,6 +23,11 @@ public class PlayerControler : MonoBehaviour
 
     private void Update()
     {
+        if (State == PlayerState.Dead)
+        {
+            _movement.SetMoveDirection(Vector3.zero);
+            return;
+        }
         HandleState();
         HandleMovement();
         HandleAnimation();

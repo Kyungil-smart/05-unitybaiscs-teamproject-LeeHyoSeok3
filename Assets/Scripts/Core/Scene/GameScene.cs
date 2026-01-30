@@ -141,6 +141,15 @@ public class GameScene : MonoBehaviour
 
     private void GameOver()
     {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private IEnumerator GameOverRoutine()
+    {
+        PlayerCollision.GetComponent<PlayerAnimator>().PlayerDeath();
+
+        yield return new WaitForSeconds(4f);
+
         _darkOverlay.gameObject.SetActive(true);
         _retrunTitle.gameObject.SetActive(true);
         _gameOverState.gameObject.SetActive(true);
