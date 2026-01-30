@@ -1,14 +1,31 @@
 ﻿using UnityEngine;
 
-public class GhostBlock
+public class GhostBlock : MonoBehaviour, IPoolable
 {
-    public Transform Transform { get; private set; }
+    private Renderer _renderer;
+    private MaterialPropertyBlock _mpb;
 
-    public GhostBlock(BlockView orighin, Transform parent, Material material)
+    private void Awake()
     {
-        Transform = Object.Instantiate(orighin.gameObject, parent).transform;
-        var rednerer = Transform.GetComponentInChildren<Renderer>();
-        rednerer.material = material;
+        _renderer = GetComponentInChildren<Renderer>();
+        _mpb = new MaterialPropertyBlock();
+    }
+
+    public void SetColor(Color color)
+    {
+        _mpb.SetColor("_BaseColor", color);
+        _renderer.SetPropertyBlock(_mpb);
+    }
+
+    // IPoolable
+    public void OnSpawn()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void OnRelease()
+    {
+        gameObject.SetActive(false);
     }
     
 }
