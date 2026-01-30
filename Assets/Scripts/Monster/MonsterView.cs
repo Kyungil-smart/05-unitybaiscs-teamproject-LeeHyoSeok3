@@ -8,21 +8,23 @@ public class MonsterView : MonoBehaviour, IPoolable
     public MonsterController Controller { get; private set; }
 
     // 플레이어 좌표
-    public Transform PlayerPos { get; private set; }
+    [SerializeField] public Transform PlayerPos { get; private set; }
 
     // 그리드
     private GridTile[] Tiles;
+    private GridTile[,] gridTiles;
 
     public void Initialize(MonsterController controller)
     {
         Controller = controller;
-        Tiles = GameObject.Find("Grid").GetComponents<GridTile>();
+        SetGridTile();
+        Controller._movement._rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
         // 플레이어 좌표가져오기
-        PlayerPos = GameObject.Find("Player").transform;
+        
     }
 
     private void Update()
@@ -36,6 +38,8 @@ public class MonsterView : MonoBehaviour, IPoolable
     private void FixedUpdate()
     {
         // A* 알고리즘으로 플레이어 추적
+        SetGridTile();
+        PlayerPos = GameObject.Find("Player").transform;
         Controller.ChasePlayer(transform.position, PlayerPos.position);
     }
 
@@ -50,5 +54,33 @@ public class MonsterView : MonoBehaviour, IPoolable
     }
 
     public void SetWorldPos(Vector3 pos) => transform.position = pos;
+
+    private void SetGridTile()
+    {
+        Tiles = GameObject.Find("Grid").GetComponentsInChildren<GridTile>();
+        ConvertTileArray();
+        Controller._movement.GridTiles = gridTiles;
+        Controller._movement.NullTile = GameObject.Find("boolBox").GetComponent<GridTile>();
+        Controller._movement._rb = GetComponent<Rigidbody>();
+    }
+
+    private void ConvertTileArray()
+    {
+        int i = 0;
+
+        while (!(Mathf.Pow(i, 2) == Tiles.Length-1))
+            i++;
+
+        gridTiles = new GridTile[i, i];
+
+        foreach (GridTile tile in Tiles)
+        {
+            if (tile != GameObject.Find("boolBox").GetComponent<GridTile>())
+            {
+                gridTiles[(int)tile.transform.position.z,
+                (int)tile.transform.position.x] = tile;
+            }
+        }
+    }
 
 }
