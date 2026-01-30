@@ -11,7 +11,7 @@ public class CooldownTimer
     public CooldownTimer(float cooldown)
     {
         _cooldown = cooldown;
-        _lastTime = -cooldown;
+        _lastTime = Time.time;
     }
 
     public void Pause()
