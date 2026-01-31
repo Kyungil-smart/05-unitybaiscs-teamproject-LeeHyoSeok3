@@ -1823,6 +1823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &58681761
@@ -2975,6 +2976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &107347945
@@ -7348,7 +7350,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 628667626}
         m_TargetAssemblyTypeName: GameScene, Assembly-CSharp
-        m_MethodName: AreYouSure2
+        m_MethodName: AreYouSure
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11783,6 +11785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &758539816
@@ -12863,6 +12866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &842516023
@@ -14636,6 +14640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &979857301
@@ -15178,6 +15183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1022863897
@@ -15616,6 +15622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1054304530
@@ -15820,6 +15827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1065790238
@@ -18027,6 +18035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1211326786
@@ -20632,6 +20641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1386603510
@@ -26324,6 +26334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1749720730
@@ -27633,6 +27644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1804738419
@@ -28296,6 +28308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1827605804
@@ -30094,6 +30107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1938452264
@@ -30215,6 +30229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1976857597
@@ -32485,6 +32500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &2130762108

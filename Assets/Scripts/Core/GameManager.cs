@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        StageSystem.BlockSpawn();
         ScoreSystem.Test();
     }
 
@@ -58,16 +59,24 @@ public class GameManager : MonoBehaviour
    
     public void StartGame()
     {
-       StateMachine.ChangeState(new PlayingState(StateMachine));
+       StateMachine.ChangeState(new StartingState(StateMachine));
+       StageSystem.StopStage();
     }
 
+    public void PlayGame()
+    {
+        StateMachine.ChangeState(new PlayingState(StateMachine));
+        StageSystem.StartStage();
+    }
     public void PauseGame()
     {
-       StateMachine.ChangeState(new PausedState(StateMachine));
+        StateMachine.ChangeState(new PausedState(StateMachine));
+        StageSystem.StopStage();
     }
 
     public void GameOver()
     {
-       StateMachine.ChangeState(new GameOverState(StateMachine));
+        StateMachine.ChangeState(new GameOverState(StateMachine));
+        StageSystem.StopStage();
     }
 }
