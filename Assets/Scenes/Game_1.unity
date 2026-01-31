@@ -32182,7 +32182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockSize: 1
   fallSpeed: 10
-  dropY: 8
+  dropY: 6
   _cangeneratelist: {fileID: 1090849836}
   _blockPools:
   - poolType: 0
