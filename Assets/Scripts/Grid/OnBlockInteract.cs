@@ -17,13 +17,13 @@ public class OnBlockInteract : MonoBehaviour
     {
         if(_onBlock != null && IsNeedClear)
         {
-            // Å¬¸®¾îÇÒ ¶óÀÎ¿¡ ÀÖ´Â ºí·ÏµéÀ» Àá±İ »óÅÂ·Î º¯°æÇÏ±â À§ÇÑ ºí·Ï ±×·ì ÂüÁ¶
+            // Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½ï¿½ï¿½ï¿½
             BlockGroup RemainBlocksGroup = _onBlock.Controler.Group;
             foreach(var block in RemainBlocksGroup.GetBlockList())
             {
                 block.SetState(BlockState.Locked);
             }
-            // ±âÁ¸ »èÁ¦ ·ÎÁ÷
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             _onBlock.Controler.Release();
             _onBlock = null;
             IsNeedClear = false;
@@ -31,9 +31,35 @@ public class OnBlockInteract : MonoBehaviour
         }
     }
     
-    // »èÁ¦ÇÒ ºí·Ï ±×·ìÀ» ÂüÁ¶ÇÏ±â À§ÇÑ ºí·Ï ºä ¹İÈ¯ ¸Ş¼­µå
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Ş¼ï¿½ï¿½ï¿½
     public BlockView GetBlockView()
     {
         return _onBlock;
+    }
+
+    void BlockStateCheck()
+    {
+        if(_onBlock.Controler.State == BlockState.Held)
+        {
+            gameObject.GetComponent<GridTile>()._blockOn = false;
+            _onBlock = null;
+        }
+        // í—¬ë“œ ì´ë²¤íŠ¸ ë•Œ ë¸”ëŸ­ ìƒíƒœê°€ í—¬ë“œì´ë©´ ì •ë³´ ê°±ì‹ 
+    }
+    void Nullact (HeldEvent evt)
+    {
+        if(_onBlock != null)
+        {
+            BlockStateCheck();
+        }
+    }
+
+    void OnEnable()
+    {
+        GameEventBus.Subscribe<HeldEvent>(Nullact);
+    }
+    void OnDisable()
+    {
+        GameEventBus.Unsubscribe<HeldEvent>(Nullact);
     }
 }
