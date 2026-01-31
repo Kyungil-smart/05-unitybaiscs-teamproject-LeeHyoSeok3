@@ -119,13 +119,13 @@ public class StageSystem
             _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
             _lastSpawnTime = Time.time;
         }
-
+/*
         if (_monstertimer.IsReady(Time.time))
         {
             MonsterSpawner.SpawnMonster(1);
             _monstertimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
             _lastSpawnTime = Time.time;
-        }
+        }*/
     }
 
 }

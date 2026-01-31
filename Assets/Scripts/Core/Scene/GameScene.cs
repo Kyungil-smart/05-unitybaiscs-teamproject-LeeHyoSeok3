@@ -214,7 +214,11 @@ public class GameScene : MonoBehaviour
         removeSPSet.SetActive(false);
         yield return StartCoroutine(MoveCamera(mainCamera.transform, thirdCameraMove.transform.position, thirdCameraMove.transform.rotation, moveDuration));
         yield return StartCoroutine(MoveCamera(mainCamera.transform, fourthCameraMove.transform.position, fourthCameraMove.transform.rotation, moveDuration));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        var currentSceneType = (SceneType)SceneManager.GetActiveScene().buildIndex;
+        var nextSceneType = (SceneType)((int)currentSceneType + 1);
+
+        GameEventBus.Raise(new LoadSceneRequestedEvent(nextSceneType));
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private IEnumerator MoveCamera(Transform cam, Vector3 targetPos, Quaternion targetRot, float duration)
