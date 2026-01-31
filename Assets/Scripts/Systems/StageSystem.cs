@@ -29,11 +29,13 @@ public class StageSystem
     public void Subscribe()
     {
         GameEventBus.Subscribe<StageClearedEvent>(OnStageCleared);
+        GameEventBus.Subscribe<LoadSceneRequestedEvent>(DestroyPools);
     }
 
     public void Unsubscribe()
     {
         GameEventBus.Unsubscribe<StageClearedEvent>(OnStageCleared);
+        GameEventBus.Unsubscribe<LoadSceneRequestedEvent>(DestroyPools);
     }
 
     public void StartStage()
@@ -77,6 +79,9 @@ public class StageSystem
 
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
     }
+
+    public void DestroyPools(LoadSceneRequestedEvent evt) => PoolManager.Instance.DestroyAllPools();
+        
 
     public void InitializationStage()
     {

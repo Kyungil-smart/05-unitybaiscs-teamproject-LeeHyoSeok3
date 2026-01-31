@@ -8,7 +8,7 @@ public class GridTile : MonoBehaviour
 {
     // 자신 블록 정보
     public bool _blockOn;
-    public Vector2Int GridPos { get; private set; 
+    public Vector2Int GridPos { get; private set; }
     public int _g;
     public int _h;
     public int _f;

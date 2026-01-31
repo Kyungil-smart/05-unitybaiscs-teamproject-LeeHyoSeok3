@@ -63,14 +63,6 @@ public class BlockSpawner : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (_current == null) return;
-
-        Debug.Log("OnTriggerEnter");
-        
-    }
-
     public void SpawnRandom()
     {
         BlockType type = (BlockType)Random.Range(0, 7);

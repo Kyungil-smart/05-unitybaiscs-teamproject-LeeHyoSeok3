@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class ObjectPool<T> where T : Component, IPoolable
 {
     private readonly Stack<T> _pool = new Stack<T>();
+    private readonly List<T> _allObjects = new List<T>();
     private readonly T _prefab;
     private readonly Transform _parent;
 
@@ -22,6 +24,7 @@ public class ObjectPool<T> where T : Component, IPoolable
         var obj = Object.Instantiate(_prefab, _parent);
         obj.gameObject.SetActive(false);
         _pool.Push(obj);
+        _allObjects.Add(obj);
     }
 
     public T Get()
@@ -40,5 +43,16 @@ public class ObjectPool<T> where T : Component, IPoolable
         obj.OnDespawn();
         obj.gameObject.SetActive(false);
         _pool.Push(obj);
+    }
+
+    public void Clear()
+    {
+        foreach (var obj in _allObjects)
+        {
+            if(obj != null)
+                    Object.Destroy(obj.gameObject);
+        }
+        _pool.Clear();
+        _allObjects.Clear();
     }
 }
