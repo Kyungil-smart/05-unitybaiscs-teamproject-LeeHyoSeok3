@@ -123,8 +123,6 @@ public class GameScene : MonoBehaviour
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
         GameManager.Instance.PlayGame();
-        StageSystem.Instance.StartStage();
-        
     }
     void ResumeGame()
     {
@@ -201,6 +199,7 @@ public class GameScene : MonoBehaviour
 
     private IEnumerator CameraMoveThenStartGame()
     {
+        GameManager.Instance.StartGame();
         yield return StartCoroutine(MoveCamera(mainCamera.transform, firstCameraMove.transform.position, firstCameraMove.transform.rotation, moveDuration));
         yield return StartCoroutine(MoveCamera(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation, moveDuration));
         ReadyState();
