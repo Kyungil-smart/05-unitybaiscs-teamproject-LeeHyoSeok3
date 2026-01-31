@@ -31,9 +31,4 @@ public class OnBlockInteract : MonoBehaviour
         }
     }
     
-    // 삭제할 블록 그룹을 참조하기 위한 블록 뷰 반환 메서드
-    public BlockView GetBlockView()
-    {
-        return _onBlock;
-    }
 }

@@ -17,7 +17,6 @@ public class BlockControler
     public BlockControler(
         BlockView view,
         Vector2Int gridPosition,
-        float dropY,
         float blockSize,
         BlockPoolType poolType)
     {
@@ -27,7 +26,7 @@ public class BlockControler
 
         State = BlockState.Spawn;
 
-        SetGridPosition(gridPosition, dropY);
+        SetGridPosition(gridPosition, 3f);
         LocalOffset = gridPosition;
     }
 
@@ -111,7 +110,6 @@ public class BlockControler
     public void Release()
     {
         SetState(BlockState.Release);
-        Debug.Log($"Release Block State : {State}");
         PoolManager.Instance
             .GetPool<BlockView>((int)_poolType)
             .Release(View);

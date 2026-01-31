@@ -213,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &36832525
@@ -462,7 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &86987400
@@ -2790,6 +2788,78 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437930203}
   m_Mesh: {fileID: 4300048, guid: a8a331381b0964540861396e52de1693, type: 3}
+--- !u!1 &482951227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 482951229}
+  - component: {fileID: 482951230}
+  m_Layer: 0
+  m_Name: BlockSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &482951229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482951227}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7271712, y: -6.0334625, z: 14.410379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &482951230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482951227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b992d9fd934d4d3380d507754b280390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockSize: 1
+  fallSpeed: 2
+  _cangeneratelist: {fileID: 1343822176}
+  _pool:
+  - poolType: 0
+    prefab: {fileID: -989447760027933460, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
+    poolsize: 50
+  - poolType: 1
+    prefab: {fileID: 4417234801419838253, guid: dd9b36a2500ad2a4ca9ef20944499097, type: 3}
+    poolsize: 50
+  - poolType: 2
+    prefab: {fileID: 5791683627932484040, guid: 268db9f85bc29724aaebf3171dd23a53, type: 3}
+    poolsize: 50
+  - poolType: 3
+    prefab: {fileID: 7851918191166399781, guid: 46e63d4ec54c8024794ee6c2d7814267, type: 3}
+    poolsize: 50
+  - poolType: 4
+    prefab: {fileID: 4145610320027274048, guid: 8e596fe266221f84cae12d9c5cd34ee5, type: 3}
+    poolsize: 50
+  - poolType: 5
+    prefab: {fileID: 604663684128487078, guid: d59c7ba21e5d5714988b7f7922a4375a, type: 3}
+    poolsize: 50
+  - poolType: 6
+    prefab: {fileID: -3349672205638674318, guid: 2ceefe17950fedc499eef9c043d7a83d, type: 3}
+    poolsize: 50
+  - poolType: 7
+    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
+    poolsize: 40
 --- !u!1 &489591418
 GameObject:
   m_ObjectHideFlags: 0
@@ -3310,7 +3380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &708508709
@@ -3515,7 +3584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &725175998
@@ -3729,7 +3797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &751100177
@@ -4146,7 +4213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &833773413
@@ -4484,78 +4550,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849246915}
   m_Mesh: {fileID: 4300040, guid: a8a331381b0964540861396e52de1693, type: 3}
---- !u!1 &908329446
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 908329448}
-  - component: {fileID: 908329447}
-  m_Layer: 0
-  m_Name: BlockSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &908329447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908329446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b992d9fd934d4d3380d507754b280390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockSize: 1
-  fallSpeed: 2
-  _cangeneratelist: {fileID: 1343822176}
-  _pool:
-  - poolType: 0
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 1
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 2
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 3
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 4
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 5
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 6
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 7
-    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
-    poolsize: 50
---- !u!4 &908329448
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908329446}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: -4.951468, z: 1.5099468}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &917893284
 GameObject:
   m_ObjectHideFlags: 0
@@ -4721,7 +4715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1011209356
@@ -4970,7 +4963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1034068125
@@ -6026,7 +6018,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1376168964
@@ -6371,7 +6362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1537836235
@@ -7019,7 +7009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1671418711
@@ -7257,7 +7246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1740384414
@@ -7949,7 +7937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1825574128
@@ -8273,7 +8260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1900569830
@@ -8536,7 +8522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &1934577003
@@ -8941,7 +8926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _test: 0
   _destroyEffectPrefab: {fileID: 0}
   scorePopup: {fileID: 0}
 --- !u!64 &2128105003
@@ -9026,7 +9010,7 @@ SceneRoots:
   - {fileID: 1634593485}
   - {fileID: 750409820}
   - {fileID: 1097945801}
-  - {fileID: 908329448}
+  - {fileID: 482951229}
   - {fileID: 15718138}
   - {fileID: 293869605}
   - {fileID: 1607705887}

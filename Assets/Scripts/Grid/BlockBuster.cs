@@ -51,7 +51,7 @@ public class BlockBuster : MonoBehaviour
     
     void LineClear()
     {
-        foreach (LineCheker _l in _check)
+        foreach(LineCheker _l in _check)
         {
             foreach(GridTile grid in _l._tielOnLine)
             {

@@ -16,12 +16,9 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _readyState;
     [SerializeField] private TextMeshProUGUI _pauseState;
     [SerializeField] private TextMeshProUGUI _pauseKey;
-    [SerializeField] private TextMeshProUGUI _gameOverState;
     [SerializeField] private Image _darkOverlay;
     [SerializeField] private Button _retrunTitle;
-    [SerializeField] private Button _retrunTitle2;
     [SerializeField] private GameObject _gameExit;
-    [SerializeField] private GameObject _gameExit2;
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [Header("Camera")]
     [SerializeField] private Camera mainCamera;
@@ -33,7 +30,6 @@ public class GameScene : MonoBehaviour
     [Header("Remove")]
     [SerializeField] private GameObject removeSPSet;
 
-    private PlayerCollision PlayerCollision;
     private int _currentScore;
     private int _currentStage;
     private int _targetScore;
@@ -46,7 +42,6 @@ public class GameScene : MonoBehaviour
     {
         _currentStage = StageSystem.Instance.CurrentStage;
         _targetScore = StageSystem.Instance.StageTargetScore;
-        PlayerCollision = FindObjectOfType<PlayerCollision>();
         StartCoroutine(CameraMoveThenStartGame());
     }
 
@@ -78,12 +73,6 @@ public class GameScene : MonoBehaviour
             }
         }
 
-        if (PlayerCollision._playerDead &&
-            !(GameManager.Instance.StateMachine.CurrnetState is GameOverState))
-        {
-            GameOver();
-        }
-
     }
 
     private void OnDisable()
@@ -107,7 +96,6 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
         _gameExit.gameObject.SetActive(false);
-        _gameOverState.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(true);
         _darkOverlay.gameObject.SetActive(true);
         GameManager.Instance.ReadyState();
@@ -122,7 +110,7 @@ public class GameScene : MonoBehaviour
         _pauseKey.gameObject.SetActive(true);
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
-        GameManager.Instance.PlayGame();
+        GameManager.Instance.StartGame();
         StageSystem.Instance.StartStage();
         
     }
@@ -131,8 +119,7 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
-        _gameExit.gameObject.SetActive(false);
-        GameManager.Instance.PlayGame();
+        GameManager.Instance.StartGame();
     }
 
     public void PauseState()
@@ -144,44 +131,17 @@ public class GameScene : MonoBehaviour
         GameManager.Instance.PauseGame();
     }
 
-    private void GameOver()
-    {
-        StartCoroutine(GameOverRoutine());
-    }
-
-    private IEnumerator GameOverRoutine()
-    {
-        PlayerCollision.GetComponent<PlayerAnimator>().PlayerDeath();
-
-        yield return new WaitForSeconds(4f);
-
-        _darkOverlay.gameObject.SetActive(true);
-        _retrunTitle2.gameObject.SetActive(true);
-        _gameOverState.gameObject.SetActive(true);
-        GameManager.Instance.GameOver();
-    }
-
-    public void GameOverScnen()
-    {
-        _gameExit2.gameObject.SetActive(false);
-        _darkOverlay.gameObject.SetActive(true);
-        _retrunTitle2.gameObject.SetActive(true);
-        _gameOverState.gameObject.SetActive(true);
-        GameManager.Instance.GameOver();
-    }
-
     void TextUpdate()
     {
-        _totalScore.text = $"ëª©í‘œ ì ìˆ˜ : {_targetScore} ì \n" +
-            $"í˜„ì¬ ì ìˆ˜ : {_currentScore} ì ";
-        _readyState.text = $"ê²Œì„ì„ ì‹œì‘í•˜ì‹œë ¤ë©´ [SpaceBar] í‚¤ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”!\n" +
-            $"í˜„ì¬ ìŠ¤í…Œì´ì§€ : {_currentStage} Stage\n" +
-            $"ëª©í‘œ ì ìˆ˜ : {_targetScore} ì ";
+        _totalScore.text = $"¸ñÇ¥ Á¡¼ö : {_targetScore} Á¡\n" +
+            $"ÇöÀç Á¡¼ö : {_currentScore} Á¡";
+        _readyState.text = $"°ÔÀÓÀ» ½ÃÀÛÇÏ½Ã·Á¸é [SpaceBar] Å°¸¦ ´­·¯ÁÖ¼¼¿ä!\n" +
+            $"ÇöÀç ½ºÅ×ÀÌÁö : {_currentStage} Stage\n" +
+            $"¸ñÇ¥ Á¡¼ö : {_targetScore} Á¡";
         _level.text = $"{_currentStage} Stage";
-        _pauseState.text = $"ê²Œì„ì´ ì¼ì‹œì •ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤.\n" +
-            $"ê³„ì†í•˜ì‹œë ¤ë©´ [Esc] í‚¤ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”!";
+        _pauseState.text = $"°ÔÀÓÀÌ ÀÏ½ÃÁ¤Áö µÇ¾ú½À´Ï´Ù.\n" +
+            $"°è¼ÓÇÏ½Ã·Á¸é [Esc] Å°¸¦ ´­·¯ÁÖ¼¼¿ä!";
         _IncreaseScore.text = "+ 100";
-        _gameOverState.text = $"í”Œë ˆì´ì–´ê°€ ì£½ì—ˆìŠµë‹ˆë‹¤. ê²Œì„ ì˜¤ë²„!";
     }
 
     public void ReturnTitle()
@@ -192,11 +152,6 @@ public class GameScene : MonoBehaviour
     public void AreYouSure()
     {
         _gameExit.gameObject.SetActive(true);
-    }
-
-    public void AreYouSure2()
-    {
-        _gameExit2.gameObject.SetActive(true);
     }
 
     private IEnumerator CameraMoveThenStartGame()
@@ -242,7 +197,6 @@ public class GameScene : MonoBehaviour
 
     private void StageCleared(StageClearedEvent evt)
     {
-        GameManager.Instance.StartGame();
         StartCoroutine(CameraMoveThenClearGame());
     }
 }

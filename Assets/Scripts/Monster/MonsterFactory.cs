@@ -5,17 +5,11 @@ using UnityEngine;
 public class MonsterFactory
 {
     // MonsterObj甫 包府且 ObjectPool积己
-    private readonly ObjectPool<MonsterView>[] _monsterPools;
+    private readonly ObjectPool<MonsterView> _monsterPools;
 
     public MonsterFactory()
     {
-        int count = System.Enum.GetValues(typeof(BlockPoolType)).Length;
-        _monsterPools = new ObjectPool<MonsterView>[count];
-
-        for (int i = 0; i < count; i++)
-        {
-            _monsterPools[i] = PoolManager.Instance.GetPool<MonsterView>((int)MonsterPoolType.Scout);
-        }
+        _monsterPools = PoolManager.Instance.GetPool<MonsterView>((int)MonsterPoolType.Scout);
     }
 
     public List<MonsterController> Create(MonsterPoolType poolType, Vector2Int baseGrid)
@@ -23,7 +17,7 @@ public class MonsterFactory
         List<MonsterController> monsters = new(1);
         
         Vector2Int grid = baseGrid;
-        MonsterView view = _monsterPools[(int)poolType].Get();
+        MonsterView view = _monsterPools.Get();
 
         MonsterController monCtr = new MonsterController(view, grid, poolType);
         view.Initialize(monCtr);

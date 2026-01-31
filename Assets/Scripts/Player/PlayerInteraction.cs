@@ -70,7 +70,6 @@ public class PlayerInteraction : MonoBehaviour
             return;
 
         HoldingGroup = LookingGroup;
-        LookingGroup = null;
         HoldingGroup.PickUp(_holdPoint);
         HoldingGroup.SetOutline(Color.blue);
     }
