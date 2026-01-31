@@ -205,6 +205,8 @@ public class BlockGroup
 
         for (int i = 0; i < _ghostBlocks.Count; i++)
         {
+            if(_ghostBlocks[i] == null) continue;
+            
             _ghostBlocks[i].transform.localPosition =
                 new Vector3(
                     _blocks[i].LocalOffset.x,
