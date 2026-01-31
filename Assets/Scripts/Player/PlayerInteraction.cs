@@ -68,7 +68,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void PickUpBlock()
     {
-        if (LookingGroup == null)
+        if(LookingGroup == null || !(LookingGroup.IsInteract()))
             return;
 
         HoldingGroup = LookingGroup;
