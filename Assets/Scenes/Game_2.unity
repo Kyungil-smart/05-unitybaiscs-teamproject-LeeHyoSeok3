@@ -1200,78 +1200,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 26486047}
   m_Mesh: {fileID: 4300000, guid: 6d51a84963428cf4b9aaabea531eb90f, type: 3}
---- !u!1 &28582629
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 28582631}
-  - component: {fileID: 28582630}
-  m_Layer: 0
-  m_Name: BlockSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &28582630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28582629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b992d9fd934d4d3380d507754b280390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockSize: 1
-  fallSpeed: 2
-  _cangeneratelist: {fileID: 2493005791245958576}
-  _pool:
-  - poolType: 0
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 1
-    prefab: {fileID: 4417234801419838253, guid: dd9b36a2500ad2a4ca9ef20944499097, type: 3}
-    poolsize: 50
-  - poolType: 2
-    prefab: {fileID: 5791683627932484040, guid: 268db9f85bc29724aaebf3171dd23a53, type: 3}
-    poolsize: 50
-  - poolType: 3
-    prefab: {fileID: 7851918191166399781, guid: 46e63d4ec54c8024794ee6c2d7814267, type: 3}
-    poolsize: 50
-  - poolType: 4
-    prefab: {fileID: 4145610320027274048, guid: 8e596fe266221f84cae12d9c5cd34ee5, type: 3}
-    poolsize: 50
-  - poolType: 5
-    prefab: {fileID: 604663684128487078, guid: d59c7ba21e5d5714988b7f7922a4375a, type: 3}
-    poolsize: 50
-  - poolType: 6
-    prefab: {fileID: -3349672205638674318, guid: 2ceefe17950fedc499eef9c043d7a83d, type: 3}
-    poolsize: 50
-  - poolType: 7
-    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
-    poolsize: 50
---- !u!4 &28582631
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28582629}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: -4.951468, z: 1.5099468}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &30956301
 GameObject:
   m_ObjectHideFlags: 0
@@ -30403,6 +30331,104 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 954574880531430895}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1021207635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1021207637}
+  - component: {fileID: 1021207636}
+  m_Layer: 0
+  m_Name: BlockSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1021207636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021207635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b992d9fd934d4d3380d507754b280390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockSize: 1
+  fallSpeed: 10
+  dropY: 0
+  _cangeneratelist: {fileID: 0}
+  _blockPools:
+  - poolType: 0
+    prefab: {fileID: -989447760027933460, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
+    poolsize: 50
+  - poolType: 1
+    prefab: {fileID: 4417234801419838253, guid: dd9b36a2500ad2a4ca9ef20944499097, type: 3}
+    poolsize: 50
+  - poolType: 2
+    prefab: {fileID: 5791683627932484040, guid: 268db9f85bc29724aaebf3171dd23a53, type: 3}
+    poolsize: 50
+  - poolType: 3
+    prefab: {fileID: 7851918191166399781, guid: 46e63d4ec54c8024794ee6c2d7814267, type: 3}
+    poolsize: 50
+  - poolType: 4
+    prefab: {fileID: 4145610320027274048, guid: 8e596fe266221f84cae12d9c5cd34ee5, type: 3}
+    poolsize: 50
+  - poolType: 5
+    prefab: {fileID: 604663684128487078, guid: d59c7ba21e5d5714988b7f7922a4375a, type: 3}
+    poolsize: 50
+  - poolType: 6
+    prefab: {fileID: -3349672205638674318, guid: 2ceefe17950fedc499eef9c043d7a83d, type: 3}
+    poolsize: 50
+  - poolType: 7
+    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
+    poolsize: 50
+  _ghostPools:
+  - poolType: 0
+    prefab: {fileID: 5515351650742024876, guid: 0208d4136450beb4095fda030c79ff38, type: 3}
+    poolsize: 4
+  - poolType: 1
+    prefab: {fileID: -1812472611245796984, guid: f0608d2f0d2cb1a4a8a6673e771af230, type: 3}
+    poolsize: 4
+  - poolType: 2
+    prefab: {fileID: 3079017102735207163, guid: 57328a75d51459b46ba26de4cc975f78, type: 3}
+    poolsize: 4
+  - poolType: 3
+    prefab: {fileID: 176515696658074544, guid: 4566a599df607434cbb835a7e789aeca, type: 3}
+    poolsize: 4
+  - poolType: 4
+    prefab: {fileID: -8189909780641893473, guid: 25e0c549195178a4bb8d0a818309a037, type: 3}
+    poolsize: 4
+  - poolType: 5
+    prefab: {fileID: -3716490952735109789, guid: 204cdde7499a1194db50a3ea9767ef53, type: 3}
+    poolsize: 4
+  - poolType: 6
+    prefab: {fileID: 7539291566098804578, guid: 0d74c61e02e4f0746b344487becb709e, type: 3}
+    poolsize: 4
+  - poolType: 7
+    prefab: {fileID: -3307951409778426192, guid: d0f5239361a410141999b0851492713b, type: 3}
+    poolsize: 50
+--- !u!4 &1021207637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021207635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7271712, y: -6.0334625, z: 14.410379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1023183652
 GameObject:
@@ -86168,4 +86194,4 @@ SceneRoots:
   - {fileID: 393676789}
   - {fileID: 954574880531430895}
   - {fileID: 2074175361}
-  - {fileID: 28582631}
+  - {fileID: 1021207637}

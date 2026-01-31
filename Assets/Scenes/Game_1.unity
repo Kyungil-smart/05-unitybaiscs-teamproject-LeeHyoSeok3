@@ -12317,78 +12317,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785891744}
   m_Mesh: {fileID: 4300000, guid: 7b44d744f6c37d441952d043e70b584c, type: 3}
---- !u!1 &789817716
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 789817718}
-  - component: {fileID: 789817717}
-  m_Layer: 0
-  m_Name: BlockSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &789817717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789817716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b992d9fd934d4d3380d507754b280390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockSize: 1
-  fallSpeed: 2
-  _cangeneratelist: {fileID: 1090849836}
-  _pool:
-  - poolType: 0
-    prefab: {fileID: 9143455714340138638, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
-    poolsize: 50
-  - poolType: 1
-    prefab: {fileID: 4417234801419838253, guid: dd9b36a2500ad2a4ca9ef20944499097, type: 3}
-    poolsize: 50
-  - poolType: 2
-    prefab: {fileID: 5791683627932484040, guid: 268db9f85bc29724aaebf3171dd23a53, type: 3}
-    poolsize: 50
-  - poolType: 3
-    prefab: {fileID: 7851918191166399781, guid: 46e63d4ec54c8024794ee6c2d7814267, type: 3}
-    poolsize: 50
-  - poolType: 4
-    prefab: {fileID: 4145610320027274048, guid: 8e596fe266221f84cae12d9c5cd34ee5, type: 3}
-    poolsize: 50
-  - poolType: 5
-    prefab: {fileID: 604663684128487078, guid: d59c7ba21e5d5714988b7f7922a4375a, type: 3}
-    poolsize: 50
-  - poolType: 6
-    prefab: {fileID: -3349672205638674318, guid: 2ceefe17950fedc499eef9c043d7a83d, type: 3}
-    poolsize: 50
-  - poolType: 7
-    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
-    poolsize: 50
---- !u!4 &789817718
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789817716}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: -4.951468, z: 1.5099468}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &793397869
 GameObject:
   m_ObjectHideFlags: 0
@@ -32223,6 +32151,104 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105006890}
   m_Mesh: {fileID: 4300000, guid: e53378bffa67fba40888797a9016d1c4, type: 3}
+--- !u!1 &2114743739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2114743741}
+  - component: {fileID: 2114743740}
+  m_Layer: 0
+  m_Name: BlockSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2114743740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114743739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b992d9fd934d4d3380d507754b280390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockSize: 1
+  fallSpeed: 10
+  dropY: 8
+  _cangeneratelist: {fileID: 1090849836}
+  _blockPools:
+  - poolType: 0
+    prefab: {fileID: -989447760027933460, guid: 9254ba167343ff04c889b04b5b18a841, type: 3}
+    poolsize: 50
+  - poolType: 1
+    prefab: {fileID: 4417234801419838253, guid: dd9b36a2500ad2a4ca9ef20944499097, type: 3}
+    poolsize: 50
+  - poolType: 2
+    prefab: {fileID: 5791683627932484040, guid: 268db9f85bc29724aaebf3171dd23a53, type: 3}
+    poolsize: 50
+  - poolType: 3
+    prefab: {fileID: 7851918191166399781, guid: 46e63d4ec54c8024794ee6c2d7814267, type: 3}
+    poolsize: 50
+  - poolType: 4
+    prefab: {fileID: 4145610320027274048, guid: 8e596fe266221f84cae12d9c5cd34ee5, type: 3}
+    poolsize: 50
+  - poolType: 5
+    prefab: {fileID: 604663684128487078, guid: d59c7ba21e5d5714988b7f7922a4375a, type: 3}
+    poolsize: 50
+  - poolType: 6
+    prefab: {fileID: -3349672205638674318, guid: 2ceefe17950fedc499eef9c043d7a83d, type: 3}
+    poolsize: 50
+  - poolType: 7
+    prefab: {fileID: 7838351816922114795, guid: e63a4e24da25e0c4faa71d85400997c7, type: 3}
+    poolsize: 50
+  _ghostPools:
+  - poolType: 0
+    prefab: {fileID: 5515351650742024876, guid: 0208d4136450beb4095fda030c79ff38, type: 3}
+    poolsize: 4
+  - poolType: 1
+    prefab: {fileID: -1812472611245796984, guid: f0608d2f0d2cb1a4a8a6673e771af230, type: 3}
+    poolsize: 4
+  - poolType: 2
+    prefab: {fileID: 3079017102735207163, guid: 57328a75d51459b46ba26de4cc975f78, type: 3}
+    poolsize: 4
+  - poolType: 3
+    prefab: {fileID: 176515696658074544, guid: 4566a599df607434cbb835a7e789aeca, type: 3}
+    poolsize: 4
+  - poolType: 4
+    prefab: {fileID: -8189909780641893473, guid: 25e0c549195178a4bb8d0a818309a037, type: 3}
+    poolsize: 4
+  - poolType: 5
+    prefab: {fileID: -3716490952735109789, guid: 204cdde7499a1194db50a3ea9767ef53, type: 3}
+    poolsize: 4
+  - poolType: 6
+    prefab: {fileID: 7539291566098804578, guid: 0d74c61e02e4f0746b344487becb709e, type: 3}
+    poolsize: 4
+  - poolType: 7
+    prefab: {fileID: -3307951409778426192, guid: d0f5239361a410141999b0851492713b, type: 3}
+    poolsize: 50
+--- !u!4 &2114743741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114743739}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7271712, y: -6.0334625, z: 14.410379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2121102538
 GameObject:
   m_ObjectHideFlags: 0
@@ -37565,8 +37591,8 @@ SceneRoots:
   - {fileID: 628667627}
   - {fileID: 2063643351221884627}
   - {fileID: 654152611}
-  - {fileID: 789817718}
   - {fileID: 1738527267}
+  - {fileID: 2114743741}
   - {fileID: 226042506}
   - {fileID: 1090849835}
   - {fileID: 1400447222}
