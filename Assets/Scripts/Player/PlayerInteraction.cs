@@ -2,8 +2,10 @@
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private Transform _holdPoint;
+    // [SerializeField] private Transform _holdPoint;
+    [SerializeField] private HeldPointDetector _heldPoint;
     [SerializeField] private float interactRange = 0.5f;
+    [SerializeField] private float _dropY;
 
     public BlockView LookingView { get; private set; }
 
@@ -71,7 +73,7 @@ public class PlayerInteraction : MonoBehaviour
 
         HoldingGroup = LookingGroup;
         LookingGroup = null;
-        HoldingGroup.PickUp(_holdPoint);
+        HoldingGroup.PickUp(_heldPoint, _dropY);
         HoldingGroup.SetOutline(Color.blue);
     }
 
@@ -80,7 +82,7 @@ public class PlayerInteraction : MonoBehaviour
         if (HoldingGroup == null)
             return;
 
-        HoldingGroup.Drop(2f);
+        HoldingGroup.Drop();
         HoldingGroup.HideOutline();
         HoldingGroup = null;
     }

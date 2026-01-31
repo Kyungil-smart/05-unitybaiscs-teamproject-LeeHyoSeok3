@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3719838809692250961}
   - component: {fileID: -3370347343503825384}
   - component: {fileID: 3605189956624140507}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GridTIle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,3 +182,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d814f9a46cfcf8048ab48a2d23a7500e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsNeedClear: 0
