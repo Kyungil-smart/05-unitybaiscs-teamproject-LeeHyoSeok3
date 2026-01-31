@@ -7,12 +7,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField][Range(1,20)] private float _moveSpeed;
-    private float _initialSpeed;
     [SerializeField][Range(1,100)] private float _rotateSpeed;
-    Coroutine coroutine;
-
+    
+    public Vector3 LastMoveDelta {get; private set;}
+    
+    private Coroutine coroutine;
     private Rigidbody _rb;
     private Vector3 _moveDir;
+    private float _initialSpeed;
+    
+    
     public float MoveAmount { get; private set; }
     
     private void Awake()
@@ -31,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         if (_moveDir == Vector3.zero)
         {
             MoveAmount = 0f;
+            LastMoveDelta = Vector3.zero;
             return;
         }
         
@@ -40,7 +45,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        _rb.MovePosition(GetNextPos());
+        Vector3 nextPos = GetNextPos();
+        LastMoveDelta = nextPos - _rb.position;
+        _rb.MovePosition(nextPos);
     }
 
     private void Rotate()
@@ -59,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
         return _rb.position + movement;
     }
+    
     public void Slow(float speed, float time, float dece) // 외부에서 접근하는 속도 감소 코루틴
     {
         if(coroutine != null)

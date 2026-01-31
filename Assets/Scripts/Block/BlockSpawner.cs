@@ -10,7 +10,6 @@ using Random = UnityEngine.Random;
 public class BlockSpawner : MonoBehaviour
 {
     [SerializeField] private float blockSize = 1f;
-    [SerializeField] private float fallSpeed = 2f;
     [SerializeField] private float dropY;
     [SerializeField] private CangenerateBolockList _cangeneratelist;
 
@@ -58,7 +57,7 @@ public class BlockSpawner : MonoBehaviour
     // 테스트 코드
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             SpawnRandom();
         }

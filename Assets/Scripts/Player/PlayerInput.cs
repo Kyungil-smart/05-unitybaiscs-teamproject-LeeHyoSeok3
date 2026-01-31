@@ -25,7 +25,7 @@ public class PlayerInput : MonoBehaviour
 
     public bool Interact()
     {
-        return Input.GetKeyDown(KeyCode.F);
+        return Input.GetKeyDown(KeyCode.Space);
     }
     
     public void Rotate()

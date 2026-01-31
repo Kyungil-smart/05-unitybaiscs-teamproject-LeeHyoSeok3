@@ -8,7 +8,7 @@ public class GridTile : MonoBehaviour
 {
     // 자신 블록 정보
     public bool _blockOn;
-
+    public Vector2Int GridPos { get; private set; }
     // 주변 블록 정보
     public GridTile _upBlock;
     public GridTile _downBlock;
@@ -24,6 +24,7 @@ public class GridTile : MonoBehaviour
     void Init()
     {
         if(!_blockOn) _blockOn = false;
+        GridPos = new Vector2Int((int)transform.position.x, (int)transform.position.z);
     }
 
     

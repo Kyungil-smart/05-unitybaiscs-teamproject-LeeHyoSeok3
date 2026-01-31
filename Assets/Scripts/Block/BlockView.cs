@@ -80,7 +80,7 @@ public class BlockView : MonoBehaviour, IPoolable
 
     private void LateUpdate()
     {
-        if (_isFollowing && _follwTarget != null)
+        if (_isFollowing && _follwTarget != null && _rb.isKinematic)
         {
             transform.position = _follwTarget.position;
         }

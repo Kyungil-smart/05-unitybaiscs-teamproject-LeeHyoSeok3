@@ -5,10 +5,10 @@ public class BlockGroup
 {
     public BlockType BlockType { get; }
     public BlockPoolType  PoolType { get; }
+    
     public Vector2Int PivotGrid { get; private set; }
     public IReadOnlyList<BlockControler> Blocks => _blocks;
     public Transform Root { get; }
-
     private readonly List<BlockControler> _blocks;
     private Transform _followTarget;
     private Vector3 _holdOffset;
@@ -17,6 +17,8 @@ public class BlockGroup
     private Transform _ghostRoot;
     private ObjectPool<GhostBlock> _ghostPool;
     private List<GhostBlock> _ghostBlocks;
+
+    private float _dropY;
 
     public BlockGroup(
         BlockType blockType,
@@ -47,41 +49,59 @@ public class BlockGroup
     // Pick / Follow / Drop
     // ------------------------
 
-    public void PickUp(Transform holdPoint)
+    public void PickUp(HeldPointDetector heldPoint, float dropY)
     {
-        _followTarget = holdPoint;
+        _followTarget = heldPoint.transform;
         _isHeld = true;
+        _dropY = dropY;
         
+        heldPoint.SetHoldGroup(this);
         CreateGhost(PoolManager.Instance.GetPool<GhostBlock>((int)PoolType));
-            
-        foreach (var block in  _blocks)
+
+        foreach (var block in _blocks)
+        {
             block.PickUp();
+            Vector3 local = block.View.transform.localPosition;
+            local.y = 0f;
+            block.View.transform.localPosition = local;
+        }
+        
     }
 
     public void FollowHeld()
     {
+        // if (!_isHeld || _followTarget == null)
+        //     return;
+        //
+        // Vector3 targetPos =
+        //     _followTarget.position +
+        //     _followTarget.forward * 1f;
+        //
+        // targetPos.y = 1.5f;
+        //
+        // BlockControler closest = FindClosestBlock(_followTarget.position);
+        // if (closest == null)
+        //     return;
+        //
+        // Vector3 blockPos = closest.View.transform.position;
+        //
+        // Vector3 delta = targetPos - blockPos;
+        // Root.position += delta;
+        //
+        // UpdateGhostTransform();
+        
         if (!_isHeld || _followTarget == null)
             return;
         
-        Vector3 targetPos =
-            _followTarget.position +
-            _followTarget.forward * 1f;
+        Vector3 targetPos = _followTarget.position;
+        targetPos.y = _dropY;
 
-        targetPos.y = 1.5f;
-        
-        BlockControler closest = FindClosestBlock(_followTarget.position);
-        if (closest == null)
-            return;
+        Root.position = targetPos;
 
-        Vector3 blockPos = closest.View.transform.position;
-
-        Vector3 delta = targetPos - blockPos;
-        Root.position += delta;
-        
         UpdateGhostTransform();
     }
 
-    public void Drop(float y)
+    public void Drop()
     {
         _isHeld = false;
         _followTarget = null;
@@ -90,11 +110,11 @@ public class BlockGroup
 
         foreach (var block in _blocks)
         {
-            block.SetGridPosition(PivotGrid + block.LocalOffset, y);
             block.Drop();
+            block.SetGridPosition(PivotGrid + block.LocalOffset, _dropY);
         }
         
-        SyncRootToGrid();
+        // SyncRootToGrid();
         DestroyGhost();
     }
     
@@ -117,6 +137,21 @@ public class BlockGroup
 
         return closest;
     }
+
+    public void SnapRootToGrid(Vector2Int targetGrid)
+    {
+        if (!_isHeld) return;
+        
+        Vector3 targetWorldPos = new Vector3(
+            targetGrid.x,
+            Root.position.y,
+            targetGrid.y
+        );
+
+        Root.position = targetWorldPos;
+
+        UpdateGhostTransform();
+    }
     
     // ------------------------
     // Rotate
@@ -132,7 +167,7 @@ public class BlockGroup
             Vector3 localWorld =
                 new Vector3(
                     block.LocalOffset.x * 1f,
-                    2f,
+                    0,
                     block.LocalOffset.y * 1f
                 );
 
