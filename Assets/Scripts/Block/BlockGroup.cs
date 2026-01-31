@@ -262,12 +262,20 @@ public class BlockGroup
             block.View.HideOutLine();
     }
 
-    // ------------------------
     // 라인 클리어 전 그룹 내 블록 참조를 위한 메서드
-    // ------------------------
-
     public List<BlockControler> GetBlockList()
     {
         return _blocks;
+    }
+
+    // 블럭그룹 내 블럭들이 상호작용 가능한지 여부 반환, 하나라도 Landed상태가 아니면 false 반환
+    public bool IsInteract()
+    {
+        foreach (var block in _blocks)
+        {
+            if (block.State != BlockState.Landed)
+                return false;
+        }
+        return true;
     }
 }
