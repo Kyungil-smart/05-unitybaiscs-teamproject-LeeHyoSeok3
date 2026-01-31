@@ -13,7 +13,7 @@ public class StageSystem
         Instance = this;
     }
 
-    private float BlockSpawnTime = 5f;
+    private float BlockSpawnTime = 6f;
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
     public bool IsPlaying { get; private set; } = false;
@@ -24,6 +24,8 @@ public class StageSystem
     private CooldownTimer _timer;
     private CooldownTimer _obstacletimer;
     private float spawnTime;
+    private float _lastSpawnTime;
+    private const float MIN_SPAWN_INTERVAL = 2f;
 
     public void Subscribe()
     {
@@ -40,6 +42,7 @@ public class StageSystem
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
         IsPlaying = true;
         spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.2);
+        Debug.Log("Spawn Time: " + spawnTime);
 
         if (_timer == null)
             _timer = new CooldownTimer(Mathf.Max(1, spawnTime));
@@ -89,15 +92,21 @@ public class StageSystem
             return;
         }
 
-        if (_obstacletimer.IsReady(Time.time))
-        {
-            blockSpawner.SpawnObstacle(CurrentStage);
-            _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
-        }
+        if (Time.time - _lastSpawnTime < MIN_SPAWN_INTERVAL)
+            return;
 
         if (_timer.IsReady(Time.time))
         {
             blockSpawner.SpawnRandom();
+            _lastSpawnTime = Time.time;
+            return;
+        }
+
+        if (_obstacletimer.IsReady(Time.time))
+        {
+            blockSpawner.SpawnObstacle(CurrentStage);
+            _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
+            _lastSpawnTime = Time.time;
         }
     }
 

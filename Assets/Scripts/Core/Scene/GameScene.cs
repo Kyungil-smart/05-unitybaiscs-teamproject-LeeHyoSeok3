@@ -19,7 +19,9 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _gameOverState;
     [SerializeField] private Image _darkOverlay;
     [SerializeField] private Button _retrunTitle;
+    [SerializeField] private Button _retrunTitle2;
     [SerializeField] private GameObject _gameExit;
+    [SerializeField] private GameObject _gameExit2;
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [Header("Camera")]
     [SerializeField] private Camera mainCamera;
@@ -128,11 +130,13 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
+        _gameExit.gameObject.SetActive(false);
         GameManager.Instance.PlayGame();
     }
 
     public void PauseState()
     {
+        _gameExit.gameObject.SetActive(false);
         _darkOverlay.gameObject.SetActive(true);
         _pauseState.gameObject.SetActive(true);
         _retrunTitle.gameObject.SetActive(true);
@@ -151,7 +155,16 @@ public class GameScene : MonoBehaviour
         yield return new WaitForSeconds(4f);
 
         _darkOverlay.gameObject.SetActive(true);
-        _retrunTitle.gameObject.SetActive(true);
+        _retrunTitle2.gameObject.SetActive(true);
+        _gameOverState.gameObject.SetActive(true);
+        GameManager.Instance.GameOver();
+    }
+
+    public void GameOverScnen()
+    {
+        _gameExit2.gameObject.SetActive(false);
+        _darkOverlay.gameObject.SetActive(true);
+        _retrunTitle2.gameObject.SetActive(true);
         _gameOverState.gameObject.SetActive(true);
         GameManager.Instance.GameOver();
     }
@@ -178,6 +191,11 @@ public class GameScene : MonoBehaviour
     public void AreYouSure()
     {
         _gameExit.gameObject.SetActive(true);
+    }
+
+    public void AreYouSure2()
+    {
+        _gameExit2.gameObject.SetActive(true);
     }
 
     private IEnumerator CameraMoveThenStartGame()
