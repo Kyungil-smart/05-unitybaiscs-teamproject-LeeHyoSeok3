@@ -83,6 +83,7 @@ public class GameScene : MonoBehaviour
         {
             GameOver();
         }
+
     }
 
     private void OnDisable()
@@ -171,16 +172,16 @@ public class GameScene : MonoBehaviour
 
     void TextUpdate()
     {
-        _totalScore.text = $"¸ñÇ¥ Á¡¼ö : {_targetScore} Á¡\n" +
-            $"ÇöÀç Á¡¼ö : {_currentScore} Á¡";
-        _readyState.text = $"°ÔÀÓÀ» ½ÃÀÛÇÏ½Ã·Á¸é [SpaceBar] Å°¸¦ ´­·¯ÁÖ¼¼¿ä!\n" +
-            $"ÇöÀç ½ºÅ×ÀÌÁö : {_currentStage} Stage\n" +
-            $"¸ñÇ¥ Á¡¼ö : {_targetScore} Á¡";
+        _totalScore.text = $"ëª©í‘œ ì ìˆ˜ : {_targetScore} ì \n" +
+            $"í˜„ì¬ ì ìˆ˜ : {_currentScore} ì ";
+        _readyState.text = $"ê²Œì„ì„ ì‹œì‘í•˜ì‹œë ¤ë©´ [SpaceBar] í‚¤ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”!\n" +
+            $"í˜„ì¬ ìŠ¤í…Œì´ì§€ : {_currentStage} Stage\n" +
+            $"ëª©í‘œ ì ìˆ˜ : {_targetScore} ì ";
         _level.text = $"{_currentStage} Stage";
-        _pauseState.text = $"°ÔÀÓÀÌ ÀÏ½ÃÁ¤Áö µÇ¾ú½À´Ï´Ù.\n" +
-            $"°è¼ÓÇÏ½Ã·Á¸é [Esc] Å°¸¦ ´­·¯ÁÖ¼¼¿ä!";
+        _pauseState.text = $"ê²Œì„ì´ ì¼ì‹œì •ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤.\n" +
+            $"ê³„ì†í•˜ì‹œë ¤ë©´ [Esc] í‚¤ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”!";
         _IncreaseScore.text = "+ 100";
-        _gameOverState.text = $"ÇÃ·¹ÀÌ¾î°¡ Á×¾ú½À´Ï´Ù. °ÔÀÓ ¿À¹ö!";
+        _gameOverState.text = $"í”Œë ˆì´ì–´ê°€ ì£½ì—ˆìŠµë‹ˆë‹¤. ê²Œì„ ì˜¤ë²„!";
     }
 
     public void ReturnTitle()

@@ -26,7 +26,7 @@ public class BlockBuster : MonoBehaviour
 
     public void ClearLineAction()
     {
-        if (FullLine() != 0)
+        if(FullLine() != 0)
         {
             GameEventBus.Raise(new LineClearedEvent(FullLine()));
             Debug.Log($"{FullLine()} 라인 클리어 발행");
@@ -35,7 +35,7 @@ public class BlockBuster : MonoBehaviour
             GameEventBus.Raise(new GridUpdateEvent());
             
         }
-
+        
     }
 
     int FullLine()
@@ -51,13 +51,14 @@ public class BlockBuster : MonoBehaviour
     
     void LineClear()
     {
-        foreach(LineCheker _l in _check)
+        foreach (LineCheker _l in _check)
         {
             foreach(GridTile grid in _l._tielOnLine)
             {
                 grid.GetComponent<OnBlockInteract>().ClearBlock();
             }
         }
+        
     }
    
 }

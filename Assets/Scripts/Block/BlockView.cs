@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BlockView : MonoBehaviour, IPoolable
 {
+    [SerializeField] private BlockState _test;
+    private BlockState _previousState;
+
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [SerializeField] private ScorePopup scorePopup;
     public BlockControler Controler { get; private set; }
@@ -84,6 +87,18 @@ public class BlockView : MonoBehaviour, IPoolable
         {
             transform.position = _follwTarget.position;
         }
+
+        // 블럭 상태 확인 테스트용
+
+        if (Controler != null)
+        {
+            _test = Controler.State;
+            if (_test != _previousState)
+            {
+                Debug.Log($"Block State Changed: {_previousState} -> {_test}");
+                _previousState = _test;
+            }
+        }
     }
 
     public void ShowOutLine(Color color)
@@ -135,6 +150,4 @@ public class BlockView : MonoBehaviour, IPoolable
         _cd.enabled = false;
         _rb.isKinematic = true;
     }
-    
-    
 }

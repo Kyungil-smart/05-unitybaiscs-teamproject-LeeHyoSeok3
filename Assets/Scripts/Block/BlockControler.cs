@@ -111,6 +111,7 @@ public class BlockControler
     public void Release()
     {
         SetState(BlockState.Release);
+        Debug.Log($"Release Block State : {State}");
         PoolManager.Instance
             .GetPool<BlockView>((int)_poolType)
             .Release(View);
