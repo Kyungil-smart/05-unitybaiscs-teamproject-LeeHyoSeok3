@@ -24,18 +24,23 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // tag�� �ڽ�������Ʈ ����
-        if(collision.gameObject.CompareTag("Block"))
-        {
-            CollisionWhere(collision);
-        }
+        if (!collision.gameObject.CompareTag("Block"))
+            return;
+
+        var blockView = collision.gameObject.GetComponent<BlockView>();
+        if (blockView == null)
+            return;
+
+        var blockController = blockView.Controler;
+        if (!(blockController.State == BlockState.Falling))
+            return;
+
+        CollisionWhere(collision);
     }
 
     private void CollisionWhere(Collision collision)
-    {
-        
-        
-        if(collision.transform.position.y > transform.position.y + 1)
+    {             
+        if (collision.transform.position.y > transform.position.y + 1)
         {
             _playerController.SetState(PlayerState.Dead);
             _playerDead = true;
