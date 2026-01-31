@@ -110,7 +110,6 @@ public class BlockView : MonoBehaviour, IPoolable
         if (collision.gameObject.CompareTag("Floor"))
         {
             Controler.SetState(BlockState.Landed);
-            Debug.Log($"Block State : {Controler.State}");
         }
     }
 
@@ -119,7 +118,6 @@ public class BlockView : MonoBehaviour, IPoolable
         // 그리드와 충돌했을 때
         if (other.gameObject.CompareTag("Grid"))
         {
-            Debug.Log("Block Triggered Grid");
             GameEventBus.Raise(new GridUpdateEvent());
         }
     }
