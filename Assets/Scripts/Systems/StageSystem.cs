@@ -13,7 +13,7 @@ public class StageSystem
         Instance = this;
     }
 
-    private float BlockSpawnTime = 10f;
+    private float BlockSpawnTime = 6f;
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
     public bool IsPlaying { get; private set; } = false;
