@@ -64,6 +64,8 @@ public class StageSystem
     public void OnStageCleared(StageClearedEvent evt)
     {
         blockSpawner = null;
+        _timer = null;
+        _obstacletimer = null;
         CurrentStage++;
 
         if (CurrentStage > EndStage)
