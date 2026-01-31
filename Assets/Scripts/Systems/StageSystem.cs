@@ -16,8 +16,6 @@ public class StageSystem
     private float BlockSpawnTime = 6f;
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
-    public bool IsPlaying { get; private set; } = false;
-
     public int EndStage;
 
     public BlockSpawner blockSpawner;
