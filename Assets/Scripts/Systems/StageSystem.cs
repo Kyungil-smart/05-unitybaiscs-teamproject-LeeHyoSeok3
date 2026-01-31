@@ -20,8 +20,10 @@ public class StageSystem
     public int EndStage;
 
     public BlockSpawner blockSpawner;
+    public MonsterSpawner MonsterSpawner;
     private CooldownTimer _timer;
     private CooldownTimer _obstacletimer;
+    private CooldownTimer _monstertimer;
     private float spawnTime;
     private float _lastSpawnTime;
     private const float MIN_SPAWN_INTERVAL = 2f;
@@ -51,6 +53,10 @@ public class StageSystem
         if (_obstacletimer == null)
             _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
         else _obstacletimer.Resume();
+
+        if (_monstertimer == null)
+            _monstertimer = new CooldownTimer(Random.Range(spawnTime * 4, spawnTime * 8));
+        else _monstertimer.Resume();
     }
 
     public void StopStage()
@@ -58,13 +64,16 @@ public class StageSystem
         IsPlaying = false;
         _timer?.Pause();
         _obstacletimer?.Pause();
+        _monstertimer?.Pause();
     }
 
     public void OnStageCleared(StageClearedEvent evt)
     {
         blockSpawner = null;
+        MonsterSpawner = null;
         _timer = null;
         _obstacletimer = null;
+        _monstertimer = null;
         CurrentStage++;
 
         if (CurrentStage > EndStage)
@@ -87,9 +96,10 @@ public class StageSystem
 
     public void BlockSpawn()
     {
-        if (!IsPlaying || blockSpawner == null)
+        if (!IsPlaying || blockSpawner == null || MonsterSpawner == null)
         {
             blockSpawner = GameObject.FindObjectOfType<BlockSpawner>();
+            MonsterSpawner = GameObject.FindObjectOfType<MonsterSpawner>();
             return;
         }
 
@@ -107,6 +117,13 @@ public class StageSystem
         {
             blockSpawner.SpawnObstacle(CurrentStage);
             _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
+            _lastSpawnTime = Time.time;
+        }
+
+        if (_monstertimer.IsReady(Time.time))
+        {
+            MonsterSpawner.SpawnMonster(1);
+            _monstertimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
             _lastSpawnTime = Time.time;
         }
     }
