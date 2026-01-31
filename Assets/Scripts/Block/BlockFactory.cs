@@ -22,7 +22,7 @@ public class BlockFactory
         }
     }
 
-    public BlockGroup Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid)
+    public BlockGroup Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid, float dropY)
     {
         Vector2Int[] shape = BlockShape.Shapes[type];
         List<BlockControler> blocks = new(shape.Length);
@@ -34,7 +34,7 @@ public class BlockFactory
             // BlockView view = _pool.Get();
             BlockView view = _blockPools[(int)poolType].Get();
 
-            var controler = new BlockControler(view, grid, _blockSize, poolType);
+            var controler = new BlockControler(view, grid, dropY, _blockSize, poolType);
             view.Initialize(controler);
 
             blocks.Add(controler);

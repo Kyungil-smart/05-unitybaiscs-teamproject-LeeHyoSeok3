@@ -11,6 +11,7 @@ public class BlockSpawner : MonoBehaviour
 {
     [SerializeField] private float blockSize = 1f;
     [SerializeField] private float fallSpeed = 2f;
+    [SerializeField] private float dropY;
     [SerializeField] private CangenerateBolockList _cangeneratelist;
 
     private BlockFactory _factory;
@@ -99,7 +100,7 @@ public class BlockSpawner : MonoBehaviour
         {
             Vector2Int baseGrid = GetVectortoList(type);
             Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
-            _current = _factory.Create(type, poolType, baseGrid);
+            _current = _factory.Create(type, poolType, baseGrid, dropY);
         }
     }
 
@@ -121,7 +122,7 @@ public class BlockSpawner : MonoBehaviour
             // _cangeneratelist.ObList 에서 좌표 받아오기
             int index = Random.Range(0,_cangeneratelist.ObList.Count);
             // 생성
-            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z), dropY);
             _cangeneratelist.ObList.RemoveAt(index);
         }
     }
