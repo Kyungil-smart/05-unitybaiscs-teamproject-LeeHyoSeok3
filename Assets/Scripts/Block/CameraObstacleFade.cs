@@ -23,9 +23,11 @@ public class CameraObstacleFade : MonoBehaviour
         targetRend.material.color = c;
     }
 
-    // Trigger 충돌 시 투명해지게 변경
+    // 위에서 내려오는 블럭이 Trigger 발생 시 충돌 시 투명해지게 변경
     private void OnTriggerEnter(Collider other) 
     {
+        if (other.CompareTag("Block") == false) return;
+
         _renderer = other.GetComponent<Renderer>();
         if (_renderer != null)
         {
