@@ -27,6 +27,7 @@ public class StageSystem
     private float spawnTime;
     private float _lastSpawnTime;
     private const float MIN_SPAWN_INTERVAL = 2f;
+    private int _spawnCount = 0;
 
     public void Subscribe()
     {
@@ -125,12 +126,13 @@ public class StageSystem
             _lastSpawnTime = Time.time;
         }
 
-/*        if (_monstertimer.IsReady(Time.time))
+        if (_monstertimer.IsReady(Time.time) && _spawnCount < CurrentStage)
         {
             MonsterSpawner.SpawnMonster(1);
             _monstertimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
             _lastSpawnTime = Time.time;
-        }*/
+            _spawnCount++;
+        }
     }
 
 }
