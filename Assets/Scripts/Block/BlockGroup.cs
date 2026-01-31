@@ -268,6 +268,12 @@ public class BlockGroup
         return _blocks;
     }
 
+    // 블럭그룹의 PoolType 반환 메서드
+    public BlockPoolType GetPoolType()
+    {
+        return PoolType;
+    }
+
     // 블럭그룹 내 블럭들이 상호작용 가능한지 여부 반환, 하나라도 Landed상태가 아니면 false 반환
     public bool IsInteract()
     {
