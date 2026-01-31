@@ -124,7 +124,14 @@ public class BlockView : MonoBehaviour, IPoolable
         // 바닥과 충돌했을 때
         if (collision.gameObject.CompareTag("Floor"))
         {
-            Controler.SetState(BlockState.Landed);
+            if(Controler.Group.GetPoolType() == BlockPoolType.Rock)
+            {
+                Controler.SetState(BlockState.Locked);
+            }
+            else
+            {
+                Controler.SetState(BlockState.Landed);
+            }
             Debug.Log($"Block State : {Controler.State}");
         }
     }
