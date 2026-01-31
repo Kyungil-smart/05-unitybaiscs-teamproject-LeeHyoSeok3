@@ -25,7 +25,7 @@ public class Patrol_Monster : MonoBehaviour
             if(collision.transform.position.y > transform.position.y + 2f)
             {
                 Explosion();
-                gameObject.SetActive(false);
+                gameObject.SetActive(false);  // 
             }
         }      
     }
