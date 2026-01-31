@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MonsterSpawner : MonoBehaviour
 {
+    [SerializeField] private CangenerateBolockList _cangeneratelist;
     private MonsterFactory _monFactory;
     private List<MonsterController> _current;
 
@@ -50,8 +52,27 @@ public class MonsterSpawner : MonoBehaviour
 
         if (IsCanGenerate(0))
         {
-            Vector2Int baseGrid = GetVectortoList(0);
+            Vector2Int baseGrid = new Vector2Int(Random.Range(0,10),Random.Range(0, 10));
             _current = _monFactory.Create(MonsterPoolType.Scout, baseGrid);
+        }
+    }
+
+    public void SpawnMonster(int howmany)
+    {
+        if (_cangeneratelist.ObList.Count < howmany) // 빈 자리보다 생성 블럭이 많을 때 처리
+        {
+            howmany = _cangeneratelist.ObList.Count;
+        }
+
+        for (int i = 0; i < howmany; i++) // 요청한 수 만큼 반복
+        {
+            // 좌표 탐색
+
+            // _cangeneratelist.ObList 에서 좌표 받아오기
+            int index = Random.Range(0, _cangeneratelist.ObList.Count);
+            // 생성
+            _monFactory.Create(MonsterPoolType.Scout, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            _cangeneratelist.ObList.RemoveAt(index);
         }
     }
 
@@ -68,14 +89,4 @@ public class MonsterSpawner : MonoBehaviour
         return false;
     }
 
-    private Vector2Int GetVectortoList(int index)
-    {
-        switch (index)
-        {
-            case 0:
-                return _monVecList[index];
-        }
-
-        return new Vector2Int(0, 0);
-    }
 }

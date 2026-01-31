@@ -48,7 +48,6 @@ public class MonsterView : MonoBehaviour, IPoolable
     public void OnSpawn()
     {
         gameObject.SetActive(true);
-        
     }
 
     public void OnDespawn()
