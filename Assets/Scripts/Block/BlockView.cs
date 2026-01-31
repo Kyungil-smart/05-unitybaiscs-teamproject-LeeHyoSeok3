@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BlockView : MonoBehaviour, IPoolable
 {
+    [SerializeField] private BlockState _test;
+    private BlockState _previousState;
+
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [SerializeField] private ScorePopup scorePopup;
     public BlockControler Controler { get; private set; }
@@ -24,9 +27,6 @@ public class BlockView : MonoBehaviour, IPoolable
         
         _rb = GetComponent<Rigidbody>();
         _cd = GetComponent<Collider>();
-
-        // LineClearedEvent가 발생하면 Locked 상태 변경을 위한 구독 등록
-        GameEventBus.Subscribe<LineClearedEvent>(SetStateToLocked);
     }
 
     public void OnSpawn()
@@ -87,6 +87,18 @@ public class BlockView : MonoBehaviour, IPoolable
         {
             transform.position = _follwTarget.position;
         }
+
+        // 블럭 상태 확인 테스트용
+
+        if (Controler != null)
+        {
+            _test = Controler.State;
+            if (_test != _previousState)
+            {
+                Debug.Log($"Block State Changed: {_previousState} -> {_test}");
+                _previousState = _test;
+            }
+        }
     }
 
     public void ShowOutLine(Color color)
@@ -137,15 +149,5 @@ public class BlockView : MonoBehaviour, IPoolable
     {
         _cd.enabled = false;
         _rb.isKinematic = true;
-    }
-
-    // ------------------------
-    // 구독한 이벤트 처리
-    // ------------------------
-
-    public void SetStateToLocked(LineClearedEvent evt)
-    {
-        if (Controler == null) return;
-
     }
 }

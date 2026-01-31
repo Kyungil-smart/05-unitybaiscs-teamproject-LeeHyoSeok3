@@ -173,4 +173,13 @@ public class BlockGroup
         foreach (var block in _blocks)
             block.View.HideOutLine();
     }
+
+    // ------------------------
+    // 라인 클리어 전 그룹 내 블록 참조를 위한 메서드
+    // ------------------------
+
+    public List<BlockControler> GetBlockList()
+    {
+        return _blocks;
+    }
 }
