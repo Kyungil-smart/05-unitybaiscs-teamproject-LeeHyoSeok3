@@ -41,6 +41,8 @@ public class MonsterController
             _movement.Rotate();
             _movement.Move();
         }
+
+        if (_movement._isArrive) { _monView.AttackPlayer(); }
     }
 
     public void SetGridPosition(Vector2Int gridPos)
