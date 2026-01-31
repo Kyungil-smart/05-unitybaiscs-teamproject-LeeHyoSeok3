@@ -646,7 +646,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &18573157
 GameObject:
@@ -15129,7 +15129,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &1022863893
 GameObject:
@@ -16570,7 +16570,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &1114753809
 GameObject:
@@ -18919,7 +18919,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &1261976538
 GameObject:
@@ -19649,7 +19649,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 628667626}
         m_TargetAssemblyTypeName: GameScene, Assembly-CSharp
-        m_MethodName: AreYouSure
+        m_MethodName: AreYouSure2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22337,7 +22337,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &1510163274
 GameObject:
@@ -23640,7 +23640,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &1600014418
 GameObject:
@@ -23812,7 +23812,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!1 &1605930707
 GameObject:
@@ -32182,7 +32182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockSize: 1
   fallSpeed: 10
-  dropY: 8
+  dropY: 6
   _cangeneratelist: {fileID: 1090849836}
   _blockPools:
   - poolType: 0
@@ -33146,7 +33146,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.285778, y: 5.4467926, z: 1.3682823}
+  m_Size: {x: 6.285778, y: 5.4467926, z: 3}
   m_Center: {x: -3.0270853, y: 2.2233963, z: -0.005422592}
 --- !u!23 &818457627739939305
 MeshRenderer:

@@ -61,6 +61,9 @@ public class StageSystem
 
     public void OnStageCleared(StageClearedEvent evt)
     {
+        blockSpawner = null;
+        _timer = null;
+        _obstacletimer = null;
         CurrentStage++;
 
         if (CurrentStage > EndStage)
@@ -102,7 +105,7 @@ public class StageSystem
         if (_obstacletimer.IsReady(Time.time))
         {
             blockSpawner.SpawnObstacle(CurrentStage);
-            _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
+            _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
             _lastSpawnTime = Time.time;
         }
     }
