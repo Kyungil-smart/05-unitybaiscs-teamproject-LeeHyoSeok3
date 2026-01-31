@@ -4,6 +4,6 @@ using UnityEngine;
 
 public enum MonsterPoolType
 {
-    Scout
+    Scout, Patrol
 }
 

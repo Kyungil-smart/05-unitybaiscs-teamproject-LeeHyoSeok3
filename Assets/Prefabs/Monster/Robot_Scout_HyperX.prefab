@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -3620010447185269365}
   - component: {fileID: 5528317289236876002}
   - component: {fileID: 4568249870753354523}
+  - component: {fileID: 2012422744458124850}
   m_Layer: 0
   m_Name: Robot_Scout_HyperX
   m_TagString: Untagged
@@ -98,6 +99,21 @@ CapsuleCollider:
   m_Height: 0.9
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2012422744458124850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5535940633776483025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c70449c2d890442bbeeaea6496017e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decelerationValue: 0
+  _duration: 0
+  _decelerationPerTime: 0
 --- !u!1 &6023905424259832314
 GameObject:
   m_ObjectHideFlags: 0
