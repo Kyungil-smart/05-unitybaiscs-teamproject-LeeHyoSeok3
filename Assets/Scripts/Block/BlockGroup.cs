@@ -39,8 +39,6 @@ public class BlockGroup
         }
 
         SyncRootToGrid();
-
-        //GameEventBus.Subscribe<BlockCollisionToFloor>(SetBlocksStateToLanded);  // 바닥 충돌 이벤트 구독
     }
 
     // ------------------------
@@ -230,20 +228,11 @@ public class BlockGroup
     }
 
     // ------------------------
-    // Block State
+    // 라인 클리어 전 그룹 내 블록 참조를 위한 메서드
     // ------------------------
 
-    // 블록이 바닥에 닿았을 때 블록의 상태를 Landed로 변경
-    /*
-    public void SetBlocksStateToLanded(BlockCollisionToFloor _event)
+    public List<BlockControler> GetBlockList()
     {
-
-        foreach (var block in _blocks)
-        {
-            block.SetState(BlockState.Landed);
-            Debug.Log($"Block State = {block.State}");
-        }
-
+        return _blocks;
     }
-    */
 }
