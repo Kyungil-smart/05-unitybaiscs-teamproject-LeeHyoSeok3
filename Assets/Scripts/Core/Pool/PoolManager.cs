@@ -32,4 +32,26 @@ public class PoolManager : MonoBehaviour
         var key = (typeof(T), poolId);
         return _pools[key] as ObjectPool<T>;
     }
+
+    // public void DestroyPool<T>(int poolId) where T : Component, IPoolable
+    // {
+    //     var key = (typeof(T), poolId);
+    //
+    //     if (_pools.TryGetValue(key, out var pool))
+    //     {
+    //         (pool as ObjectPool<T>)?.Clear();
+    //         _pools.Remove(key);
+    //     }
+    // }
+    
+    public void DestroyAllPools()
+    {
+        foreach (var pool in _pools.Values)
+        {
+            var clearMethod = pool.GetType().GetMethod("Clear");
+            clearMethod?.Invoke(pool, null);
+        }
+
+        _pools.Clear();
+    }
 }
