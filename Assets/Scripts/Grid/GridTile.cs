@@ -9,6 +9,11 @@ public class GridTile : MonoBehaviour
     // 자신 블록 정보
     public bool _blockOn;
 
+    public int _g;
+    public int _h;
+    public int _f;
+    public GridTile Parents;
+
     // 주변 블록 정보
     public GridTile _upBlock;
     public GridTile _downBlock;
@@ -24,6 +29,7 @@ public class GridTile : MonoBehaviour
     void Init()
     {
         if(!_blockOn) _blockOn = false;
+        Parents = null;
     }
 
     
@@ -51,7 +57,7 @@ public class GridTile : MonoBehaviour
     {
         for(int i = 0; i < shape.Length; i++)
         {
-            if(!CanSetTargetBlock(shape[i]))
+            if(CanSetTargetBlock(shape[i]))
                 return false;
         }
         return true;
@@ -105,5 +111,4 @@ public class GridTile : MonoBehaviour
     //     Gizmos.DrawSphere(transform.position, 0.2f);
     // }
 
-    
 }

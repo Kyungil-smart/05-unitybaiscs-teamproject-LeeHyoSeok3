@@ -6,7 +6,7 @@
     public CooldownTimer(float cooldown)
     {
         _cooldown = cooldown;
-        _lastTime = -cooldown;
+        _lastTime = Time.time;
     }
 
     public bool IsReady(float time)

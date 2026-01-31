@@ -4,12 +4,14 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class BlockSpawner : MonoBehaviour
 {
     [SerializeField] private float blockSize = 1f;
     [SerializeField] private float fallSpeed = 2f;
+    [SerializeField] private float dropY;
     [SerializeField] private CangenerateBolockList _cangeneratelist;
 
     private BlockFactory _factory;
@@ -22,15 +24,34 @@ public class BlockSpawner : MonoBehaviour
         public BlockView prefab;
         public int poolsize;
     }
+    
+    [Serializable]
+    public struct GhostPoolEntry
+    {
+        public BlockPoolType poolType;
+        public GhostBlock prefab;
+        public int poolsize;
+    }
 
-    [SerializeField] private BlockPoolEntry[] _pool;
+    [SerializeField] private BlockPoolEntry[] _blockPools;
+    [SerializeField]private GhostPoolEntry[] _ghostPools;
     
     private void Start()
     {
-        foreach (var ety in _pool) {
-            PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
-        }
-        
+        foreach (var e in _blockPools)
+            PoolManager.Instance.CreatePool(
+                (int)e.poolType,
+                e.prefab,
+                e.poolsize
+            );
+
+        foreach (var e in _ghostPools)
+            PoolManager.Instance.CreatePool(
+                (int)e.poolType,
+                e.prefab,
+                e.poolsize
+            );
+
         _factory = new BlockFactory(blockSize);
     }
 
@@ -79,7 +100,7 @@ public class BlockSpawner : MonoBehaviour
         {
             Vector2Int baseGrid = GetVectortoList(type);
             Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
-            _current = _factory.Create(type, poolType, baseGrid);
+            _current = _factory.Create(type, poolType, baseGrid, dropY);
         }
     }
 
@@ -101,7 +122,7 @@ public class BlockSpawner : MonoBehaviour
             // _cangeneratelist.ObList 에서 좌표 받아오기
             int index = Random.Range(0,_cangeneratelist.ObList.Count);
             // 생성
-            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z), dropY);
             _cangeneratelist.ObList.RemoveAt(index);
         }
     }

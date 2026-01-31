@@ -32,7 +32,7 @@ public class PlayerCollision : MonoBehaviour
     {
         
         
-        if(collision.transform.position.y > transform.position.y)
+        if(collision.transform.position.y > transform.position.y + 1)
         {
             _playerController.SetState(PlayerState.Dead);
             Debug.Log("Game Over");

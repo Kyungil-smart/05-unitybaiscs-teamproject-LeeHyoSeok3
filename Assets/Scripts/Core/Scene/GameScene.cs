@@ -18,7 +18,9 @@ public class GameScene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _pauseKey;
     [SerializeField] private Image _darkOverlay;
     [SerializeField] private Button _retrunTitle;
+    [SerializeField] private Button _retrunTitle2;
     [SerializeField] private GameObject _gameExit;
+    [SerializeField] private GameObject _gameExit2;
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [Header("Camera")]
     [SerializeField] private Camera mainCamera;
@@ -119,7 +121,8 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
-        GameManager.Instance.StartGame();
+        _gameExit.gameObject.SetActive(false);
+        GameManager.Instance.PlayGame();
     }
 
     public void PauseState()
@@ -131,16 +134,42 @@ public class GameScene : MonoBehaviour
         GameManager.Instance.PauseGame();
     }
 
+    private void GameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private IEnumerator GameOverRoutine()
+    {
+        PlayerCollision.GetComponent<PlayerAnimator>().PlayerDeath();
+
+        yield return new WaitForSeconds(4f);
+
+        _darkOverlay.gameObject.SetActive(true);
+        _retrunTitle2.gameObject.SetActive(true);
+        _gameOverState.gameObject.SetActive(true);
+        GameManager.Instance.GameOver();
+    }
+
+    public void GameOverScnen()
+    {
+        _gameExit2.gameObject.SetActive(false);
+        _darkOverlay.gameObject.SetActive(true);
+        _retrunTitle2.gameObject.SetActive(true);
+        _gameOverState.gameObject.SetActive(true);
+        GameManager.Instance.GameOver();
+    }
+
     void TextUpdate()
     {
-        _totalScore.text = $"¸ñÇ¥ Á¡¼ö : {_targetScore} Á¡\n" +
-            $"ÇöÀç Á¡¼ö : {_currentScore} Á¡";
-        _readyState.text = $"°ÔÀÓÀ» ½ÃÀÛÇÏ½Ã·Á¸é [SpaceBar] Å°¸¦ ´­·¯ÁÖ¼¼¿ä!\n" +
-            $"ÇöÀç ½ºÅ×ÀÌÁö : {_currentStage} Stage\n" +
-            $"¸ñÇ¥ Á¡¼ö : {_targetScore} Á¡";
+        _totalScore.text = $"ëª©í‘œ ì ìˆ˜ : {_targetScore} ì \n" +
+            $"í˜„ì¬ ì ìˆ˜ : {_currentScore} ì ";
+        _readyState.text = $"ê²Œì„ì„ ì‹œì‘í•˜ì‹œë ¤ë©´ [SpaceBar] í‚¤ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”!\n" +
+            $"í˜„ì¬ ìŠ¤í…Œì´ì§€ : {_currentStage} Stage\n" +
+            $"ëª©í‘œ ì ìˆ˜ : {_targetScore} ì ";
         _level.text = $"{_currentStage} Stage";
-        _pauseState.text = $"°ÔÀÓÀÌ ÀÏ½ÃÁ¤Áö µÇ¾ú½À´Ï´Ù.\n" +
-            $"°è¼ÓÇÏ½Ã·Á¸é [Esc] Å°¸¦ ´­·¯ÁÖ¼¼¿ä!";
+        _pauseState.text = $"ê²Œì„ì´ ì¼ì‹œì •ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤.\n" +
+            $"ê³„ì†í•˜ì‹œë ¤ë©´ [Esc] í‚¤ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”!";
         _IncreaseScore.text = "+ 100";
     }
 
@@ -152,6 +181,11 @@ public class GameScene : MonoBehaviour
     public void AreYouSure()
     {
         _gameExit.gameObject.SetActive(true);
+    }
+
+    public void AreYouSure2()
+    {
+        _gameExit2.gameObject.SetActive(true);
     }
 
     private IEnumerator CameraMoveThenStartGame()
