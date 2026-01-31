@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,23 @@ public class MonsterSpawner : MonoBehaviour
 
     [SerializeField] private List<Vector2Int> _monVecList;
 
+    [Serializable]
+    public struct MonsterPoolEntry
+    {
+        public MonsterPoolType poolType;
+        public MonsterView prefab;
+        public int poolsize;
+    }
+
+    [SerializeField] private MonsterPoolEntry[] _pools;
+
     private void Start()
     {
+        foreach(var ety in _pools)
+        {
+            PoolManager.Instance.CreatePool((int)ety.poolType, ety.prefab, ety.poolsize);
+        }
+
         _monFactory = new MonsterFactory();
     }
 
@@ -36,10 +52,6 @@ public class MonsterSpawner : MonoBehaviour
         {
             Vector2Int baseGrid = GetVectortoList(0);
             _current = _monFactory.Create(MonsterPoolType.Scout, baseGrid);
-            foreach (var mon in _current)
-            {
-                mon.SetState(MonsterState.Chasing);
-            }
         }
     }
 

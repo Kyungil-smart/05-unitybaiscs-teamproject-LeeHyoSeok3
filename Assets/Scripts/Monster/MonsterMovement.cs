@@ -40,9 +40,8 @@ public class MonsterMovement
         _closedList = new List<GridTile>();
         _nearList = new List<GridTile>();
         _pathList = new Queue<GridTile>();
-        //_openList =   new List<Vector3>();
-        //_closedList = new List<Vector3>();
-        //_pathList =   new List<Vector3>();
+        _moveSpd = 3f;
+        _rotateSpd = 18f;
     }
 
     public void ChasePlayer(Vector3 startPos, Vector3 targetPos)
@@ -51,7 +50,7 @@ public class MonsterMovement
         _target = GetTile(targetPos);
 
         // 다시 호출 됐을 때 초기화
-        //ResetPath();
+        ResetPath();
 
         // 시작점 열린노드 추가
         _openList.Add(_start);
@@ -68,8 +67,7 @@ public class MonsterMovement
         while (!(_openList.Count == 0 || _openList.Contains(_target)))
         {
             Findpath(_next);
-            _openList.Remove(_next);
-            _closedList.Add(_next);
+            
         }
         BuildPath(_target);
     }
@@ -79,7 +77,7 @@ public class MonsterMovement
         _pathList.Enqueue(tile);
 
         if (tile.Parents == null) { return; }
-        BuildPath(tile.Parents);
+        //BuildPath(tile.Parents);
     }
 
     private void Findpath(GridTile tile)
@@ -122,6 +120,9 @@ public class MonsterMovement
                 tile = t;
             }
         }
+
+        _openList.Remove(tile);
+        _closedList.Add(tile);
 
         // 근처타일 탐색
         FindNear(tile, _target);
@@ -234,9 +235,16 @@ public class MonsterMovement
 
     public void Rotate()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(_movedir);
+        Quaternion targetRotation = Quaternion.LookRotation(-_movedir);
         Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpd * Time.fixedDeltaTime);
 
         _rb.MoveRotation(smoothRotation);
+    }
+
+    private void ResetPath()
+    {
+        _openList.Clear();
+        _closedList.Clear();
+        _pathList.Clear();
     }
 }

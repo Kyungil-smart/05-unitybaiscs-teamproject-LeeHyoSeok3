@@ -19,11 +19,11 @@ public class MonsterView : MonoBehaviour, IPoolable
         Controller = controller;
         SetGridTile();
         Controller._movement._rb = GetComponent<Rigidbody>();
+        Controller.SetState(MonsterState.Chasing);
     }
 
     private void OnEnable()
     {
-        // 플레이어 좌표가져오기
         
     }
 
@@ -37,15 +37,18 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     private void FixedUpdate()
     {
-        // A* 알고리즘으로 플레이어 추적
         SetGridTile();
         PlayerPos = GameObject.Find("Player").transform;
-        Controller.ChasePlayer(transform.position, PlayerPos.position);
+
+        // A* 알고리즘으로 플레이어 추적
+        if(Controller.State == MonsterState.Chasing)
+            Controller.ChasePlayer(transform.position, PlayerPos.position);
     }
 
     public void OnSpawn()
     {
         gameObject.SetActive(true);
+        
     }
 
     public void OnDespawn()

@@ -22,24 +22,25 @@ public class MonsterController
         State = MonsterState.Spawn;
         _poolType = poolType;
 
-        YPos = 0f;
+        YPos = 1f;
 
        SetGridPosition(gridPos);
     }
 
     public void ChasePlayer(Vector3 Start, Vector3 target)
     {
-        if(State == MonsterState.Chasing) { _movement.ChasePlayer(Start, target); }
+        Start = new Vector3(Start.x, 0f, Start.z);
+        if (State == MonsterState.Chasing) { _movement.ChasePlayer(Start, target); }
 
-        if (_movement._pathList.Count >= 0)
+        if (_movement._pathList.Count > 0)
         {
             Vector3 nextPos = _movement._pathList.Dequeue().transform.position;
-            Vector3 dir = (Start - nextPos).normalized;
+            Vector3 dir = (nextPos - Start).normalized;
             _movement.SetMoveDirection(dir);
-        }
 
-        _movement.Rotate();
-        _movement.Move();
+            _movement.Rotate();
+            _movement.Move();
+        }
     }
 
     public void SetGridPosition(Vector2Int gridPos)
