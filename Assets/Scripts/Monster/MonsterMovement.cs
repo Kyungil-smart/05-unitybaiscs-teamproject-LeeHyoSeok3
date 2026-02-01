@@ -153,6 +153,12 @@ public class MonsterMovement
         return wL* (dx + dz);
     }
 
+    private void AddNear(GridTile tile)
+    {
+        if(tile != null)
+            _nearList.Add(tile);
+    }
+
     // 도달할 수 있는지 정하기
     private bool IsReachable(GridTile tile, GridTile currentTile)
     { 
