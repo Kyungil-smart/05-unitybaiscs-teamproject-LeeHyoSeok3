@@ -137,4 +137,9 @@ public class StageSystem
         }
     }
 
+    public void TestSpawn()
+    {
+        MonsterSpawner.SpawnMonster(1);
+    }
+
 }

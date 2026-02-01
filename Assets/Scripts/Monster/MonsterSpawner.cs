@@ -32,14 +32,6 @@ public class MonsterSpawner : MonoBehaviour
         _monFactory = new MonsterFactory();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SpawnRandom();
-        }
-    }
-
     private void SpawnRandom()
     {
         //MonsterPoolType poolType = (MonsterPoolType)Random.Range(0, 0); 
