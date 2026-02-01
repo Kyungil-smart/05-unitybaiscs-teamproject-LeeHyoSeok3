@@ -350,8 +350,8 @@ public class BlockGroup
     {
         foreach (var block in Blocks)
         {
-            if (block.State != BlockState.Landed)
-                return false;
+            if (block.State != BlockState.Landed && 
+                block.State != BlockState.Falling) return false;
         }
         return true;
     }

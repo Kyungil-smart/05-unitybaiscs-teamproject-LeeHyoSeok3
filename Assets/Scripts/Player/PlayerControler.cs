@@ -31,7 +31,11 @@ public class PlayerControler : MonoBehaviour
     private void Update()
     {
         
-        if (State == PlayerState.Dead || !(GameManager.Instance.StateMachine.CurrnetState is PlayingState) || IsStun)
+        HandleAnimation();
+        
+        if (State == PlayerState.Dead ||
+            !(GameManager.Instance.StateMachine.CurrnetState is PlayingState) ||
+            IsStun)
         {
             _movement.SetMoveDirection(Vector3.zero);
             return;
@@ -39,7 +43,6 @@ public class PlayerControler : MonoBehaviour
         
         HandleState();
         HandleMovement();
-        HandleAnimation();
         HandleBlock();
     }
 
@@ -75,7 +78,7 @@ public class PlayerControler : MonoBehaviour
 
     private void HandleAnimation()
     {
-        _animator.UpdateMove(_input.MoveInput != Vector3.zero);
+        _animator.UpdateMove(State == PlayerState.Move);
     }
 
     private void HandleBlock()
