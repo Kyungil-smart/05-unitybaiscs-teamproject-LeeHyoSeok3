@@ -41,8 +41,8 @@ public class MonsterView : MonoBehaviour, IPoolable
         SetGridTile();
         PlayerPos = GameObject.Find("Player").transform;
 
-        if(Controller.State == MonsterState.Chasing)
-            Controller.ChasePlayer(transform.position, PlayerPos.position);
+        // if(Controller.State == MonsterState.Chasing)
+        //     Controller.ChasePlayer(transform.position, PlayerPos.position);
     }
 
     private void OnEnable()
