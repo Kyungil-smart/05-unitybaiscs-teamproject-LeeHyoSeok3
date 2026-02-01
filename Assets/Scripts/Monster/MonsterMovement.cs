@@ -24,7 +24,7 @@ public class MonsterMovement
     private List<GridTile> _closedList;
 
     // 경로리스트
-    public Queue<GridTile> _pathList;
+    public Stack<GridTile> _pathList;
 
     // 잘들어가는지 확인용 [SerializeField]
     public GridTile[,] GridTiles;
@@ -38,7 +38,7 @@ public class MonsterMovement
         _openList = new List<GridTile>();
         _closedList = new List<GridTile>();
         _nearList = new List<GridTile>();
-        _pathList = new Queue<GridTile>();
+        _pathList = new Stack<GridTile>();
         _moveSpd = 3f;
         _rotateSpd = 18f;
         _isArrive = false;
@@ -77,7 +77,7 @@ public class MonsterMovement
 
     private void BuildPath(GridTile tile)
     {
-        _pathList.Enqueue(tile);
+        _pathList.Push(tile);
 
         if (tile.Parents == null) { return; }
         //BuildPath(tile.Parents);
