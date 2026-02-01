@@ -8,10 +8,10 @@ public class MonsterView : MonoBehaviour, IPoolable
 {
     public MonsterController Controller { get; private set; }
 
-    // ÇÃ·¹ÀÌ¾î ÁÂÇ¥
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ç¥
     public Transform PlayerPos { get; private set; }
 
-    // ±×¸®µå
+    // ï¿½×¸ï¿½ï¿½ï¿½
     private GridTile[] Tiles;
     private GridTile[,] gridTiles;
     private LineCheker[] _lineRow;
@@ -24,7 +24,16 @@ public class MonsterView : MonoBehaviour, IPoolable
         Controller = controller;
         SetGridTile();
         Controller._movement._rb = GetComponent<Rigidbody>();
-        Controller.SetState(MonsterState.Chasing);
+
+        // ëª¬ìŠ¤í„° í’€íƒ€ì…ì— ë”°ë¼ ìƒíƒœ ì´ˆê¸°í™”
+        if(Controller.PoolType() == MonsterPoolType.Scout)
+        {
+            Controller.SetState(MonsterState.Chasing);
+        }
+        else if(Controller.PoolType() == MonsterPoolType.Patrol)
+        {
+            Controller.SetState(MonsterState.Patrol);
+        }
     }
 
     private void FixedUpdate()
@@ -32,12 +41,12 @@ public class MonsterView : MonoBehaviour, IPoolable
         SetGridTile();
         PlayerPos = GameObject.Find("Player").transform;
 
-        // A* ¾Ë°í¸®ÁòÀ¸·Î ÇÃ·¹ÀÌ¾î ÃßÀû
+        // A* ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
         if(Controller.State == MonsterState.Chasing)
             Controller.ChasePlayer(transform.position, PlayerPos.position);
     }
 
-    // Ãæµ¹ ½Ã ¾îÅÃ
+    // ï¿½æµ¹ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void OnEnable()
     {
@@ -82,6 +91,38 @@ public class MonsterView : MonoBehaviour, IPoolable
                 gridTiles[(int)tile.transform.position.z,
                 (int)tile.transform.position.x] = tile;
             }
+        }
+    }
+
+    
+
+    private void OnCollisionEnter(Collision collision)  // ë–¨ì–´ì§€ëŠ” ë¸”ëŸ­ ë‹¿ì„ë•Œ ì²˜ë¦¬
+    {
+        if (collision.gameObject.CompareTag("Player") && (Controller.PoolType() == MonsterPoolType.Scout))
+        {
+            AttackPlayer();
+            Controller.Release();
+        }
+        
+        if (!collision.gameObject.CompareTag("Block"))
+            return;
+
+        var blockView = collision.gameObject.GetComponent<BlockView>();
+        if (blockView == null)
+            return;
+
+        var blockController = blockView.Controler;
+        if (!(blockController.State == BlockState.Falling))
+            return;
+        
+        if (Controller.PoolType() == MonsterPoolType.Scout)
+        {
+            Controller.Release();
+        }
+        else if (Controller.PoolType() == MonsterPoolType.Patrol)
+        {
+            _attack.Explosion();
+            Controller.Release();
         }
     }
 

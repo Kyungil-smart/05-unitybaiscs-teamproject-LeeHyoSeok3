@@ -15,18 +15,18 @@ public class MonsterMovement
 
     public bool _isArrive;
 
-    // ÀÎÁ¢³ëµåÅ½»öÀ» À§ÇÑ ¸®½ºÆ®
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     private List<GridTile> _nearList;
-    // ¿­¸°³ëµå ¸ñ·Ï
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     private List<GridTile> _openList;
 
-    // ´ÝÈù³ëµå ¸ñ·Ï : ´Ù½Ã´Â º¼ ÇÊ¿ä ¾ø´Â ³ëµå
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : ï¿½Ù½Ã´ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     private List<GridTile> _closedList;
 
-    // °æ·Î¸®½ºÆ®
+    // ï¿½ï¿½Î¸ï¿½ï¿½ï¿½Æ®
     public Queue<GridTile> _pathList;
 
-    // Àßµé¾î°¡´ÂÁö È®ÀÎ¿ë [SerializeField]
+    // ï¿½ßµï¿½î°¡ï¿½ï¿½ï¿½ï¿½ È®ï¿½Î¿ï¿½ [SerializeField]
     public GridTile[,] GridTiles;
     public GridTile NullTile;
     private GridTile _start;
@@ -52,21 +52,21 @@ public class MonsterMovement
         if(_start == _target)
             _isArrive = true;
 
-        // ´Ù½Ã È£Ãâ µÆÀ» ¶§ ÃÊ±âÈ­
+        // ï¿½Ù½ï¿½ È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­
         ResetPath();
 
-        // ½ÃÀÛÁ¡ ¿­¸°³ëµå Ãß°¡
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
         _openList.Add(_start);
 
-        // ÀÎÁ¢³ëµå Ãß°¡
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
         FindNear(_start, _target);
 
-        // ¿­¸°³ëµå Á¦°Å
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         _openList.Remove(_start);
-        // ´ÝÈù³ëµå Ãß°¡
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
         _closedList.Add(_start);
 
-        // ¸ñÇ¥±îÁö Å½»ö
+        // ï¿½ï¿½Ç¥ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½
         while (!(_openList.Count == 0 || _openList.Contains(_target)))
         {
             Findpath(_next);
@@ -85,7 +85,7 @@ public class MonsterMovement
 
     private void Findpath(GridTile tile)
     {
-        // ÃÖÀú ÄÚ½ºÆ® ³ëµå Å½»ö
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½Æ® ï¿½ï¿½ï¿½ Å½ï¿½ï¿½
         int Min = _openList[0]._f;
         tile = _openList[0];
 
@@ -101,15 +101,15 @@ public class MonsterMovement
         _openList.Remove(tile);
         _closedList.Add(tile);
 
-        // ±ÙÃ³Å¸ÀÏ Å½»ö
+        // ï¿½ï¿½Ã³Å¸ï¿½ï¿½ Å½ï¿½ï¿½
         FindNear(tile, _target);
     }
 
     private void FindNear(GridTile current, GridTile target)
     {
-        // Ãß°¡ Àü ÃÊ±âÈ­
+        // ï¿½ß°ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­
         _nearList.Clear();
-        // ±ÙÃ³ Å¸ÀÏ¸®½ºÆ® Ãß°¡
+        // ï¿½ï¿½Ã³ Å¸ï¿½Ï¸ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 
         _nearList.Add(current._upBlock);
         _nearList.Add(current._downBlock);
@@ -122,16 +122,16 @@ public class MonsterMovement
 
         foreach (GridTile tile in _nearList)
         {
-            // Á¢±ÙÇÒ ¼ö ÀÖ´ÂÁö ¾ø´ÂÁö
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (IsReachable(tile, current))
             {
-                // Á¢±ÙÇÒ ¼ö ÀÖÀ¸¸é Á¤º¸µî·Ï
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 RegistTileInfo(current, tile, target);
             }
         }
     }
 
-    // g(n) ÄÚ½ºÆ® ±¸ÇÏ±â
+    // g(n) ï¿½Ú½ï¿½Æ® ï¿½ï¿½ï¿½Ï±ï¿½
     private int GetGCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -143,7 +143,7 @@ public class MonsterMovement
         return (wL* (dx + dz)) + ((diagonal- 2*wL)* Mathf.Min(dx, dz));
     }
 
-    // h(n) ÄÚ½ºÆ® ±¸ÇÏ±â
+    // h(n) ï¿½Ú½ï¿½Æ® ï¿½ï¿½ï¿½Ï±ï¿½
     private int GetHCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -153,7 +153,7 @@ public class MonsterMovement
         return wL* (dx + dz);
     }
 
-    // µµ´ÞÇÒ ¼ö ÀÖ´ÂÁö Á¤ÇÏ±â
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
     private bool IsReachable(GridTile tile, GridTile currentTile)
     { 
         if (tile._blockOn || tile == NullTile || _closedList.Contains(tile))
@@ -175,7 +175,7 @@ public class MonsterMovement
         return true;
     }
 
-    // ±×¸®µå Å¸ÀÏ¿¡ g,h,f ÄÚ½ºÆ®¿Í ºÎ¸ð ÁöÁ¤ÇÏ±â
+    // ï¿½×¸ï¿½ï¿½ï¿½ Å¸ï¿½Ï¿ï¿½ g,h,f ï¿½Ú½ï¿½Æ®ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
     private void RegistTileInfo(GridTile current, GridTile next, GridTile target)
     {
         Vector3 gVector = current.transform.position - next.transform.position;

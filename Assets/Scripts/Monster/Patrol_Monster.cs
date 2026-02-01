@@ -9,35 +9,15 @@ public class Patrol_Monster : MonoBehaviour
     Rigidbody rb;
     Coroutine _movecoroutine;
     [SerializeField] LayerMask _blockLayer;
-
+    
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
     
-
-
-    void OnCollisionEnter(Collision collision) // 떨어지는 블록에 닿으면
-    {
-        if(collision.gameObject.CompareTag("Block"))
-        {
-            if(collision.transform.position.y > transform.position.y + 2f)
-            {
-                Explosion();
-                gameObject.SetActive(false);  // 
-            }
-        }      
-    }
-    void Explosion() // 블럭 충돌 조건에서 발생할 폭발 메서드
-    {
-        // 플레이어를 향해서 레이캐스트
-        // 플레이어 스테이트 변경?
-        Debug.Log("펑!");
-        // 이펙트 출력
-        
-    }
-    IEnumerator WanderRoutine()
+    
+    IEnumerator WanderRoutine()  // 배회 루틴
     {
         while (true)
         {
