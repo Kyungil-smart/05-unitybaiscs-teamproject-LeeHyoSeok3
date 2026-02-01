@@ -57,4 +57,9 @@ public class MonsterController
     {
         PoolManager.Instance.GetPool<MonsterView>((int)_poolType).Release(_monView);
     }
+
+    public MonsterPoolType PoolType()
+    {
+        return _poolType;
+    }
 }

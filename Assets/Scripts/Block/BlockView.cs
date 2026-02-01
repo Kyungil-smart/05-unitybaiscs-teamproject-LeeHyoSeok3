@@ -52,13 +52,8 @@ public class BlockView : MonoBehaviour, IPoolable
         }
         // 박스 비활성화
         gameObject.SetActive(false);
-        // 점수 표출하는 기능
-        if (scorePopup != null)
-        {
-            scorePopup.Show(100, transform);
-        }
     }
-    
+
     public void SetWorldPosition(Vector3 pos)
     {
         transform.position = pos;

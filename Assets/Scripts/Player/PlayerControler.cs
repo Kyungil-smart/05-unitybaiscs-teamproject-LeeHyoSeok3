@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,10 @@ public class PlayerControler : MonoBehaviour
     private PlayerMovement _movement;
     private PlayerAnimator _animator;
     private PlayerInteraction _interaction;
+
+    public bool IsStun;
+    private Coroutine _stuncoroutine;
+
     
     public PlayerState State {get; private set;}
 
@@ -18,12 +23,15 @@ public class PlayerControler : MonoBehaviour
         _movement = GetComponent<PlayerMovement>();
         _animator = GetComponent<PlayerAnimator>();
         State = PlayerState.Idle;
+        IsStun = false;
         _interaction = GetComponent<PlayerInteraction>();
+        
     }
 
     private void Update()
     {
-        if (State == PlayerState.Dead || !(GameManager.Instance.StateMachine.CurrnetState is PlayingState))
+        
+        if (State == PlayerState.Dead || !(GameManager.Instance.StateMachine.CurrnetState is PlayingState) || IsStun)
         {
             _movement.SetMoveDirection(Vector3.zero);
             return;
@@ -92,5 +100,21 @@ public class PlayerControler : MonoBehaviour
     public void SetState(PlayerState state)
     {
         State = state;
+    }
+
+    public void Stunning(float duration)
+    {
+        if(_stuncoroutine != null)
+        {
+            StopCoroutine(_stuncoroutine);
+            _stuncoroutine = null;
+        }
+        _stuncoroutine = StartCoroutine(Stun(duration));
+    }
+    IEnumerator Stun(float duration)
+    {
+        IsStun = true;
+        yield return YieldContainer.WaitForSeconds(duration);
+        IsStun = false;
     }
 }

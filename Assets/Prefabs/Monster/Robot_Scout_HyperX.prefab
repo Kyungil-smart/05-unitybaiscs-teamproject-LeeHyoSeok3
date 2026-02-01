@@ -113,7 +113,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _decelerationValue: 1.5
   _duration: 5
-  _decelerationPerTime: 1.5
+  _decelerationPerTime: 0.5
+  _explosionRange: 1
+  _stunDuration: 0
 --- !u!1 &6023905424259832314
 GameObject:
   m_ObjectHideFlags: 0

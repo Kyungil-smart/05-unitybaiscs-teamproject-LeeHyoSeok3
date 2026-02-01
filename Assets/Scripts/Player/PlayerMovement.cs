@@ -1,3 +1,4 @@
+using CartoonFX;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,19 +7,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField][Range(1,20)] private float _moveSpeed;
-    [SerializeField][Range(1,100)] private float _rotateSpeed;
-    
-    public Vector3 LastMoveDelta {get; private set;}
-    
+    [SerializeField][Range(1, 20)] private float _moveSpeed;
+    [SerializeField][Range(1, 100)] private float _rotateSpeed;
+    [SerializeField] private CFXR_Effect _slowEffectPrefab;
+
+    public Vector3 LastMoveDelta { get; private set; }
+
     private Coroutine coroutine;
     private Rigidbody _rb;
     private Vector3 _moveDir;
     private float _initialSpeed;
-    
-    
+
+
     public float MoveAmount { get; private set; }
-    
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -38,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
             LastMoveDelta = Vector3.zero;
             return;
         }
-        
+
         Move();
         Rotate();
     }
@@ -54,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Quaternion targetRotation = Quaternion.LookRotation(_moveDir);
         Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
-        
+
         _rb.MoveRotation(smoothRotation);
     }
 
@@ -66,10 +68,10 @@ public class PlayerMovement : MonoBehaviour
 
         return _rb.position + movement;
     }
-    
+
     public void Slow(float speed, float time, float dece) // 외부에서 접근하는 속도 감소 코루틴
     {
-        if(coroutine != null)
+        if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
@@ -78,22 +80,28 @@ public class PlayerMovement : MonoBehaviour
     }
     private IEnumerator SpeedChangeCoroutine(float speed, float time, float dece)
     {
+        // 공격당한 이펙트 재생
+        if (_slowEffectPrefab != null)
+        {
+            Instantiate(
+             _slowEffectPrefab,
+             transform.position,
+             Quaternion.Euler(-90f, 0f, 0f)
+             );
+        }
 
         // 일정시간 단계적 감소
-        //while(_moveSpeed > _initialSpeed - speed)
-        //{
-        //    _moveSpeed -= dece * Time.deltaTime;
-        //    yield return null;
-        //} 
-
-        _moveSpeed -= speed;
-
+        while (_moveSpeed > _initialSpeed - speed)
+        {
+            _moveSpeed -= dece * Time.deltaTime;
+            yield return null;
+        }
         // 지속시간 동안 속도 유지
         yield return YieldContainer.WaitForSeconds(time);
 
-        
+
         // 단계적 속도 회복
-        while(_moveSpeed < _initialSpeed)
+        while (_moveSpeed < _initialSpeed)
         {
             _moveSpeed += dece * Time.deltaTime;
             yield return null;
