@@ -2658,6 +2658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ab84e6671e485e93913d8370db63aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStun: 0
 --- !u!114 &134396977078089525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2694,7 +2695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1822b5e3114a1b4428c907a1c48c4651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 3
+  _moveSpeed: 4.5
   _rotateSpeed: 18
   _slowEffectPrefab: {fileID: 7226888052703040405, guid: 7ec363c8df426644ea85f8d6d570561c, type: 3}
 --- !u!114 &2756044575523820768
