@@ -1,3 +1,4 @@
+using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class PlayerCollision : MonoBehaviour
     private Collider _collider;
 
     private PlayerControler _playerController;
+
+    [SerializeField] private CFXR_Effect _deadEffectPrefab;
 
     public bool _playerDead;
 
@@ -42,6 +45,12 @@ public class PlayerCollision : MonoBehaviour
     {             
         if (collision.transform.position.y > transform.position.y + 1)
         {
+            Vector3 effectPosition = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+
+            if (_deadEffectPrefab != null)
+            {
+                Instantiate(_deadEffectPrefab, effectPosition, Quaternion.identity);
+            }
             _playerController.SetState(PlayerState.Dead);
             _playerDead = true;
             Debug.Log("Game Over");
