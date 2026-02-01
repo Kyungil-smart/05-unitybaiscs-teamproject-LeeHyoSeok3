@@ -161,8 +161,8 @@ public class MonsterMovement
 
     // 도달할 수 있는지 정하기
     private bool IsReachable(GridTile tile, GridTile currentTile)
-    { 
-        if (tile._blockOn || tile == NullTile || _closedList.Contains(tile))
+    {
+        if (tile._blockOn || tile == NullTile || _closedList.Contains(tile) || tile == null)
         {
             return false;
         }
