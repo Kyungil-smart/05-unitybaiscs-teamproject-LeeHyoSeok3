@@ -19,6 +19,6 @@ public class MonsterAttack : MonoBehaviour
         // 플래이어 상태를 변화시키는 매서드
         player.GetComponent<PlayerMovement>().Slow(_decelerationValue , _duration, _decelerationPerTime);
         // 퇴장
-        gameObject.GetComponent<MonsterController>().Release();
+        gameObject.GetComponent<MonsterView>().Controller.Release();
     }
 }
