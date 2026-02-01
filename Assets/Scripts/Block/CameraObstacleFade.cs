@@ -12,15 +12,23 @@ public class CameraObstacleFade : MonoBehaviour
     // 블럭이 서서히 선명해지게 변경
     IEnumerator FadeOut(Renderer targetRend)
     {
+        if (targetRend == null) yield break;
+
         Color c = targetRend.material.color;
         while (c.a < _originFade)
         {
+            if (targetRend == null) yield break;
+
             c.a += Time.deltaTime * 1f; 
             targetRend.material.color = c;
             yield return null;
         }
-        c.a = _originFade;
-        targetRend.material.color = c;
+
+        if (targetRend != null)
+        {
+            c.a = _originFade;
+            targetRend.material.color = c;
+        }
     }
 
     // 위에서 내려오는 블럭이 Trigger 발생 시 충돌 시 투명해지게 변경
