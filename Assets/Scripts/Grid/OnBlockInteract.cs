@@ -24,7 +24,9 @@ public class OnBlockInteract : MonoBehaviour
                 block.SetState(BlockState.Locked);
             }
             // ���� ���� ����
-            _onBlock.Controler.Release();
+            BlockControler controler =  _onBlock.Controler;
+            controler.Group.ReleaseControler(controler);
+            
             _onBlock = null;
             IsNeedClear = false;
             gameObject.GetComponent<GridTile>()._blockOn = false;

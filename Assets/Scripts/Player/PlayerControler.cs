@@ -23,11 +23,11 @@ public class PlayerControler : MonoBehaviour
 
     private void Update()
     {
-        if (State == PlayerState.Dead || !(GameManager.Instance.StateMachine.CurrnetState is PlayingState))
-        {
-            _movement.SetMoveDirection(Vector3.zero);
-            return;
-        }
+        // if (State == PlayerState.Dead || !(GameManager.Instance.StateMachine.CurrnetState is PlayingState))
+        // {
+        //     _movement.SetMoveDirection(Vector3.zero);
+        //     return;
+        // }
         
         HandleState();
         HandleMovement();
