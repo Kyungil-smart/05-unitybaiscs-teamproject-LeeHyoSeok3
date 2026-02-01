@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum MonsterState 
 {
-    Spawn, Chasing ,Release
+    Spawn, Chasing ,Release, Patrol
 }

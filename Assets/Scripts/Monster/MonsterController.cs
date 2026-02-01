@@ -34,15 +34,13 @@ public class MonsterController
 
         if (_movement._pathList.Count > 0)
         {
-            Vector3 nextPos = _movement._pathList.Dequeue().transform.position;
+            Vector3 nextPos = _movement._pathList.Pop().transform.position;
             Vector3 dir = (nextPos - Start).normalized;
             _movement.SetMoveDirection(dir);
 
             _movement.Rotate();
             _movement.Move();
         }
-
-        if (_movement._isArrive) { _monView.AttackPlayer(); }
     }
 
     public void SetGridPosition(Vector2Int gridPos)
@@ -58,5 +56,10 @@ public class MonsterController
     public void Release()
     {
         PoolManager.Instance.GetPool<MonsterView>((int)_poolType).Release(_monView);
+    }
+
+    public MonsterPoolType PoolType()
+    {
+        return _poolType;
     }
 }

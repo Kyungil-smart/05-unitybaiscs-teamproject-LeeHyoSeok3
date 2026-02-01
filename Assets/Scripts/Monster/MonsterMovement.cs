@@ -15,18 +15,14 @@ public class MonsterMovement
 
     public bool _isArrive;
 
-    // ÀÎÁ¢³ëµåÅ½»öÀ» À§ÇÑ ¸®½ºÆ®
     private List<GridTile> _nearList;
-    // ¿­¸°³ëµå ¸ñ·Ï
     private List<GridTile> _openList;
 
-    // ´İÈù³ëµå ¸ñ·Ï : ´Ù½Ã´Â º¼ ÇÊ¿ä ¾ø´Â ³ëµå
     private List<GridTile> _closedList;
 
-    // °æ·Î¸®½ºÆ®
-    public Queue<GridTile> _pathList;
+     public Stack<GridTile> _pathList;
+    // ê²½ë¡œë¦¬ìŠ¤íŠ¸
 
-    // Àßµé¾î°¡´ÂÁö È®ÀÎ¿ë [SerializeField]
     public GridTile[,] GridTiles;
     public GridTile NullTile;
     private GridTile _start;
@@ -38,7 +34,7 @@ public class MonsterMovement
         _openList = new List<GridTile>();
         _closedList = new List<GridTile>();
         _nearList = new List<GridTile>();
-        _pathList = new Queue<GridTile>();
+        _pathList = new Stack<GridTile>();
         _moveSpd = 3f;
         _rotateSpd = 18f;
         _isArrive = false;
@@ -52,21 +48,17 @@ public class MonsterMovement
         if(_start == _target)
             _isArrive = true;
 
-        // ´Ù½Ã È£Ãâ µÆÀ» ¶§ ÃÊ±âÈ­
+        // å ìŒ•ì™ì˜™ í˜¸å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì‹­ê¹ì˜™í™”
         ResetPath();
 
-        // ½ÃÀÛÁ¡ ¿­¸°³ëµå Ãß°¡
         _openList.Add(_start);
 
-        // ÀÎÁ¢³ëµå Ãß°¡
         FindNear(_start, _target);
 
-        // ¿­¸°³ëµå Á¦°Å
         _openList.Remove(_start);
-        // ´İÈù³ëµå Ãß°¡
         _closedList.Add(_start);
 
-        // ¸ñÇ¥±îÁö Å½»ö
+        // å ì™ì˜™í‘œå ì™ì˜™å ì™ì˜™ íƒå ì™ì˜™
         while (!(_openList.Count == 0 || _openList.Contains(_target)))
         {
             Findpath(_next);
@@ -77,7 +69,7 @@ public class MonsterMovement
 
     private void BuildPath(GridTile tile)
     {
-        _pathList.Enqueue(tile);
+        _pathList.Push(tile);
 
         if (tile.Parents == null) { return; }
         //BuildPath(tile.Parents);
@@ -85,7 +77,6 @@ public class MonsterMovement
 
     private void Findpath(GridTile tile)
     {
-        // ÃÖÀú ÄÚ½ºÆ® ³ëµå Å½»ö
         int Min = _openList[0]._f;
         tile = _openList[0];
 
@@ -101,15 +92,12 @@ public class MonsterMovement
         _openList.Remove(tile);
         _closedList.Add(tile);
 
-        // ±ÙÃ³Å¸ÀÏ Å½»ö
         FindNear(tile, _target);
     }
 
     private void FindNear(GridTile current, GridTile target)
     {
-        // Ãß°¡ Àü ÃÊ±âÈ­
         _nearList.Clear();
-        // ±ÙÃ³ Å¸ÀÏ¸®½ºÆ® Ãß°¡
 
         _nearList.Add(current._upBlock);
         _nearList.Add(current._downBlock);
@@ -122,16 +110,13 @@ public class MonsterMovement
 
         foreach (GridTile tile in _nearList)
         {
-            // Á¢±ÙÇÒ ¼ö ÀÖ´ÂÁö ¾ø´ÂÁö
             if (IsReachable(tile, current))
             {
-                // Á¢±ÙÇÒ ¼ö ÀÖÀ¸¸é Á¤º¸µî·Ï
                 RegistTileInfo(current, tile, target);
             }
         }
     }
 
-    // g(n) ÄÚ½ºÆ® ±¸ÇÏ±â
     private int GetGCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -143,7 +128,6 @@ public class MonsterMovement
         return (wL* (dx + dz)) + ((diagonal- 2*wL)* Mathf.Min(dx, dz));
     }
 
-    // h(n) ÄÚ½ºÆ® ±¸ÇÏ±â
     private int GetHCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -153,10 +137,16 @@ public class MonsterMovement
         return wL* (dx + dz);
     }
 
-    // µµ´ŞÇÒ ¼ö ÀÖ´ÂÁö Á¤ÇÏ±â
+    private void AddNear(GridTile tile)
+    {
+        if(tile != null)
+            _nearList.Add(tile);
+    }
+
+    // ë„ë‹¬í•  ìˆ˜ ìˆëŠ”ì§€ ì •í•˜ê¸°
     private bool IsReachable(GridTile tile, GridTile currentTile)
-    { 
-        if (tile._blockOn || tile == NullTile || _closedList.Contains(tile))
+    {
+        if (tile._blockOn || tile == NullTile || _closedList.Contains(tile) || tile == null)
         {
             return false;
         }
@@ -175,7 +165,6 @@ public class MonsterMovement
         return true;
     }
 
-    // ±×¸®µå Å¸ÀÏ¿¡ g,h,f ÄÚ½ºÆ®¿Í ºÎ¸ğ ÁöÁ¤ÇÏ±â
     private void RegistTileInfo(GridTile current, GridTile next, GridTile target)
     {
         Vector3 gVector = current.transform.position - next.transform.position;
