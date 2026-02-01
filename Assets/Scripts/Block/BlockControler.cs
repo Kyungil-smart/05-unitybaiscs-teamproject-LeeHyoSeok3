@@ -61,6 +61,11 @@ public class BlockControler
 
         View.SetWorldPosition(worldPos);
     }
+    
+    public void SetLocalOffset(Vector2Int offset)
+    {
+        LocalOffset = offset;
+    }
 
     // ------------------------
     // State
@@ -89,7 +94,7 @@ public class BlockControler
     public void Drop()
     {
         View.EnableCollision();
-        SetState(BlockState.Landed);
+        SetState(BlockState.Falling);
     }
     
     

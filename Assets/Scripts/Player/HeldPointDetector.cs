@@ -2,10 +2,7 @@
 
 public class HeldPointDetector : MonoBehaviour
 {
-    [Header("References")]
     [SerializeField] private Transform _player;
-
-    [Header("Grid Settings")]
     [SerializeField] private float _gridSize = 1f;
     [SerializeField] private int _defaultForwardOffset = 2;
     [SerializeField] private int _maxDistance = 2;
@@ -39,37 +36,21 @@ public class HeldPointDetector : MonoBehaviour
     private void FollowPlayerGrid()
     {
         Vector2Int newPlayerGrid = WorldToGrid(_player.position);
-
         if (newPlayerGrid == _playerGrid)
             return;
 
         _playerGrid = newPlayerGrid;
-
         if (_holdGroup == null)
             return;
-        
-        Vector2Int desiredGrid = _playerGrid + _offsetFromPlayer;
 
-        if (!IsWithinSquareRange(desiredGrid))
+        Vector2Int desiredPivot = _playerGrid + _offsetFromPlayer;
+
+        if (_holdGroup.TryMovePivot(desiredPivot, out var resolvedPivot))
         {
-            int clampedX = Mathf.Clamp(
-                _offsetFromPlayer.x,
-                -_maxDistance,
-                _maxDistance
-            );
-
-            int clampedY = Mathf.Clamp(
-                _offsetFromPlayer.y,
-                -_maxDistance,
-                _maxDistance
-            );
-
-            _offsetFromPlayer = new Vector2Int(clampedX, clampedY);
-            desiredGrid = _playerGrid + _offsetFromPlayer;
+            _currentGrid = resolvedPivot;
+            _offsetFromPlayer = _currentGrid - _playerGrid;
+            SyncWorldPosition();
         }
-        
-        _currentGrid = _playerGrid + _offsetFromPlayer;
-        SyncWorldPosition();
     }
 
     private void HandleInput()
@@ -89,27 +70,19 @@ public class HeldPointDetector : MonoBehaviour
 
         TryMove(dir);
     }
-    
-    private bool IsWithinSquareRange(Vector2Int grid)
-    {
-        int dx = Mathf.Abs(grid.x - _playerGrid.x);
-        int dy = Mathf.Abs(grid.y - _playerGrid.y);
-
-        return dx <= _maxDistance && dy <= _maxDistance;
-    }
 
     private void TryMove(Vector2Int dir)
     {
-        Vector2Int nextGrid = _currentGrid + dir;
-        
-        if (nextGrid == _playerGrid)
+        if (_holdGroup == null)
             return;
 
-        if (!IsWithinSquareRange(nextGrid))
+        Vector2Int desiredPivot = _holdGroup.PivotGrid + dir;
+
+        if (!_holdGroup.TryMovePivot(desiredPivot, out var resolvedPivot))
             return;
 
-        _currentGrid = nextGrid;
-        _offsetFromPlayer = _currentGrid - _playerGrid; // ⭐ offset 갱신
+        _currentGrid = resolvedPivot;
+        _offsetFromPlayer = _currentGrid - _playerGrid;
 
         SyncWorldPosition();
     }
@@ -137,19 +110,18 @@ public class HeldPointDetector : MonoBehaviour
 
         if (_holdGroup == null)
             return;
-
+        
         _playerGrid = WorldToGrid(_player.position);
         _currentGrid = _playerGrid + Vector2Int.up * _defaultForwardOffset;
         _offsetFromPlayer = _currentGrid - _playerGrid;
-
+        
         SyncWorldPosition();
     }
-
-    private void OnTriggerEnter(Collider other)
+    
+    public void OnGroupPivotChanged(Vector2Int newPivot)
     {
-        if (_holdGroup == null) return;
-        if (!other.TryGetComponent<GridTile>(out var tile)) return;
-
-        _holdGroup.SnapRootToGrid(tile.GridPos);
+        _currentGrid = newPivot;
+        _offsetFromPlayer = _currentGrid - _playerGrid;
+        SyncWorldPosition();
     }
 }
