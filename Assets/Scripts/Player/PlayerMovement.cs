@@ -78,13 +78,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private IEnumerator SpeedChangeCoroutine(float speed, float time, float dece)
     {
-        
+
         // 일정시간 단계적 감소
-        while(_moveSpeed > _initialSpeed - speed)
-        {
-            _moveSpeed -= dece * Time.deltaTime;
-            yield return null;
-        } 
+        //while(_moveSpeed > _initialSpeed - speed)
+        //{
+        //    _moveSpeed -= dece * Time.deltaTime;
+        //    yield return null;
+        //} 
+
+        _moveSpeed -= speed;
+
         // 지속시간 동안 속도 유지
         yield return YieldContainer.WaitForSeconds(time);
 

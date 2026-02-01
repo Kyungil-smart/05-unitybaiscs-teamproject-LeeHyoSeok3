@@ -8,10 +8,10 @@ public class MonsterView : MonoBehaviour, IPoolable
 {
     public MonsterController Controller { get; private set; }
 
-    // �÷��̾� ��ǥ
+    // 占시뤄옙占싱억옙 占쏙옙표
     public Transform PlayerPos { get; private set; }
 
-    // �׸���
+    // 占쌓몌옙占쏙옙
     private GridTile[] Tiles;
     private GridTile[,] gridTiles;
     private LineCheker[] _lineRow;
@@ -25,7 +25,7 @@ public class MonsterView : MonoBehaviour, IPoolable
         SetGridTile();
         Controller._movement._rb = GetComponent<Rigidbody>();
 
-        // 몬스터 풀타입에 따라 상태 초기화
+        // 紐ъㅽ  곕  珥湲고
         if(Controller.PoolType() == MonsterPoolType.Scout)
         {
             Controller.SetState(MonsterState.Chasing);
@@ -41,21 +41,24 @@ public class MonsterView : MonoBehaviour, IPoolable
         SetGridTile();
         PlayerPos = GameObject.Find("Player").transform;
 
-        // A* �˰��������� �÷��̾� ����
+        // A* 占싯곤옙占쏙옙占쏙옙占쏙옙占쏙옙 占시뤄옙占싱억옙 占쏙옙占쏙옙
         if(Controller.State == MonsterState.Chasing)
             Controller.ChasePlayer(transform.position, PlayerPos.position);
     }
 
-    // �浹 �� ����
-
+    // 占썸돌 占쏙옙 占쏙옙占쏙옙
     private void OnEnable()
     {
         //Initialize(Controller);
     }
-
-    public void AttackPlayer()
+    // 충돌 시 어택
+    private void OnCollisionEnter(Collision collision)
     {
-        _attack.SlowPlayer();
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            _attack.SlowPlayer();
+            Controller.Release();
+        }
     }
 
     public void OnSpawn()
@@ -65,6 +68,8 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     public void OnDespawn()
     {
+        // view 초기화
+        // 컨트롤러 초기화
         gameObject.SetActive(false);
     }
 
@@ -96,7 +101,7 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     
 
-    private void OnCollisionEnter(Collision collision)  // 떨어지는 블럭 닿을때 처리
+    private void OnCollisionEnter(Collision collision)  // ⑥댁 釉 우 泥由
     {
         if (collision.gameObject.CompareTag("Player") && (Controller.PoolType() == MonsterPoolType.Scout))
         {

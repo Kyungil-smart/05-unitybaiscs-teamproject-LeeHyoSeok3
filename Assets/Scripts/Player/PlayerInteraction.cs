@@ -93,7 +93,7 @@ public class PlayerInteraction : MonoBehaviour
     public void RotateBlock(float? rotateInput)
     {
         bool clockwise = rotateInput > 0f;
-        HoldingGroup.Rotate(clockwise);
+        HoldingGroup.RotateWithWallKick(clockwise);
     }
 
     private void OnDrawGizmos()

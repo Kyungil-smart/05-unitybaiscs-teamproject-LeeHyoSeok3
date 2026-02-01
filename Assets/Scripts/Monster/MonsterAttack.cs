@@ -15,6 +15,12 @@ public class MonsterAttack : MonoBehaviour
     [SerializeField][Range(1,20)] float _explosionRange; // 폭발 사거리
     [SerializeField][Range(0,10)] float _stunDuration;  // 기절 지속시간
 
+    private void Awake()
+    {
+        _decelerationValue = 2f;
+        _duration = 2f;
+        _decelerationPerTime = 0.2f;
+    }
     void OnEnable()
     {
         player = GameObject.Find("Player");

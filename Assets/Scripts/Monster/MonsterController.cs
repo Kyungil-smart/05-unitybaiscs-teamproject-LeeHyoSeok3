@@ -34,15 +34,13 @@ public class MonsterController
 
         if (_movement._pathList.Count > 0)
         {
-            Vector3 nextPos = _movement._pathList.Dequeue().transform.position;
+            Vector3 nextPos = _movement._pathList.Pop().transform.position;
             Vector3 dir = (nextPos - Start).normalized;
             _movement.SetMoveDirection(dir);
 
             _movement.Rotate();
             _movement.Move();
         }
-
-        if (_movement._isArrive) { _monView.AttackPlayer(); }
     }
 
     public void SetGridPosition(Vector2Int gridPos)
