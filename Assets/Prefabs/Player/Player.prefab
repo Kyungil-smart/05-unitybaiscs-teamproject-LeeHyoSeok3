@@ -2147,6 +2147,102 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.08936245, y: 0.84419, z: 0.02642525}
     m_Extent: {x: 0.17780852, y: 0.17838916, z: 0.19358712}
   m_DirtyAABB: 0
+--- !u!1 &6089575697426658173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1625888549600146512}
+  - component: {fileID: 6612361568380630781}
+  - component: {fileID: 2954388646340354130}
+  - component: {fileID: 8647318188453942473}
+  m_Layer: 0
+  m_Name: Head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1625888549600146512
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089575697426658173}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.619, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 135035064706988738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6612361568380630781
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089575697426658173}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.16
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2954388646340354130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089575697426658173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae9a36271a7e7b45b685a8e8632a64e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deadEffectPrefab: {fileID: 4021103657954561941, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
+  _playerDead: 0
+--- !u!54 &8647318188453942473
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089575697426658173}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6176086527369103942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,7 +2677,6 @@ GameObject:
   - component: {fileID: -5388827840647361502}
   - component: {fileID: 2756044575523820768}
   - component: {fileID: 3916587695809729458}
-  - component: {fileID: 679074903809294622}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2603,6 +2698,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5074478936554586361}
+  - {fileID: 1625888549600146512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &775033308826059200
@@ -2733,23 +2829,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.35
-  m_Height: 1.93
+  m_Height: 1.59
   m_Direction: 1
-  m_Center: {x: 0, y: 0.86, z: 0}
---- !u!114 &679074903809294622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7214567898295189066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae9a36271a7e7b45b685a8e8632a64e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _deadEffectPrefab: {fileID: 4021103657954561941, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
-  _playerDead: 0
+  m_Center: {x: 0, y: 0.74, z: 0}
 --- !u!1 &7347284573084582374
 GameObject:
   m_ObjectHideFlags: 0
