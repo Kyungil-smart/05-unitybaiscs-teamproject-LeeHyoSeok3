@@ -163,7 +163,7 @@ public class GameScene : MonoBehaviour
 
     private IEnumerator GameOverRoutine()
     {
-        PlayerCollision.GetComponent<PlayerAnimator>().PlayerDeath();
+        PlayerCollision.GetComponentInParent<PlayerAnimator>().PlayerDeath();
 
         yield return new WaitForSeconds(4f);
 
