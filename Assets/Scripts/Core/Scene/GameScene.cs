@@ -22,6 +22,8 @@ public class GameScene : MonoBehaviour
     [SerializeField] private Button _retrunTitle2;
     [SerializeField] private GameObject _gameExit;
     [SerializeField] private GameObject _gameExit2;
+    [SerializeField] private GameObject _returnGame;
+    [SerializeField] private GameObject _returnGame2;
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
     [Header("Camera")]
     [SerializeField] private Camera mainCamera;
@@ -113,6 +115,8 @@ public class GameScene : MonoBehaviour
         _retrunTitle.gameObject.SetActive(false);
         _gameExit.gameObject.SetActive(false);
         _gameOverState.gameObject.SetActive(false);
+        _returnGame.gameObject.SetActive(false);
+        _returnGame2.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(true);
         _darkOverlay.gameObject.SetActive(true);
         GameManager.Instance.ReadyState();
@@ -124,6 +128,8 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
+        _returnGame.gameObject.SetActive(false);
+        _returnGame2.gameObject.SetActive(false);
         _pauseKey.gameObject.SetActive(true);
         _totalScore.gameObject.SetActive(true);
         _level.gameObject.SetActive(true);
@@ -135,6 +141,8 @@ public class GameScene : MonoBehaviour
         _pauseState.gameObject.SetActive(false);
         _retrunTitle.gameObject.SetActive(false);
         _gameExit.gameObject.SetActive(false);
+        _returnGame.gameObject.SetActive(false);
+        _returnGame2.gameObject.SetActive(false);
         GameManager.Instance.PlayGame();
     }
 
@@ -144,6 +152,7 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(true);
         _pauseState.gameObject.SetActive(true);
         _retrunTitle.gameObject.SetActive(true);
+        _returnGame.gameObject.SetActive(true);
         GameManager.Instance.PauseGame();
     }
 
@@ -161,6 +170,7 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(true);
         _retrunTitle2.gameObject.SetActive(true);
         _gameOverState.gameObject.SetActive(true);
+        _returnGame2.gameObject.SetActive(true);
         GameManager.Instance.GameOver();
     }
 
@@ -170,6 +180,7 @@ public class GameScene : MonoBehaviour
         _darkOverlay.gameObject.SetActive(true);
         _retrunTitle2.gameObject.SetActive(true);
         _gameOverState.gameObject.SetActive(true);
+        _returnGame2.gameObject.SetActive(true);
         GameManager.Instance.GameOver();
     }
 
@@ -190,6 +201,17 @@ public class GameScene : MonoBehaviour
     public void ReturnTitle()
     {
         GameManager.Instance.InitializeGame();
+    }
+
+    public void RetrunGame()
+    {
+        Time.timeScale = 1f;
+
+        GameEventBus.Raise(
+            new LoadSceneRequestedEvent(
+                (SceneType)SceneManager.GetActiveScene().buildIndex
+            )
+        );
     }
 
     public void AreYouSure()

@@ -33,12 +33,14 @@ public class StageSystem
     {
         GameEventBus.Subscribe<StageClearedEvent>(OnStageCleared);
         GameEventBus.Subscribe<LoadSceneRequestedEvent>(DestroyPools);
+        GameEventBus.Subscribe<LoadSceneRequestedEvent>(OnStageRestart);
     }
 
     public void Unsubscribe()
     {
         GameEventBus.Unsubscribe<StageClearedEvent>(OnStageCleared);
         GameEventBus.Unsubscribe<LoadSceneRequestedEvent>(DestroyPools);
+        GameEventBus.Unsubscribe<LoadSceneRequestedEvent>(OnStageRestart);
     }
 
     public void StartStage()
@@ -87,6 +89,18 @@ public class StageSystem
         }
 
         StageTargetScore *= 2;
+
+        GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
+    }
+
+    public void OnStageRestart(LoadSceneRequestedEvent evt)
+    {
+        blockSpawner = null;
+        MonsterSpawner = null;
+        _timer = null;
+        _obstacletimer = null;
+        _monstertimer = null;
+        _spawnCount = 0;
 
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
     }
