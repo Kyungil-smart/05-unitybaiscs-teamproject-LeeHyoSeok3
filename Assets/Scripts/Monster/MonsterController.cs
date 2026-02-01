@@ -41,6 +41,15 @@ public class MonsterController
             _movement.Rotate();
             _movement.Move();
         }
+
+        else
+        {
+            Vector3 dir = (_monView.PlayerPos.position - Start).normalized;
+            _movement.SetMoveDirection(dir);
+
+            _movement.Rotate();
+            _movement.Move();
+        }
     }
 
     public void SetGridPosition(Vector2Int gridPos)

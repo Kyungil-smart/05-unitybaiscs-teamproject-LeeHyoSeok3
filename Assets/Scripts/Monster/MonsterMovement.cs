@@ -45,8 +45,7 @@ public class MonsterMovement
         _start = GetTile(startPos);
         _target = GetTile(targetPos);
 
-        if(_start == _target)
-            _isArrive = true;
+        if(_start == _target) { return; }
 
         // 占쌕쏙옙 호占쏙옙 占쏙옙占쏙옙 占쏙옙 占십깍옙화
         ResetPath();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -44,17 +45,9 @@ public class MonsterSpawner : MonoBehaviour
     {
         //MonsterPoolType poolType = (MonsterPoolType)Random.Range(0, 0); 
 
-        while(!IsCanGenerate(0))
-        {
-            if(!IsCanGenerate(0)) { break; }
-        }
-
-
-        if (IsCanGenerate(0))
-        {
-            Vector2Int baseGrid = new Vector2Int(Random.Range(0,10),Random.Range(0, 10));
-            _current = _monFactory.Create(MonsterPoolType.Scout, baseGrid);
-        }
+            int index = Random.Range(0, _cangeneratelist.ObList.Count);
+            _monFactory.Create(MonsterPoolType.Scout, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            _cangeneratelist.ObList.RemoveAt(index);
     }
 
     public void SpawnMonster(int howmany)
