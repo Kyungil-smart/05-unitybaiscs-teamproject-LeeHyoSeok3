@@ -9,6 +9,13 @@ public class MonsterAttack : MonoBehaviour
     [SerializeField] float _decelerationValue; // 속도 감소치
     [SerializeField] float _duration; // 감속 지속시간
     [SerializeField] private float _decelerationPerTime; // 감속 보간치
+
+    private void Awake()
+    {
+        _decelerationValue = 2f;
+        _duration = 2f;
+        _decelerationPerTime = 0.2f;
+    }
     void OnEnable()
     {
         player = GameObject.Find("Player");

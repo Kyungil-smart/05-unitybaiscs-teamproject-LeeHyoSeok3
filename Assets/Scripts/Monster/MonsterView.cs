@@ -38,10 +38,13 @@ public class MonsterView : MonoBehaviour, IPoolable
     }
 
     // 충돌 시 어택
-
-    private void OnEnable()
+    private void OnCollisionEnter(Collision collision)
     {
-        //Initialize(Controller);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            _attack.SlowPlayer();
+            Controller.Release();
+        }
     }
 
     public void AttackPlayer()
@@ -56,6 +59,8 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     public void OnDespawn()
     {
+        // view 초기화
+        // 컨트롤러 초기화
         gameObject.SetActive(false);
     }
 
