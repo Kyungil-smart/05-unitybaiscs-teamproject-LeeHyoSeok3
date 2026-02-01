@@ -39,13 +39,13 @@ public class CanSBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._upBlock._rightBlock._blockOn )
         {
-            if(!_board.SUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.SUpList.Contains(GetComponent<GridTile>()))
+                _board.SUpList.Add(GetComponent<GridTile>());
         }
         else
         {
-            if(_board.SUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SUpList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.SUpList.Contains(GetComponent<GridTile>()))
+                _board.SUpList.Remove(GetComponent<GridTile>());
         }
     }
     void CanRight()
@@ -56,13 +56,13 @@ public class CanSBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._downBlock._rightBlock._blockOn )
         {
-            if(!_board.SRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SRightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.SRightList.Contains(GetComponent<GridTile>()))
+                _board.SRightList.Add(GetComponent<GridTile>());
         }
         else
         {
-            if(_board.SRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SRightList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.SRightList.Contains(GetComponent<GridTile>()))
+                _board.SRightList.Remove(GetComponent<GridTile>());
         }
     }
     void CanDown()
@@ -73,13 +73,13 @@ public class CanSBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._downBlock._leftBlock._blockOn )
         {
-            if(!_board.SDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.SDownList.Contains(GetComponent<GridTile>()))
+                _board.SDownList.Add(GetComponent<GridTile>());
         }
         else
         {
-            if(_board.SDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SDownList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.SDownList.Contains(GetComponent<GridTile>()))
+                _board.SDownList.Remove(GetComponent<GridTile>());
         }
     }
     void CanLeft()
@@ -91,14 +91,14 @@ public class CanSBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._leftBlock._upBlock._blockOn )
         {
             //리스트에 업
-            if(!_board.SLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SLeftList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.SLeftList.Contains(GetComponent<GridTile>()))
+                _board.SLeftList.Add(GetComponent<GridTile>());
         }
         else
         {
             //리스트에서 해제
-            if(_board.SLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.SLeftList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.SLeftList.Contains(GetComponent<GridTile>()))
+                _board.SLeftList.Remove(GetComponent<GridTile>());
         }
     }
 }

@@ -39,13 +39,13 @@ public class CanJBlock : MonoBehaviour
            !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
            !gameObject.GetComponent<GridTile>()._leftBlock._downBlock._blockOn )
         {
-            if(!_board.JUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.JUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.JUpList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JUpList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
-            if( _board.JUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.JUpList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.JUpList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JUpList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
     void CanRight()
@@ -57,13 +57,13 @@ public class CanJBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._upBlock._leftBlock._blockOn 
             )
         {
-            if(!_board.JRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.JRightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.JRightList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JRightList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
-            if(_board.JRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.JRightList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.JRightList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JRightList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
     void CanDown()
@@ -71,16 +71,16 @@ public class CanJBlock : MonoBehaviour
         //가능성 판독
         if( !gameObject.GetComponent<GridTile>()._blockOn && 
             !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._downBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._rightBlock._blockOn )
+            !gameObject.GetComponent<GridTile>()._upBlock._rightBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._upBlock._blockOn )
         {
-            if(!_board.JDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.JDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.JDownList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JDownList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
-            if(_board.JDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.JDownList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.JDownList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JDownList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
     void CanLeft()
@@ -88,18 +88,18 @@ public class CanJBlock : MonoBehaviour
         //가능성 판독
         if( !gameObject.GetComponent<GridTile>()._blockOn &&
             !gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._blockOn )
+            !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._rightBlock._downBlock._blockOn )
         {
             //리스트에 업
-            if(!_board.JLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.JLeftList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.JLeftList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JLeftList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
             //리스트에서 해제
-            if(_board.JLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.JLeftList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.JLeftList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.JLeftList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
 }

@@ -40,30 +40,30 @@ public class CanLBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._rightBlock._downBlock._blockOn )
         {
-            if(!_board.LUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.LUpList.Contains(GetComponent<GridTile>()))
+                _board.LUpList.Add(GetComponent<GridTile>());
         }
         else
         {
-            if(_board.LUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LUpList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.LUpList.Contains(GetComponent<GridTile>()))
+                _board.LUpList.Remove(GetComponent<GridTile>());
         }
     }
     void CanRight()
     {
         //가능성 판독
         if( !gameObject.GetComponent<GridTile>()._blockOn && 
+            !gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._rightBlock._rightBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._blockOn )
+            !gameObject.GetComponent<GridTile>()._leftBlock._downBlock._blockOn )
         {
-            if(!_board.LRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LRightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.LRightList.Contains(GetComponent<GridTile>()))
+                _board.LRightList.Add(GetComponent<GridTile>());
         }
         else
         {
-            if(_board.LRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LRightList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.LRightList.Contains(GetComponent<GridTile>()))
+                _board.LRightList.Remove(GetComponent<GridTile>());
         }
     }
     void CanDown()
@@ -71,16 +71,16 @@ public class CanLBlock : MonoBehaviour
         //가능성 판독
         if( !gameObject.GetComponent<GridTile>()._blockOn && 
             !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._downBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._leftBlock._blockOn )
+            !gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._upBlock._leftBlock._blockOn )
         {
-            if(!_board.LDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.LDownList.Contains(GetComponent<GridTile>()))
+                _board.LDownList.Add(GetComponent<GridTile>());
         }
         else
         {
-            if(_board.LDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LDownList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.LDownList.Contains(GetComponent<GridTile>()))
+                _board.LDownList.Remove(GetComponent<GridTile>());
         }
     }
     void CanLeft()
@@ -88,18 +88,18 @@ public class CanLBlock : MonoBehaviour
         //가능성 판독
         if( !gameObject.GetComponent<GridTile>()._blockOn && 
             !gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._upBlock._blockOn )
+            !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
+            !gameObject.GetComponent<GridTile>()._rightBlock._upBlock._blockOn )
         {
             //리스트에 업
-            if(!_board.LLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LLeftList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.LLeftList.Contains(GetComponent<GridTile>()))
+                _board.LLeftList.Add(GetComponent<GridTile>());
         }
         else
         {
             //리스트에서 해제
-            if(_board.LLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.LLeftList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(_board.LLeftList.Contains(GetComponent<GridTile>()))
+            _board.LLeftList.Remove(GetComponent<GridTile>());
         }
     }
 }
