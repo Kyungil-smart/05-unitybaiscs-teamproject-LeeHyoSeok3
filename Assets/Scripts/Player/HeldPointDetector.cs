@@ -7,7 +7,9 @@ public class HeldPointDetector : MonoBehaviour
     [SerializeField] private float _gridSize = 1f;
     [SerializeField] private int _defaultForwardOffset = 2;
     [SerializeField] private int _maxDistance = 2;
+    [SerializeField] private float _moveCooldown = 0.05f;
 
+    private CooldownTimer _moveTimer;
     private Vector2Int _playerGrid;
     private Vector2Int _currentGrid;
     private Vector2Int _offsetFromPlayer;
@@ -16,6 +18,8 @@ public class HeldPointDetector : MonoBehaviour
 
     private void Start()
     {
+        _moveTimer = new CooldownTimer(_moveCooldown);
+        
         _playerGrid = WorldToGrid(_player.position);
         _currentGrid = _playerGrid + Vector2Int.up * _defaultForwardOffset;
         _offsetFromPlayer = _currentGrid - _playerGrid;
@@ -59,16 +63,21 @@ public class HeldPointDetector : MonoBehaviour
         if (_holdGroup == null)
             return;
 
+        
+
         Vector2Int dir = Vector2Int.zero;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))  dir = Vector2Int.left;
-        if (Input.GetKeyDown(KeyCode.RightArrow)) dir = Vector2Int.right;
-        if (Input.GetKeyDown(KeyCode.UpArrow))    dir = Vector2Int.up;
-        if (Input.GetKeyDown(KeyCode.DownArrow))  dir = Vector2Int.down;
+        if (Input.GetKey(KeyCode.LeftArrow))  dir = Vector2Int.left;
+        else if (Input.GetKey(KeyCode.RightArrow)) dir = Vector2Int.right;
+        else if (Input.GetKey(KeyCode.UpArrow))    dir = Vector2Int.up;
+        else if (Input.GetKey(KeyCode.DownArrow))  dir = Vector2Int.down;
 
         if (dir == Vector2Int.zero)
             return;
 
+        if (!_moveTimer.IsReady(Time.time))
+            return;
+        
         TryMove(dir);
     }
 

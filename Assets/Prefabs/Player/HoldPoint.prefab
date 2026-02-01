@@ -71,6 +71,7 @@ MonoBehaviour:
   _gridSize: 1
   _defaultForwardOffset: 1
   _maxDistance: 3
+  _moveCooldown: 0.05
 --- !u!54 &-4078933407880610447
 Rigidbody:
   m_ObjectHideFlags: 0
