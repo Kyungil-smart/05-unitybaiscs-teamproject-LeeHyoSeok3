@@ -84,10 +84,10 @@ public class MonsterMovement
 
     private void BuildPath(GridTile tile)
     {
-        if (tile.Parents == null) { return; }
-        _pathList.Push(tile);
-
-        BuildPath(tile.Parents);
+        // if (tile.Parents == null) { return; }
+        // _pathList.Push(tile);
+        //
+        // BuildPath(tile.Parents);
     }
 
     private void Findpath(GridTile tile)

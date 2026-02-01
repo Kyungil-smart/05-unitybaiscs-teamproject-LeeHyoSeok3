@@ -20,8 +20,8 @@ public class PlayerCollision : MonoBehaviour
 
     private void Init()
     {
-        _collider = GetComponent<CapsuleCollider>();
-        _playerController = GetComponent<PlayerControler>();
+        _collider = GetComponent<SphereCollider>();
+        _playerController = GetComponentInParent<PlayerControler>();
         _playerDead = false;
     }
 
