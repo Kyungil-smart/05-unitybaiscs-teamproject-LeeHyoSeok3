@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HeldPointDetector : MonoBehaviour
 {
@@ -123,5 +124,20 @@ public class HeldPointDetector : MonoBehaviour
         _currentGrid = newPivot;
         _offsetFromPlayer = _currentGrid - _playerGrid;
         SyncWorldPosition();
+    }
+
+    // private void OnCollisionEnter(Collision other)
+    // {
+    //     if (_holdGroup == null) return;
+    //     var tile = other.collider.GetComponent<GridTile>();
+    //     if (tile != null) _holdGroup.Tile = tile;
+    // }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_holdGroup == null) return;
+        if (other.TryGetComponent<GridTile>(out var tile)) {
+            _holdGroup.Tile = tile;
+        }
     }
 }

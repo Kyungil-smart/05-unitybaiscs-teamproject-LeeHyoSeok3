@@ -67,6 +67,7 @@ public class BlockSpawner : MonoBehaviour
     {
         BlockType type = (BlockType)Random.Range(0, 7);
         BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
+        int rotation = Random.Range(0, 4); 
 
         // type 추출 코드 테스트
         while (!IsCanGenerate(type))
@@ -91,7 +92,7 @@ public class BlockSpawner : MonoBehaviour
         {
             Vector2Int baseGrid = GetVectortoList(type);
             Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
-            _current = _factory.Create(type, poolType, baseGrid, dropY);
+            _current = _factory.Create(type, poolType, baseGrid, dropY, rotation);
         }
     }
 
@@ -113,7 +114,13 @@ public class BlockSpawner : MonoBehaviour
             // _cangeneratelist.ObList 에서 좌표 받아오기
             int index = Random.Range(0,_cangeneratelist.ObList.Count);
             // 생성
-            _factory.Create(type, poolType, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z), dropY);
+            _factory.Create(
+                type,
+                poolType,
+                new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x,
+                    (int)_cangeneratelist.ObList[index].transform.position.z),
+                dropY,
+                0);
             _cangeneratelist.ObList.RemoveAt(index);
         }
     }

@@ -54,17 +54,19 @@ public class GridTile : MonoBehaviour
         } // 자신의 블록 정보 수정
     }
 
-    public bool CanSetBlocks(Vector2Int[] shape)
-    {
-        for(int i = 0; i < shape.Length; i++)
-        {
-            if(CanSetTargetBlock(shape[i]))
-                return false;
-        }
-        return true;
-    }
+    // public bool CanSetBlocks(Vector2Int position)
+    // {
+    //     return CanSetTargetBlock(position);
+    //     
+    //     // for(int i = 0; i < shape.Length; i++)
+    //     // {
+    //     //     if(CanSetTargetBlock(shape[i]))
+    //     //         return false;
+    //     // }
+    //     // return true;
+    // }
 
-    bool CanSetTargetBlock(Vector2Int position)
+    public bool CanSetTargetBlock(Vector2Int position)
     {
         return Vec2ChangeLink(position)._blockOn;        
     }

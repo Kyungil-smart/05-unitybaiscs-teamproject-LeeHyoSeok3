@@ -70,6 +70,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(LookingGroup == null || !(LookingGroup.IsInteract()))
             return;
+        
+        // if(LookingGroup == null)
+        //     return;
 
         HoldingGroup = LookingGroup;
         LookingGroup = null;
@@ -82,10 +85,9 @@ public class PlayerInteraction : MonoBehaviour
 
     public void DropBlock()
     {
-        if (HoldingGroup == null)
-            return;
-
-        HoldingGroup.Drop();
+        if (HoldingGroup == null) return;
+        if (!HoldingGroup.Drop()) return;
+        
         HoldingGroup.HideOutline();
         HoldingGroup = null;
     }

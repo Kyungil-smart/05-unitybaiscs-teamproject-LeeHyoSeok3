@@ -81,7 +81,10 @@ public class PlayerControler : MonoBehaviour
     private void HandleBlock()
     {
         if (State != PlayerState.Held)
-            _interaction.InteractableBlockUpdate();    
+        {
+            _interaction.InteractableBlockUpdate();
+            // return;
+        }
         
         if (_input.Interact())
         {

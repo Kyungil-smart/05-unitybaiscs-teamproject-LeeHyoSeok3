@@ -28,9 +28,10 @@ public class BlockGroup
     public BlockPoolType  PoolType { get; }
     
     public Vector2Int PivotGrid { get; private set; }
-    public IReadOnlyList<BlockControler> Blocks => _blocks;
+    public List<BlockControler> Blocks { get; private set; }
     public Transform Root { get; }
-    private readonly List<BlockControler> _blocks;
+    public GridTile Tile { private get; set; }
+    
     private Transform _followTarget;
     private Vector3 _holdOffset;
     private HeldPointDetector _heldPoint;
@@ -39,7 +40,7 @@ public class BlockGroup
     private Transform _ghostRoot;
     private ObjectPool<GhostBlock> _ghostPool;
     private List<GhostBlock> _ghostBlocks;
-
+    
     private float _dropY;
 
     public BlockGroup(
@@ -51,11 +52,11 @@ public class BlockGroup
         BlockType = blockType;
         PoolType = poolType;
         PivotGrid = pivotGrid;
-        _blocks = blocks;
+        Blocks = blocks;
 
         Root = new GameObject($"BlockGroupRoot_{blockType}").transform;
 
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
         {
             block.SetGroup(this);
             block.View.transform.SetParent(Root, true);
@@ -63,6 +64,19 @@ public class BlockGroup
         }
 
         SyncRootToGrid();
+    }
+
+    public void ReleaseControler(BlockControler controler)
+    {
+        for (int i = 0; i < Blocks.Count; i++)
+        {
+            if (Blocks[i] == controler)
+            {
+                Blocks[i].Release();
+                Blocks.RemoveAt(i);
+                return;
+            }
+        }
     }
 
     // ------------------------
@@ -79,7 +93,7 @@ public class BlockGroup
         _heldPoint.SetHoldGroup(this);
         CreateGhost(PoolManager.Instance.GetPool<GhostBlock>((int)PoolType));
 
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
         {
             block.PickUp();
             Vector3 local = block.View.transform.localPosition;
@@ -102,23 +116,28 @@ public class BlockGroup
         UpdateGhostTransform();
     }
 
-    public void Drop()
+    public bool Drop()
     {
+        foreach (var block in Blocks) {
+            if (Tile.CanSetTargetBlock(block.LocalOffset)) return false;
+        }
+        
         _isHeld = false;
         _followTarget = null;
 
         PivotGrid = WorldToGrid(Root.position);
-
-        foreach (var block in _blocks)
+        
+        foreach (var block in Blocks)
         {
             block.Drop();
             block.SetGridPosition(PivotGrid + block.LocalOffset, _dropY);
         }
         
-        
         _heldPoint.SetHoldGroup(null);
         _heldPoint = null;
         DestroyGhost();
+
+        return true;
     }
     
     private void ApplyPivot(Vector2Int pivot)
@@ -130,7 +149,7 @@ public class BlockGroup
     
     private bool CanPlaceAt(Vector2Int pivot)
     {
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
         {
             Vector2Int grid = pivot + block.LocalOffset;
             if (!HasTile(grid))
@@ -181,10 +200,10 @@ public class BlockGroup
     public void RotateWithWallKick(bool clockwise)
     {
         List<Vector2Int> backup = new();
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
             backup.Add(block.LocalOffset);
         
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
             block.RotateLocalOffset(clockwise);
         
         foreach (var kick in RotateKickOffsets)
@@ -203,8 +222,8 @@ public class BlockGroup
             return;
         }
         
-        for (int i = 0; i < _blocks.Count; i++)
-            _blocks[i].SetLocalOffset(backup[i]);
+        for (int i = 0; i < Blocks.Count; i++)
+            Blocks[i].SetLocalOffset(backup[i]);
 
         SyncVisuals();
     }
@@ -221,7 +240,7 @@ public class BlockGroup
         _ghostRoot = new GameObject("GhostRoot").transform;
         _ghostBlocks = new List<GhostBlock>();
 
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
         {
             var ghost = _ghostPool.Get();
             ghost.transform.SetParent(_ghostRoot, false);
@@ -244,9 +263,9 @@ public class BlockGroup
             
             _ghostBlocks[i].transform.localPosition =
                 new Vector3(
-                    _blocks[i].LocalOffset.x,
+                    Blocks[i].LocalOffset.x,
                     0f,
-                    _blocks[i].LocalOffset.y
+                    Blocks[i].LocalOffset.y
                 );
         }
     }
@@ -268,7 +287,7 @@ public class BlockGroup
 
     private void SyncVisuals()
     {
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
         {
             block.View.transform.localPosition =
                 new Vector3(
@@ -304,20 +323,20 @@ public class BlockGroup
 
     public void SetOutline(Color color)
     {
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
             block.View.ShowOutLine(color);
     }
 
     public void HideOutline()
     {
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
             block.View.HideOutLine();
     }
 
     // 라인 클리어 전 그룹 내 블록 참조를 위한 메서드
     public List<BlockControler> GetBlockList()
     {
-        return _blocks;
+        return Blocks;
     }
 
     // 블럭그룹의 PoolType 반환 메서드
@@ -329,7 +348,7 @@ public class BlockGroup
     // 블럭그룹 내 블럭들이 상호작용 가능한지 여부 반환, 하나라도 Landed상태가 아니면 false 반환
     public bool IsInteract()
     {
-        foreach (var block in _blocks)
+        foreach (var block in Blocks)
         {
             if (block.State != BlockState.Landed)
                 return false;
