@@ -42501,7 +42501,7 @@ MonoBehaviour:
   - poolType: 0
     prefab: {fileID: -3620010447185269365, guid: 893f954f8ef097e42a456489738dbfe8, type: 3}
     poolsize: 1
-  - poolType: 0
+  - poolType: 1
     prefab: {fileID: 5462727841475919554, guid: e835dc5f7fc8e1441a09aa7ef9aba9e1, type: 3}
     poolsize: 1
 --- !u!4 &765158987

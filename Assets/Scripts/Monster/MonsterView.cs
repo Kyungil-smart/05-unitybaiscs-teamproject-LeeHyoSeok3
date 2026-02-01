@@ -1,3 +1,4 @@
+using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ public class MonsterView : MonoBehaviour, IPoolable
     public MonsterController Controller { get; private set; }
 
     public Transform PlayerPos { get; private set; }
+
+    [SerializeField] private CFXR_Effect _destroyEffectPrefab;
 
     private GridTile[] Tiles;
     private GridTile[,] gridTiles;
@@ -54,6 +57,12 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     public void OnDespawn()
     {
+
+        // 이펙트 표출하는 기능
+        if (_destroyEffectPrefab != null)
+        {
+            Instantiate(_destroyEffectPrefab, transform.position, Quaternion.identity);
+        }
         // view 초기화
         // 컨트롤러 초기화
         gameObject.SetActive(false);
