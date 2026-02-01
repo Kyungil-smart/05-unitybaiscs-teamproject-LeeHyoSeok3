@@ -147,7 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd835e6b194d88b99008c44b1942b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyEffectPrefab: {fileID: 0}
+  _test: 0
+  _destroyEffectPrefab: {fileID: 141433446842962273, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
   scorePopup: {fileID: 0}
 --- !u!114 &5979871133687059764
 MonoBehaviour:
