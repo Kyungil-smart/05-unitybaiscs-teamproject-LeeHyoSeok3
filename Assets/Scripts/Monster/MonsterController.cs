@@ -35,9 +35,8 @@ public class MonsterController
         if (_movement._pathList.Count > 0)
         {
             Vector3 nextPos = _movement._pathList.Pop().transform.position;
-            Vector3 dir = (nextPos - Start).normalized;
+            Vector3 dir = (nextPos - _monView.GetIntVector()).normalized;
             _movement.SetMoveDirection(dir);
-
             _movement.Rotate();
             _movement.Move();
         }

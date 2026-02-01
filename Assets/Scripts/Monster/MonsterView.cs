@@ -36,13 +36,23 @@ public class MonsterView : MonoBehaviour, IPoolable
         }
     }
 
+    private void Update()
+    {
+        
+    }
+
     private void FixedUpdate()
     {
         SetGridTile();
         PlayerPos = GameObject.Find("Player").transform;
 
-        if(Controller.State == MonsterState.Chasing)
+        if (Controller.State == MonsterState.Chasing)
+        {
             Controller.ChasePlayer(transform.position, PlayerPos.position);
+            Debug.Log($"{PlayerPos.position}");
+            Debug.Log($"-----{transform.position}");
+            Debug.Log($"----{transform.localPosition}");
+        }
     }
 
     private void OnEnable()
@@ -50,6 +60,10 @@ public class MonsterView : MonoBehaviour, IPoolable
         //Initialize(Controller);
     }
     
+    public Vector3Int GetIntVector()
+    {
+        return new Vector3Int((int)transform.position.x, 0, (int)transform.position.z);
+    }
     public void OnSpawn()
     {
         gameObject.SetActive(true);
@@ -94,8 +108,6 @@ public class MonsterView : MonoBehaviour, IPoolable
             }
         }
     }
-
-    
 
     private void OnCollisionEnter(Collision collision)  
     {

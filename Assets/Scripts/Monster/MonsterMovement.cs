@@ -13,7 +13,7 @@ public class MonsterMovement
     private Vector3 _movedir;
     public Rigidbody _rb;
 
-    public bool _isArrive;
+    private bool _canMove;
 
     private List<GridTile> _nearList;
     private List<GridTile> _openList;
@@ -37,12 +37,12 @@ public class MonsterMovement
         _pathList = new Stack<GridTile>();
         _moveSpd = 1f;
         _rotateSpd = 18f;
-        _isArrive = false;
+        _canMove = false;
     }
 
     public void ChasePlayer(Vector3 startPos, Vector3 targetPos)
     {
-        _start = GetTile(startPos);
+         _start = GetTile(startPos);
         _target = GetTile(targetPos);
 
         if(_start == _target) { return; }
@@ -50,11 +50,8 @@ public class MonsterMovement
         // 占쌕쏙옙 호占쏙옙 占쏙옙占쏙옙 占쏙옙 占십깍옙화
         ResetPath();
 
-        _openList.Add(_start);
-
         FindNear(_start, _target);
 
-        _openList.Remove(_start);
         _closedList.Add(_start);
 
         int Min = _openList[0]._f;
@@ -70,16 +67,19 @@ public class MonsterMovement
         _openList.Remove(_next);
         _closedList.Add(_next);
 
-        if (!(_openList.Count == 0 || _openList.Contains(_target) || _closedList.Contains(_target) ))
+        if (!(_openList.Count == 0) || !(_openList.Contains(_target)) || !(_closedList.Contains(_target)))
         {
             // ��ǥ���� Ž��
-            while (!(_openList.Count == 0 || _openList.Contains(_target) || _closedList.Contains(_target)))
+            while (!(_openList.Count == 0) || !(_openList.Contains(_target)) || !(_closedList.Contains(_target)))
             {
-                Findpath(_next);
+                if (!Findpath(_next))
+                    break;
             }
         }
 
-        BuildPath(_target);
+        if (_canMove) { BuildPath(_target); }
+
+        else { BuildPath(_next); }
     }
 
     private void BuildPath(GridTile tile)
@@ -90,41 +90,67 @@ public class MonsterMovement
         BuildPath(tile.Parents);
     }
 
-    private void Findpath(GridTile tile)
+    private bool Findpath(GridTile tile)
     {
-        // ���� �ڽ�Ʈ ��� Ž��
-        int Min = _nearList[0]._f;
+        FindNear(tile, _target);
 
-        foreach (GridTile t in _nearList)
+        if (_canMove)
         {
-            if (_openList.Contains(t))
+            // ���� �ڽ�Ʈ ��� Ž��
+            int Min = _nearList[0]._f;
+
+            foreach (GridTile t in _nearList)
             {
-                if (Min > t._f)
+                if (_openList.Contains(t) && !(_closedList.Contains(t)))
                 {
-                    Min = t._f;
-                    tile = t;
+                    if (Min > t._f)
+                    {
+                        Min = t._f;
+                        tile = t;
+                    }
                 }
             }
+            _openList.Remove(tile);
+            _closedList.Add(tile);
+
+            return true;
         }
 
-        _openList.Remove(tile);
-        _closedList.Add(tile);
-
-        FindNear(tile, _target);
+        else { return false; }
     }
 
     private void FindNear(GridTile current, GridTile target)
     {
         _nearList.Clear();
+        _canMove = false;
 
-        _nearList.Add(current._upBlock);
-        _nearList.Add(current._downBlock);
-        _nearList.Add(current._rightBlock);
-        _nearList.Add(current._leftBlock);
-        _nearList.Add(current._upBlock._rightBlock);
-        _nearList.Add(current._upBlock._leftBlock);
-        _nearList.Add(current._downBlock._rightBlock);
-        _nearList.Add(current._downBlock._leftBlock);
+        if (current._upBlock != null)
+        {
+            _nearList.Add(current._upBlock);
+
+            if (current._upBlock._rightBlock != null)
+                _nearList.Add(current._upBlock._rightBlock);
+
+            if (current._upBlock._leftBlock != null)
+                _nearList.Add(current._upBlock._leftBlock);
+        }
+        if (current._downBlock != null)
+        {
+            _nearList.Add(current._downBlock);
+
+            if (current._downBlock._rightBlock != null)
+                _nearList.Add(current._downBlock._rightBlock);
+
+            if (current._downBlock._leftBlock != null)
+                _nearList.Add(current._downBlock._leftBlock);
+        }
+
+        if(current._rightBlock != null)
+            _nearList.Add(current._rightBlock);
+        if(current._leftBlock != null)
+            _nearList.Add(current._leftBlock);
+        
+       
 
         foreach (GridTile tile in _nearList)
         {
@@ -155,12 +181,6 @@ public class MonsterMovement
         return wL* (dx + dz);
     }
 
-    private void AddNear(GridTile tile)
-    {
-        if(tile != null)
-            _nearList.Add(tile);
-    }
-
     // 도달할 수 있는지 정하기
     private bool IsReachable(GridTile tile, GridTile currentTile)
     {
@@ -174,18 +194,20 @@ public class MonsterMovement
             Vector3 gVector = currentTile.transform.position - tile.transform.position;
 
             if (tile._g > GetGCost(gVector)) { return true; }
-
             return false;
         }
 
-        _openList.Add(tile);
-        
-        return true;
+        else
+        {
+            _openList.Add(tile);
+            _canMove = true;
+            return true;
+        }
     }
 
     private void RegistTileInfo(GridTile current, GridTile next, GridTile target)
     {
-        Vector3 gVector = current.transform.position - next.transform.position;
+        Vector3 gVector = _start.transform.position - next.transform.position;
         next._g = GetGCost(gVector);
 
         Vector3 hVector = next.transform.position - target.transform.position;
@@ -208,7 +230,7 @@ public class MonsterMovement
 
     private Vector3 GetNextPos()
     {
-        Vector3 movement = _movedir * (_moveSpd * Time.fixedDeltaTime);
+        Vector3 movement = _movedir * (_moveSpd * Time.deltaTime);
 
         return _rb.position + movement;
     }
@@ -221,7 +243,7 @@ public class MonsterMovement
     public void Rotate()
     {
         Quaternion targetRotation = Quaternion.LookRotation(-_movedir);
-        Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpd * Time.fixedDeltaTime);
+        Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpd * Time.deltaTime);
 
         _rb.MoveRotation(smoothRotation);
     }
@@ -231,5 +253,6 @@ public class MonsterMovement
         _openList.Clear();
         _closedList.Clear();
         _pathList.Clear();
+        _nearList.Clear();
     }
 }
