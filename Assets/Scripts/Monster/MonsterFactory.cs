@@ -14,7 +14,7 @@ public class MonsterFactory
 
         for (int i = 0; i < count; i++)
         {
-            _monsterPools[i] = PoolManager.Instance.GetPool<MonsterView>((int)MonsterPoolType.Scout);
+            _monsterPools[i] = PoolManager.Instance.GetPool<MonsterView>(i);
         }
     }
 
