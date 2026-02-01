@@ -47,11 +47,6 @@ public class MonsterView : MonoBehaviour, IPoolable
         }
     }
 
-    public void AttackPlayer()
-    {
-        _attack.SlowPlayer();
-    }
-
     public void OnSpawn()
     {
         gameObject.SetActive(true);
