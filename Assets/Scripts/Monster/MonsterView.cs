@@ -8,10 +8,8 @@ public class MonsterView : MonoBehaviour, IPoolable
 {
     public MonsterController Controller { get; private set; }
 
-    // 占시뤄옙占싱억옙 占쏙옙표
     public Transform PlayerPos { get; private set; }
 
-    // 占쌓몌옙占쏙옙
     private GridTile[] Tiles;
     private GridTile[,] gridTiles;
     private LineCheker[] _lineRow;
@@ -25,7 +23,6 @@ public class MonsterView : MonoBehaviour, IPoolable
         SetGridTile();
         Controller._movement._rb = GetComponent<Rigidbody>();
 
-        // 紐ъㅽ  곕  珥湲고
         if(Controller.PoolType() == MonsterPoolType.Scout)
         {
             Controller.SetState(MonsterState.Chasing);
@@ -41,26 +38,15 @@ public class MonsterView : MonoBehaviour, IPoolable
         SetGridTile();
         PlayerPos = GameObject.Find("Player").transform;
 
-        // A* 占싯곤옙占쏙옙占쏙옙占쏙옙占쏙옙 占시뤄옙占싱억옙 占쏙옙占쏙옙
         if(Controller.State == MonsterState.Chasing)
             Controller.ChasePlayer(transform.position, PlayerPos.position);
     }
 
-    // 占썸돌 占쏙옙 占쏙옙占쏙옙
     private void OnEnable()
     {
         //Initialize(Controller);
     }
-    // 충돌 시 어택
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            _attack.SlowPlayer();
-            Controller.Release();
-        }
-    }
-
+    
     public void OnSpawn()
     {
         gameObject.SetActive(true);
@@ -101,11 +87,11 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     
 
-    private void OnCollisionEnter(Collision collision)  // ⑥댁 釉 우 泥由
+    private void OnCollisionEnter(Collision collision)  
     {
         if (collision.gameObject.CompareTag("Player") && (Controller.PoolType() == MonsterPoolType.Scout))
         {
-            AttackPlayer();
+            _attack.SlowPlayer();
             Controller.Release();
         }
         

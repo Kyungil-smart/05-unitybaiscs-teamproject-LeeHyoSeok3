@@ -15,20 +15,14 @@ public class MonsterMovement
 
     public bool _isArrive;
 
-    // 占쏙옙占쏙옙占쏙옙占신쏙옙占쏙옙占 占쏙옙占쏙옙 占쏙옙占쏙옙트
     private List<GridTile> _nearList;
-    // 占쏙옙占쏙옙占쏙옙占 占쏙옙占
     private List<GridTile> _openList;
 
-    // 占쏙옙占쏙옙占쏙옙占 占쏙옙占 : 占쌕시댐옙 占쏙옙 占십울옙 占쏙옙占쏙옙 占쏙옙占
     private List<GridTile> _closedList;
 
-    // 占쏙옙罐占쏙옙占싣
-    public Queue<GridTile> _pathList;
+     public Stack<GridTile> _pathList;
     // 경로리스트
-    public Stack<GridTile> _pathList;
 
-    // 占쌩듸옙載∽옙占쏙옙占 확占싸울옙 [SerializeField]
     public GridTile[,] GridTiles;
     public GridTile NullTile;
     private GridTile _start;
@@ -57,15 +51,11 @@ public class MonsterMovement
         // 占쌕쏙옙 호占쏙옙 占쏙옙占쏙옙 占쏙옙 占십깍옙화
         ResetPath();
 
-        // 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占 占쌩곤옙
         _openList.Add(_start);
 
-        // 占쏙옙占쏙옙占쏙옙占 占쌩곤옙
         FindNear(_start, _target);
 
-        // 占쏙옙占쏙옙占쏙옙占 占쏙옙占쏙옙
         _openList.Remove(_start);
-        // 占쏙옙占쏙옙占쏙옙占 占쌩곤옙
         _closedList.Add(_start);
 
         // 占쏙옙표占쏙옙占쏙옙 탐占쏙옙
@@ -87,7 +77,6 @@ public class MonsterMovement
 
     private void Findpath(GridTile tile)
     {
-        // 占쏙옙占쏙옙 占쌘쏙옙트 占쏙옙占 탐占쏙옙
         int Min = _openList[0]._f;
         tile = _openList[0];
 
@@ -103,15 +92,12 @@ public class MonsterMovement
         _openList.Remove(tile);
         _closedList.Add(tile);
 
-        // 占쏙옙처타占쏙옙 탐占쏙옙
         FindNear(tile, _target);
     }
 
     private void FindNear(GridTile current, GridTile target)
     {
-        // 占쌩곤옙 占쏙옙 占십깍옙화
         _nearList.Clear();
-        // 占쏙옙처 타占싹몌옙占쏙옙트 占쌩곤옙
 
         _nearList.Add(current._upBlock);
         _nearList.Add(current._downBlock);
@@ -124,16 +110,13 @@ public class MonsterMovement
 
         foreach (GridTile tile in _nearList)
         {
-            // 占쏙옙占쏙옙占쏙옙 占쏙옙 占쌍댐옙占쏙옙 占쏙옙占쏙옙占쏙옙
             if (IsReachable(tile, current))
             {
-                // 占쏙옙占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占
                 RegistTileInfo(current, tile, target);
             }
         }
     }
 
-    // g(n) 占쌘쏙옙트 占쏙옙占싹깍옙
     private int GetGCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -145,7 +128,6 @@ public class MonsterMovement
         return (wL* (dx + dz)) + ((diagonal- 2*wL)* Mathf.Min(dx, dz));
     }
 
-    // h(n) 占쌘쏙옙트 占쏙옙占싹깍옙
     private int GetHCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -155,7 +137,6 @@ public class MonsterMovement
         return wL* (dx + dz);
     }
 
-    // 占쏙옙占쏙옙占쏙옙 占쏙옙 占쌍댐옙占쏙옙 占쏙옙占싹깍옙
     private void AddNear(GridTile tile)
     {
         if(tile != null)
@@ -184,7 +165,6 @@ public class MonsterMovement
         return true;
     }
 
-    // 占쌓몌옙占쏙옙 타占싹울옙 g,h,f 占쌘쏙옙트占쏙옙 占싸몌옙 占쏙옙占쏙옙占싹깍옙
     private void RegistTileInfo(GridTile current, GridTile next, GridTile target)
     {
         Vector3 gVector = current.transform.position - next.transform.position;
