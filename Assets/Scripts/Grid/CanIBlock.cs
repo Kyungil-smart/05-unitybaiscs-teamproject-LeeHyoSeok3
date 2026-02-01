@@ -39,13 +39,13 @@ public class CanIBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._rightBlock._rightBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._rightBlock._rightBlock._rightBlock._blockOn )
         {
-            if(!_board.IUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.IUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));            
+            if(!_board.IUpList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.IUpList.Add(gameObject.GetComponent<GridTile>());            
         }
         else
         {
-            if( _board.IUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.IUpList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.IUpList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.IUpList.Remove(gameObject.GetComponent<GridTile>());
         }
         
     }
@@ -57,13 +57,13 @@ public class CanIBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._downBlock._downBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._downBlock._downBlock._downBlock._blockOn )
         {
-            if(!_board.IRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.IRightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.IRightList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.IRightList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
-            if( _board.IRightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.IRightList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.IRightList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.IRightList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
     void CanDown()
@@ -74,13 +74,13 @@ public class CanIBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._blockOn &&
             !gameObject.GetComponent<GridTile>()._leftBlock._leftBlock._leftBlock._blockOn )
         {
-            if(!_board.IDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.IDownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.IDownList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.IDownList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
-            if( _board.IDownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.IDownList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.IDownList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.IDownList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
     void CanLeft()
@@ -92,14 +92,14 @@ public class CanIBlock : MonoBehaviour
             !gameObject.GetComponent<GridTile>()._upBlock._upBlock._upBlock._blockOn )
         {
             //리스트에 업
-            if(!_board.ILeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.ILeftList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.ILeftList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.ILeftList.Add(gameObject.GetComponent<GridTile>());
         }
         else
         {
             //리스트에서 해제
-            if( _board.ILeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-                _board.ILeftList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.ILeftList.Contains(gameObject.GetComponent<GridTile>()))
+                _board.ILeftList.Remove(gameObject.GetComponent<GridTile>());
         }
     }
 }
