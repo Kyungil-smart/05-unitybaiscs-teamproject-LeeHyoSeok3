@@ -15,18 +15,20 @@ public class MonsterMovement
 
     public bool _isArrive;
 
-    // ÀÎÁ¢³ëµåÅ½»öÀ» À§ÇÑ ¸®½ºÆ®
+    // å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì‹ ì™ì˜™å ì™ì˜™å  å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™íŠ¸
     private List<GridTile> _nearList;
-    // ¿­¸°³ëµå ¸ñ·Ï
+    // å ì™ì˜™å ì™ì˜™å ì™ì˜™å  å ì™ì˜™å 
     private List<GridTile> _openList;
 
-    // ´İÈù³ëµå ¸ñ·Ï : ´Ù½Ã´Â º¼ ÇÊ¿ä ¾ø´Â ³ëµå
+    // å ì™ì˜™å ì™ì˜™å ì™ì˜™å  å ì™ì˜™å  : å ìŒ•ì‹œëŒì˜™ å ì™ì˜™ å ì‹­ìš¸ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å 
     private List<GridTile> _closedList;
 
-    // °æ·Î¸®½ºÆ®
+    // å ì™ì˜™ç½å ì™ì˜™å ì‹£
+    public Queue<GridTile> _pathList;
+    // ê²½ë¡œë¦¬ìŠ¤íŠ¸
     public Stack<GridTile> _pathList;
 
-    // Àßµé¾î°¡´ÂÁö È®ÀÎ¿ë [SerializeField]
+    // å ìŒ©ë“¸ì˜™è¼‰âˆ½ì˜™å ì™ì˜™å  í™•å ì‹¸ìš¸ì˜™ [SerializeField]
     public GridTile[,] GridTiles;
     public GridTile NullTile;
     private GridTile _start;
@@ -52,21 +54,21 @@ public class MonsterMovement
         if(_start == _target)
             _isArrive = true;
 
-        // ´Ù½Ã È£Ãâ µÆÀ» ¶§ ÃÊ±âÈ­
+        // å ìŒ•ì™ì˜™ í˜¸å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì‹­ê¹ì˜™í™”
         ResetPath();
 
-        // ½ÃÀÛÁ¡ ¿­¸°³ëµå Ãß°¡
+        // å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å  å ìŒ©ê³¤ì˜™
         _openList.Add(_start);
 
-        // ÀÎÁ¢³ëµå Ãß°¡
+        // å ì™ì˜™å ì™ì˜™å ì™ì˜™å  å ìŒ©ê³¤ì˜™
         FindNear(_start, _target);
 
-        // ¿­¸°³ëµå Á¦°Å
+        // å ì™ì˜™å ì™ì˜™å ì™ì˜™å  å ì™ì˜™å ì™ì˜™
         _openList.Remove(_start);
-        // ´İÈù³ëµå Ãß°¡
+        // å ì™ì˜™å ì™ì˜™å ì™ì˜™å  å ìŒ©ê³¤ì˜™
         _closedList.Add(_start);
 
-        // ¸ñÇ¥±îÁö Å½»ö
+        // å ì™ì˜™í‘œå ì™ì˜™å ì™ì˜™ íƒå ì™ì˜™
         while (!(_openList.Count == 0 || _openList.Contains(_target)))
         {
             Findpath(_next);
@@ -85,7 +87,7 @@ public class MonsterMovement
 
     private void Findpath(GridTile tile)
     {
-        // ÃÖÀú ÄÚ½ºÆ® ³ëµå Å½»ö
+        // å ì™ì˜™å ì™ì˜™ å ìŒ˜ì™ì˜™íŠ¸ å ì™ì˜™å  íƒå ì™ì˜™
         int Min = _openList[0]._f;
         tile = _openList[0];
 
@@ -101,15 +103,15 @@ public class MonsterMovement
         _openList.Remove(tile);
         _closedList.Add(tile);
 
-        // ±ÙÃ³Å¸ÀÏ Å½»ö
+        // å ì™ì˜™ì²˜íƒ€å ì™ì˜™ íƒå ì™ì˜™
         FindNear(tile, _target);
     }
 
     private void FindNear(GridTile current, GridTile target)
     {
-        // Ãß°¡ Àü ÃÊ±âÈ­
+        // å ìŒ©ê³¤ì˜™ å ì™ì˜™ å ì‹­ê¹ì˜™í™”
         _nearList.Clear();
-        // ±ÙÃ³ Å¸ÀÏ¸®½ºÆ® Ãß°¡
+        // å ì™ì˜™ì²˜ íƒ€å ì‹¹ëªŒì˜™å ì™ì˜™íŠ¸ å ìŒ©ê³¤ì˜™
 
         _nearList.Add(current._upBlock);
         _nearList.Add(current._downBlock);
@@ -122,16 +124,16 @@ public class MonsterMovement
 
         foreach (GridTile tile in _nearList)
         {
-            // Á¢±ÙÇÒ ¼ö ÀÖ´ÂÁö ¾ø´ÂÁö
+            // å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ìŒëŒì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
             if (IsReachable(tile, current))
             {
-                // Á¢±ÙÇÒ ¼ö ÀÖÀ¸¸é Á¤º¸µî·Ï
+                // å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å 
                 RegistTileInfo(current, tile, target);
             }
         }
     }
 
-    // g(n) ÄÚ½ºÆ® ±¸ÇÏ±â
+    // g(n) å ìŒ˜ì™ì˜™íŠ¸ å ì™ì˜™å ì‹¹ê¹ì˜™
     private int GetGCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -143,7 +145,7 @@ public class MonsterMovement
         return (wL* (dx + dz)) + ((diagonal- 2*wL)* Mathf.Min(dx, dz));
     }
 
-    // h(n) ÄÚ½ºÆ® ±¸ÇÏ±â
+    // h(n) å ìŒ˜ì™ì˜™íŠ¸ å ì™ì˜™å ì‹¹ê¹ì˜™
     private int GetHCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -153,13 +155,14 @@ public class MonsterMovement
         return wL* (dx + dz);
     }
 
+    // å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ìŒëŒì˜™å ì™ì˜™ å ì™ì˜™å ì‹¹ê¹ì˜™
     private void AddNear(GridTile tile)
     {
         if(tile != null)
             _nearList.Add(tile);
     }
 
-    // µµ´ŞÇÒ ¼ö ÀÖ´ÂÁö Á¤ÇÏ±â
+    // ë„ë‹¬í•  ìˆ˜ ìˆëŠ”ì§€ ì •í•˜ê¸°
     private bool IsReachable(GridTile tile, GridTile currentTile)
     {
         if (tile._blockOn || tile == NullTile || _closedList.Contains(tile) || tile == null)
@@ -181,7 +184,7 @@ public class MonsterMovement
         return true;
     }
 
-    // ±×¸®µå Å¸ÀÏ¿¡ g,h,f ÄÚ½ºÆ®¿Í ºÎ¸ğ ÁöÁ¤ÇÏ±â
+    // å ìŒ“ëªŒì˜™å ì™ì˜™ íƒ€å ì‹¹ìš¸ì˜™ g,h,f å ìŒ˜ì™ì˜™íŠ¸å ì™ì˜™ å ì‹¸ëªŒì˜™ å ì™ì˜™å ì™ì˜™å ì‹¹ê¹ì˜™
     private void RegistTileInfo(GridTile current, GridTile next, GridTile target)
     {
         Vector3 gVector = current.transform.position - next.transform.position;

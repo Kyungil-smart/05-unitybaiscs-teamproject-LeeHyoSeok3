@@ -59,24 +59,24 @@ public class MonsterSpawner : MonoBehaviour
 
     public void SpawnMonster(int howmany)
     {
-        if (_cangeneratelist.ObList.Count < howmany) // ºó ÀÚ¸®º¸´Ù »ý¼º ºí·°ÀÌ ¸¹À» ¶§ Ã³¸®
+        if (_cangeneratelist.ObList.Count < howmany) // ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½
         {
             howmany = _cangeneratelist.ObList.Count;
         }
 
-        for (int i = 0; i < howmany; i++) // ¿äÃ»ÇÑ ¼ö ¸¸Å­ ¹Ýº¹
+        for (int i = 0; i < howmany; i++) // ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½Ýºï¿½
         {
-            // ÁÂÇ¥ Å½»ö
+            // ï¿½ï¿½Ç¥ Å½ï¿½ï¿½
 
-            // _cangeneratelist.ObList ¿¡¼­ ÁÂÇ¥ ¹Þ¾Æ¿À±â
+            // _cangeneratelist.ObList ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
             int index = Random.Range(0, _cangeneratelist.ObList.Count);
-            // »ý¼º
-            _monFactory.Create(MonsterPoolType.Scout, new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
+            // ï¿½ï¿½ï¿½ï¿½
+            _monFactory.Create((MonsterPoolType)Random.Range(0, 2), new Vector2Int((int)_cangeneratelist.ObList[index].transform.position.x, (int)_cangeneratelist.ObList[index].transform.position.z));
             _cangeneratelist.ObList.RemoveAt(index);
         }
     }
 
-    // ¸ó½ºÅÍ Å¸ÀÔÀÌ ¾ø¾î¼­ ÀÓ½Ã·Î Á¤¼ö 0»ç¿ë
+    // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î¼­ ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½
     private bool IsCanGenerate(int index)
     {
         switch(index)
