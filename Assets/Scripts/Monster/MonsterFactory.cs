@@ -9,7 +9,7 @@ public class MonsterFactory
 
     public MonsterFactory()
     {
-        int count = System.Enum.GetValues(typeof(BlockPoolType)).Length;
+        int count = System.Enum.GetValues(typeof(MonsterPoolType)).Length;
         _monsterPools = new ObjectPool<MonsterView>[count];
 
         for (int i = 0; i < count; i++)
