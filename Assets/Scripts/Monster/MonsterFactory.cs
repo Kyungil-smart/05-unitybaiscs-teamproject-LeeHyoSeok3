@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterFactory
 {
-    // MonsterObj¸¦ °ü¸®ÇÒ ObjectPool»ý¼º
+    // MonsterObjï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ObjectPoolï¿½ï¿½ï¿½ï¿½
     private readonly ObjectPool<MonsterView>[] _monsterPools;
 
     public MonsterFactory()

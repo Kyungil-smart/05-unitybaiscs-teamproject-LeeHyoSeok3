@@ -37,9 +37,6 @@ public class Patrol_Monster : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
                 yield return null;
             }
-
-            
-
             
             // 일정 시간 혹은 블럭 감지할때까지 이동
             float moveTime = Random.Range(1f, 4f);
@@ -54,7 +51,6 @@ public class Patrol_Monster : MonoBehaviour
                 timer += Time.deltaTime;
                 yield return null;
             }
-            
         }
     }
 
@@ -82,11 +78,6 @@ public class Patrol_Monster : MonoBehaviour
         return Physics.Raycast(transform.position + Vector3.up * 1.2f, transform.forward, 0.5f, _blockLayer);
     }
 
-
-    void OnTriggerEnter(Collider other)
-    {
-        
-    }
     void OnEnable()
     {
         _movecoroutine = StartCoroutine(WanderRoutine());
