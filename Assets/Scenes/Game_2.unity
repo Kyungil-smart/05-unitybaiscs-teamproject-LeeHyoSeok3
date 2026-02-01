@@ -23943,6 +23943,9 @@ MonoBehaviour:
   - poolType: 0
     prefab: {fileID: -3620010447185269365, guid: 893f954f8ef097e42a456489738dbfe8, type: 3}
     poolsize: 1
+  - poolType: 0
+    prefab: {fileID: 5462727841475919554, guid: e835dc5f7fc8e1441a09aa7ef9aba9e1, type: 3}
+    poolsize: 1
 --- !u!4 &765158987
 Transform:
   m_ObjectHideFlags: 0
@@ -44780,10 +44783,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3954785008410827530, guid: 9e685f98730b11b45ae6cb9f59161cca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e685f98730b11b45ae6cb9f59161cca, type: 3}
 --- !u!114 &1572945258 stripped
 MonoBehaviour:

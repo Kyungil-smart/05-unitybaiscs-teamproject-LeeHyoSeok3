@@ -35,7 +35,7 @@ public class MonsterMovement
         _closedList = new List<GridTile>();
         _nearList = new List<GridTile>();
         _pathList = new Stack<GridTile>();
-        _moveSpd = 3f;
+        _moveSpd = 1f;
         _rotateSpd = 18f;
         _isArrive = false;
     }
