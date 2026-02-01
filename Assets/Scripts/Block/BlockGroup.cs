@@ -3,6 +3,27 @@ using UnityEngine;
 
 public class BlockGroup
 {
+    private static readonly Vector2Int[] WallKickOffsets =
+    {
+        Vector2Int.zero,
+        Vector2Int.left,
+        Vector2Int.right,
+        Vector2Int.up,
+        Vector2Int.down,
+        Vector2Int.left + Vector2Int.up,
+        Vector2Int.right + Vector2Int.up,
+    };
+    
+    private static readonly Vector2Int[] RotateKickOffsets =
+    {
+        Vector2Int.zero,
+        Vector2Int.left,
+        Vector2Int.right,
+        Vector2Int.up,
+        Vector2Int.left + Vector2Int.up,
+        Vector2Int.right + Vector2Int.up,
+    };
+    
     public BlockType BlockType { get; }
     public BlockPoolType  PoolType { get; }
     
@@ -12,6 +33,7 @@ public class BlockGroup
     private readonly List<BlockControler> _blocks;
     private Transform _followTarget;
     private Vector3 _holdOffset;
+    private HeldPointDetector _heldPoint;
     private bool _isHeld;
 
     private Transform _ghostRoot;
@@ -49,11 +71,12 @@ public class BlockGroup
 
     public void PickUp(HeldPointDetector heldPoint, float dropY)
     {
-        _followTarget = heldPoint.transform;
+        _heldPoint = heldPoint;
+        _followTarget = _heldPoint.transform;
         _isHeld = true;
         _dropY = dropY;
         
-        heldPoint.SetHoldGroup(this);
+        _heldPoint.SetHoldGroup(this);
         CreateGhost(PoolManager.Instance.GetPool<GhostBlock>((int)PoolType));
 
         foreach (var block in _blocks)
@@ -68,26 +91,6 @@ public class BlockGroup
 
     public void FollowHeld()
     {
-        // if (!_isHeld || _followTarget == null)
-        //     return;
-        //
-        // Vector3 targetPos =
-        //     _followTarget.position +
-        //     _followTarget.forward * 1f;
-        //
-        // targetPos.y = 1.5f;
-        //
-        // BlockControler closest = FindClosestBlock(_followTarget.position);
-        // if (closest == null)
-        //     return;
-        //
-        // Vector3 blockPos = closest.View.transform.position;
-        //
-        // Vector3 delta = targetPos - blockPos;
-        // Root.position += delta;
-        //
-        // UpdateGhostTransform();
-        
         if (!_isHeld || _followTarget == null)
             return;
         
@@ -112,67 +115,99 @@ public class BlockGroup
             block.SetGridPosition(PivotGrid + block.LocalOffset, _dropY);
         }
         
-        // SyncRootToGrid();
+        
+        _heldPoint.SetHoldGroup(null);
+        _heldPoint = null;
         DestroyGhost();
     }
     
-    private BlockControler FindClosestBlock(Vector3 offset)
+    private void ApplyPivot(Vector2Int pivot)
     {
-        BlockControler closest = null;
-        float minSqrDist = float.MaxValue;
-
+        PivotGrid = pivot;
+        Root.position = GridToWorld(pivot);
+        UpdateGhostTransform();
+    }
+    
+    private bool CanPlaceAt(Vector2Int pivot)
+    {
         foreach (var block in _blocks)
         {
-            float sqrDist =
-                (block.View.transform.position - offset).sqrMagnitude;
+            Vector2Int grid = pivot + block.LocalOffset;
+            if (!HasTile(grid))
+                return false;
+        }
+        return true;
+    }
+    
+    private bool HasTile(Vector2Int grid)
+    {
+        Vector3 world = new Vector3(grid.x, 0f, grid.y);
 
-            if (sqrDist < minSqrDist)
-            {
-                minSqrDist = sqrDist;
-                closest = block;
-            }
+        return Physics.CheckBox(
+            world,
+            Vector3.one * 0.45f,
+            Quaternion.identity,
+            LayerMask.GetMask("Tile")
+        );
+    }
+    
+    public bool TryMovePivot(Vector2Int desiredPivot, out Vector2Int resolvedPivot)
+    {
+        foreach (var offset in WallKickOffsets)
+        {
+            Vector2Int testPivot = desiredPivot + offset;
+
+            if (!CanPlaceAt(testPivot))
+                continue;
+
+            ApplyPivot(testPivot);
+            resolvedPivot = testPivot;
+            return true;
         }
 
-        return closest;
+        resolvedPivot = PivotGrid;
+        return false;
     }
-
-    public void SnapRootToGrid(Vector2Int targetGrid)
+    
+    private static Vector3 GridToWorld(Vector2Int grid)
     {
-        if (!_isHeld) return;
-        
-        Vector3 targetWorldPos = new Vector3(
-            targetGrid.x,
-            Root.position.y,
-            targetGrid.y
-        );
-
-        Root.position = targetWorldPos;
-
-        UpdateGhostTransform();
+        return new Vector3(grid.x, 0f, grid.y); // gridSize = 1 기준 통일
     }
     
     // ------------------------
     // Rotate
     // ------------------------
-
-    public void Rotate(bool clockwise)
-    {
-        foreach (var block in _blocks)
-        {
-            block.RotateLocalOffset(clockwise);
-            
-            // 해당 로직 controler로 옮기기.
-            Vector3 localWorld =
-                new Vector3(
-                    block.LocalOffset.x * 1f,
-                    0,
-                    block.LocalOffset.y * 1f
-                );
-
-            block.View.transform.localPosition = localWorld;
-        }
-    }
     
+    public void RotateWithWallKick(bool clockwise)
+    {
+        List<Vector2Int> backup = new();
+        foreach (var block in _blocks)
+            backup.Add(block.LocalOffset);
+        
+        foreach (var block in _blocks)
+            block.RotateLocalOffset(clockwise);
+        
+        foreach (var kick in RotateKickOffsets)
+        {
+            Vector2Int testPivot = PivotGrid + kick;
+
+            if (!CanPlaceAt(testPivot))
+                continue;
+            
+            PivotGrid = testPivot;
+            Root.position = GridToWorld(PivotGrid);
+            SyncVisuals();
+            UpdateGhostTransform();
+            
+            _heldPoint?.OnGroupPivotChanged(PivotGrid);
+            return;
+        }
+        
+        for (int i = 0; i < _blocks.Count; i++)
+            _blocks[i].SetLocalOffset(backup[i]);
+
+        SyncVisuals();
+    }
 
     // ------------------------
     // Ghost
@@ -231,6 +266,21 @@ public class BlockGroup
     // Utilities
     // ------------------------
 
+    private void SyncVisuals()
+    {
+        foreach (var block in _blocks)
+        {
+            block.View.transform.localPosition =
+                new Vector3(
+                    block.LocalOffset.x,
+                    0f,
+                    block.LocalOffset.y
+                );
+        }
+
+        UpdateGhostTransform();
+    }
+    
     private void SyncRootToGrid()
     {
         Root.position = new Vector3(
