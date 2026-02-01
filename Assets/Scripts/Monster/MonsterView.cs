@@ -77,6 +77,7 @@ public class MonsterView : MonoBehaviour, IPoolable
 
         foreach (GridTile tile in Tiles)
         {
+            tile.Parents = null;
             if (tile != GameObject.Find("boolBox").GetComponent<GridTile>())
             {
                 gridTiles[(int)tile.transform.position.z,
