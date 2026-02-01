@@ -9,23 +9,34 @@ public class ScorePopup : MonoBehaviour
     [SerializeField] private float moveUpDistance = 1f;
     [SerializeField] private float duration = 1f;
 
+    private Camera mainCam;
+
+    void Awake()
+    {
+        mainCam = Camera.main;
+    }
+
     private Vector3 startPos;
     private float timer;
 
     // 점수 표시
-    public void Show(int score, Transform box)
+    public void Show(int score, Vector3 worldPos)
     {
         _scoreText3D.text = $"+{score}";
         timer = 0f;
-        startPos = box.position + Vector3.up * 1f; // 점수 표출될 위치
-        _scoreText3D.transform.position = startPos;
-        _scoreText3D.alpha = 1f; // 완전히 보이게
+
+        transform.position = worldPos + Vector3.up * 1f;
+        startPos = transform.position;
+
+        _scoreText3D.alpha = 1f;
         gameObject.SetActive(true);
     }
 
     private void Update()
     {
         if (!gameObject.activeSelf) return;
+
+        transform.forward = mainCam.transform.forward;
 
         timer += Time.deltaTime;
         float t = timer / duration;
