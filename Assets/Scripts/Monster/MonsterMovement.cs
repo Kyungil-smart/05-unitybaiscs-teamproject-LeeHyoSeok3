@@ -74,7 +74,7 @@ public class MonsterMovement
         if (!(_openList.Count == 0 || _openList.Contains(_target) || _closedList.Contains(_target) ))
         {
             // ��ǥ���� Ž��
-            while (!(_openList.Count == 0 || _closedList.Contains(_target)))
+            while (!(_openList.Count == 0 || _openList.Contains(_target) || _closedList.Contains(_target)))
             {
                 Findpath(_next);
             }
