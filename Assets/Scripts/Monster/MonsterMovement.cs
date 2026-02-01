@@ -66,35 +66,53 @@ public class MonsterMovement
         // 닫힌노드 추가
         _closedList.Add(_start);
 
-        // 목표까지 탐색
-        while (!(_openList.Count == 0 || _openList.Contains(_target)))
-        {
-            Findpath(_next);
-            
-        }
-        BuildPath(_target);
-    }
-
-    private void BuildPath(GridTile tile)
-    {
-        _pathList.Push(tile);
-
-        if (tile.Parents == null) { return; }
-        //BuildPath(tile.Parents);
-    }
-
-    private void Findpath(GridTile tile)
-    {
-        // 최저 코스트 노드 탐색
         int Min = _openList[0]._f;
-        tile = _openList[0];
 
         foreach (GridTile t in _openList)
         {
             if (Min > t._f)
             {
                 Min = t._f;
-                tile = t;
+                _next = t;
+            }
+        }
+        _openList.Remove(_next);
+        _closedList.Add(_next);
+
+        if (!(_openList.Count == 0 || _openList.Contains(_target) || _closedList.Contains(_target) ))
+        {
+            // 목표까지 탐색
+            while (!(_openList.Count == 0 || _closedList.Contains(_target)))
+            {
+                Findpath(_next);
+            }
+        }
+
+        BuildPath(_target);
+    }
+
+    private void BuildPath(GridTile tile)
+    {
+        if (tile.Parents == null) { return; }
+        _pathList.Push(tile);
+
+        BuildPath(tile.Parents);
+    }
+
+    private void Findpath(GridTile tile)
+    {
+        // 최저 코스트 노드 탐색
+        int Min = _nearList[0]._f;
+
+        foreach (GridTile t in _nearList)
+        {
+            if (_openList.Contains(t))
+            {
+                if (Min > t._f)
+                {
+                    Min = t._f;
+                    tile = t;
+                }
             }
         }
 
