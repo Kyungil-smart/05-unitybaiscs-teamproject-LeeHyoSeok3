@@ -84,6 +84,11 @@ public class GameScene : MonoBehaviour
             GameOver();
         }
 
+        if (GameManager.Instance.StateMachine.CurrnetState is PlayingState && Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            StageSystem.Instance.TestSpawn();
+        }
+
     }
 
     private void OnDisable()

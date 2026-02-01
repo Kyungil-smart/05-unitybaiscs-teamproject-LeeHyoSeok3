@@ -78,6 +78,7 @@ public class StageSystem
         _obstacletimer = null;
         _monstertimer = null;
         CurrentStage++;
+        _spawnCount = 0;
 
         if (CurrentStage > EndStage)
         {
@@ -98,6 +99,7 @@ public class StageSystem
         CurrentStage = 1;
         StageTargetScore = 1000;
         EndStage = 10;
+        _spawnCount = 0;
     }
 
     public void BlockSpawn()
@@ -133,6 +135,11 @@ public class StageSystem
             _lastSpawnTime = Time.time;
             _spawnCount++;
         }
+    }
+
+    public void TestSpawn()
+    {
+        MonsterSpawner.SpawnMonster(1);
     }
 
 }
