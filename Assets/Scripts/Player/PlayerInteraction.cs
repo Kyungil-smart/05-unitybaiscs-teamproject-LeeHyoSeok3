@@ -70,6 +70,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(LookingGroup == null || !(LookingGroup.IsInteract()))
             return;
+        
+        // if(LookingGroup == null)
+        //     return;
 
         HoldingGroup = LookingGroup;
         LookingGroup = null;

@@ -22,25 +22,42 @@ public class BlockFactory
         }
     }
 
-    public BlockGroup Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid, float dropY)
+    public BlockGroup Create(BlockType type, BlockPoolType poolType, Vector2Int baseGrid, float dropY, int rotation)
     {
         Vector2Int[] shape = BlockShape.Shapes[type];
         List<BlockControler> blocks = new(shape.Length);
 
         foreach (var offset in shape)
         {
-            // Vector2Int grid = baseGrid + offset;
-            Vector2Int grid = offset;
-            // BlockView view = _pool.Get();
+            Vector2Int rotatedOffset = Rotate(offset, rotation);
+
             BlockView view = _blockPools[(int)poolType].Get();
+            var controler = new BlockControler(
+                view,
+                rotatedOffset,
+                dropY,
+                _blockSize,
+                poolType
+            );
 
-            var controler = new BlockControler(view, grid, dropY, _blockSize, poolType);
             view.Initialize(controler);
-
             blocks.Add(controler);
         }
 
         return new BlockGroup(type, poolType, baseGrid, blocks);
+    }
+
+    private Vector2Int Rotate(Vector2Int v, int rotation)
+    {
+        
+        return rotation switch
+        {
+            0 => v,
+            1 => new Vector2Int(-v.y,  v.x), // 90
+            2 => new Vector2Int(-v.x, -v.y), // 180
+            3 => new Vector2Int( v.y, -v.x), // 270
+            _ => v
+        };
     }
 
     public void Release(List<BlockControler> blocks)
