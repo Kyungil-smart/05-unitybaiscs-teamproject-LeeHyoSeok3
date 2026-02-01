@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class MonsterFactory
 {
-    // MonsterObj¸¦ °ü¸®ÇÒ ObjectPool»ý¼º
+    // MonsterObjï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ObjectPoolï¿½ï¿½ï¿½ï¿½
     private readonly ObjectPool<MonsterView>[] _monsterPools;
 
     public MonsterFactory()
     {
-        int count = System.Enum.GetValues(typeof(BlockPoolType)).Length;
+        int count = System.Enum.GetValues(typeof(MonsterPoolType)).Length;
         _monsterPools = new ObjectPool<MonsterView>[count];
 
         for (int i = 0; i < count; i++)
         {
-            _monsterPools[i] = PoolManager.Instance.GetPool<MonsterView>((int)MonsterPoolType.Scout);
+            _monsterPools[i] = PoolManager.Instance.GetPool<MonsterView>(i);
         }
     }
 

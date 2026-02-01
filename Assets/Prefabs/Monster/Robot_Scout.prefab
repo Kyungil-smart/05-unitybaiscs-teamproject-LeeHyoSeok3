@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -183745846893727274}
   - component: {fileID: -2937632215488679519}
   - component: {fileID: 5462727841475919554}
+  - component: {fileID: 8703313633013622725}
   m_Layer: 0
   m_Name: Robot_Scout
   m_TagString: Untagged
@@ -133,7 +134,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &-2937632215488679519
 MonoBehaviour:
@@ -150,7 +151,7 @@ MonoBehaviour:
   _moveSpeed: 1
   _blockLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!114 &5462727841475919554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,3 +165,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyEffectPrefab: {fileID: 1347780276449787774, guid: 99bc28c0d45f51c4fbac01080b73edc7, type: 3}
+--- !u!114 &8703313633013622725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914547237781472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c70449c2d890442bbeeaea6496017e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decelerationValue: 0
+  _duration: 0
+  _decelerationPerTime: 0
+  _explosionRange: 5
+  _stunDuration: 5

@@ -43,6 +43,7 @@ public class MonsterAttack : MonoBehaviour
         // 플레이어 거리 계산
         if(Vector3.Distance(transform.position, player.transform.position) <= _explosionRange)
         {
+            player.GetComponent<PlayerControler>().SetState(PlayerState.Idle);
             player.GetComponent<PlayerControler>().Stunning(_stunDuration);
         }        
     }
