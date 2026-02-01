@@ -161,9 +161,9 @@ public class BlockSpawner : MonoBehaviour
                 switch (rotation)
                 {
                     case 0: return _cangeneratelist.ZUpList;
-                    case 1: return _cangeneratelist.SLeftList;
-                    case 2: return _cangeneratelist.SDownList;
-                    case 3: return _cangeneratelist.SRightList;
+                    case 1: return _cangeneratelist.ZLeftList;
+                    case 2: return _cangeneratelist.ZDownList;
+                    case 3: return _cangeneratelist.ZRightList;
                 }
                 break;
             case BlockType.J:
