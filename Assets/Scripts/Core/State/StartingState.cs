@@ -11,11 +11,9 @@ public class StartingState : GameState
     public override void Enter()
     {
         Time.timeScale = 1f;
-        Debug.Log("Starting ENTER");
     }
 
     public override void Exit()
     {
-        Debug.Log("Starting EXIT");
     }
 }

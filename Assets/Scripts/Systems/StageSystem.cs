@@ -48,7 +48,7 @@ public class StageSystem
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
         IsPlaying = true;
         spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.5);
-        Debug.Log("Spawn Time: " + spawnTime);
+       
 
         if (_timer == null)
             _timer = new CooldownTimer(Mathf.Max(1, spawnTime));

@@ -115,8 +115,14 @@ public class BlockControler
 
     public void Release()
     {
+        if (State == BlockState.Release)
+            return;
+
         SetState(BlockState.Release);
-        Debug.Log($"Release Block State : {State}");
+
+        Group = null;
+        View.transform.SetParent(null, true);
+
         PoolManager.Instance
             .GetPool<BlockView>((int)_poolType)
             .Release(View);

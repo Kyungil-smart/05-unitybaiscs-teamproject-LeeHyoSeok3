@@ -31,7 +31,6 @@ public class MonsterAttack : MonoBehaviour
 
     public void Explosion() // 블럭 충돌 조건에서 발생할 폭발 메서드
     {        
-        Debug.Log("펑!");
         // 이펙트 출력
 
 

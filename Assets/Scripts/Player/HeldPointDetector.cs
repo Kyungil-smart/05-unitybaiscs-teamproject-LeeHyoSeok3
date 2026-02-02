@@ -6,7 +6,7 @@ public class HeldPointDetector : MonoBehaviour
     [SerializeField] private Transform _player;
     [SerializeField] private float _gridSize = 1f;
     [SerializeField] private int _defaultForwardOffset = 2;
-    [SerializeField] private int _maxDistance = 2;
+    // [SerializeField] private int _maxDistance = 2;
     [SerializeField] private float _moveCooldown = 0.05f;
 
     private CooldownTimer _moveTimer;
