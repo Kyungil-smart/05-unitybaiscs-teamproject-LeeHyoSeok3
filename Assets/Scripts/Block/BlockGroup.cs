@@ -31,11 +31,13 @@ public class BlockGroup
     public List<BlockControler> Blocks { get; private set; }
     public Transform Root { get; }
     public GridTile Tile { private get; set; }
-    
+
+    private GameObject _rootObject;
     private Transform _followTarget;
     private Vector3 _holdOffset;
     private HeldPointDetector _heldPoint;
     private bool _isHeld;
+    private bool _gridUpdated;
 
     private Transform _ghostRoot;
     private ObjectPool<GhostBlock> _ghostPool;
@@ -54,7 +56,8 @@ public class BlockGroup
         PivotGrid = pivotGrid;
         Blocks = blocks;
 
-        Root = new GameObject($"BlockGroupRoot_{blockType}").transform;
+        _rootObject = new GameObject($"BlockGroupRoot_{blockType}"); 
+        Root = _rootObject.transform;
 
         foreach (var block in Blocks)
         {
@@ -74,10 +77,24 @@ public class BlockGroup
             {
                 Blocks[i].Release();
                 Blocks.RemoveAt(i);
-                return;
+                break;
             }
         }
+
+        if (Blocks.Count == 0) {
+            Object.Destroy(_rootObject);
+        }
     }
+
+    public void OnBlockEnterGrid()
+    {
+        if (_gridUpdated) return;
+        _gridUpdated = true;
+        GameEventBus.Raise(new GridUpdateEvent());
+        // Debug.Log(Root.gameObject.name + " 블록 트리거");
+    }
+
+    public void ResetGridFlag() => _gridUpdated = false;
 
     // ------------------------
     // Pick / Follow / Drop
@@ -100,7 +117,8 @@ public class BlockGroup
             local.y = 0f;
             block.View.transform.localPosition = local;
         }
-        
+
+        ResetGridFlag();
     }
 
     public void FollowHeld()
@@ -332,13 +350,7 @@ public class BlockGroup
         foreach (var block in Blocks)
             block.View.HideOutLine();
     }
-
-    // 라인 클리어 전 그룹 내 블록 참조를 위한 메서드
-    public List<BlockControler> GetBlockList()
-    {
-        return Blocks;
-    }
-
+    
     // 블럭그룹의 PoolType 반환 메서드
     public BlockPoolType GetPoolType()
     {
@@ -350,9 +362,18 @@ public class BlockGroup
     {
         foreach (var block in Blocks)
         {
-            if (block.State != BlockState.Landed)
-                return false;
+            if (block.State != BlockState.Landed && 
+                block.State != BlockState.Falling) return false;
         }
         return true;
+    }
+
+    public void CheckBlockElemAndLock()
+    {
+        if (Blocks.Count < 4)
+        {
+            foreach (var block in Blocks)
+                block.SetState(BlockState.Locked);
+        }
     }
 }

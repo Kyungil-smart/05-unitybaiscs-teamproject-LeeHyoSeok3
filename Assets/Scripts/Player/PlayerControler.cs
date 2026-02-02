@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,6 +18,8 @@ public class PlayerControler : MonoBehaviour
     
     public PlayerState State {get; private set;}
 
+    [SerializeField] private TextMeshProUGUI _stunText;
+
     private void Awake()
     {
         _input = GetComponent<PlayerInput>();
@@ -25,13 +28,19 @@ public class PlayerControler : MonoBehaviour
         State = PlayerState.Idle;
         IsStun = false;
         _interaction = GetComponent<PlayerInteraction>();
-        
+
+        if (_stunText != null)
+            _stunText.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         
-        if (State == PlayerState.Dead || !(GameManager.Instance.StateMachine.CurrnetState is PlayingState) || IsStun)
+        HandleAnimation();
+        
+        if (State == PlayerState.Dead ||
+            !(GameManager.Instance.StateMachine.CurrnetState is PlayingState) ||
+            IsStun)
         {
             _movement.SetMoveDirection(Vector3.zero);
             return;
@@ -39,7 +48,6 @@ public class PlayerControler : MonoBehaviour
         
         HandleState();
         HandleMovement();
-        HandleAnimation();
         HandleBlock();
     }
 
@@ -75,7 +83,7 @@ public class PlayerControler : MonoBehaviour
 
     private void HandleAnimation()
     {
-        _animator.UpdateMove(_input.MoveInput != Vector3.zero);
+        _animator.UpdateMove(State == PlayerState.Move);
     }
 
     private void HandleBlock()
@@ -117,7 +125,24 @@ public class PlayerControler : MonoBehaviour
     IEnumerator Stun(float duration)
     {
         IsStun = true;
-        yield return YieldContainer.WaitForSeconds(duration);
+
+        if (_stunText != null)
+            _stunText.gameObject.SetActive(true);
+
+        float remaining = duration;
+
+        while (remaining > 0f)
+        {
+            if (_stunText != null)
+                _stunText.text = $"STUN : {remaining:0.0}초";
+
+            remaining -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (_stunText != null)
+            _stunText.gameObject.SetActive(false);
+
         IsStun = false;
     }
 }

@@ -15,12 +15,7 @@ public class MonsterAttack : MonoBehaviour
     [SerializeField][Range(1,20)] float _explosionRange; // 폭발 사거리
     [SerializeField][Range(0,10)] float _stunDuration;  // 기절 지속시간
 
-    private void Awake()
-    {
-        _decelerationValue = 2f;
-        _duration = 2f;
-        _decelerationPerTime = 0.2f;
-    }
+
     void OnEnable()
     {
         player = GameObject.Find("Player");
@@ -36,7 +31,6 @@ public class MonsterAttack : MonoBehaviour
 
     public void Explosion() // 블럭 충돌 조건에서 발생할 폭발 메서드
     {        
-        Debug.Log("펑!");
         // 이펙트 출력
 
 

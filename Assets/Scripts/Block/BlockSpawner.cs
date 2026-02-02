@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class BlockSpawner : MonoBehaviour
@@ -65,35 +61,25 @@ public class BlockSpawner : MonoBehaviour
 
     public void SpawnRandom()
     {
+        if (!CanAny()) { return; } // 생성 가능 블럭 없으면 중단
+        
         BlockType type = (BlockType)Random.Range(0, 7);
         BlockPoolType poolType = (BlockPoolType)Random.Range(0, 7);
-        int rotation = Random.Range(0, 4); 
+        int rotation = Random.Range(0, 4);
 
-        // type 추출 코드 테스트
-        while (!IsCanGenerate(type))
+        while (TargetList(type, rotation).Count == 0)
         {
             type = (BlockType)Random.Range(0, 7);
-            if (
-                !IsCanGenerate(BlockType.I) &&
-                !IsCanGenerate(BlockType.O) &&
-                !IsCanGenerate(BlockType.T) &&
-                !IsCanGenerate(BlockType.S) &&
-                !IsCanGenerate(BlockType.Z) &&
-                !IsCanGenerate(BlockType.J) &&
-                !IsCanGenerate(BlockType.L))
-            {
-                Debug.Log("생성 불가");
-                break;
-            }
-        }
+            rotation = Random.Range(0, 4);
+        }  // = Worst Code Ever
 
         //Grid에서 생성가능한 좌표 가져오기
-        if (IsCanGenerate(type)) // 해당 타입이 생성 불가능하면 동작 안함
-        {
-            Vector2Int baseGrid = GetVectortoList(type);
-            Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
-            _current = _factory.Create(type, poolType, baseGrid, dropY, rotation);
-        }
+        GridTile pivotgrid = TargetList(type, rotation)[Random.Range(0, TargetList(type, rotation).Count)];
+        Vector2Int baseGrid = GetVecToGrid(pivotgrid);
+        _current = _factory.Create(type, poolType, baseGrid, dropY, rotation);
+        
+        // 떨어질 자리 표시
+        pivotgrid.Predict(type, rotation);
     }
 
     public void SpawnObstacle(int howmany)
@@ -121,47 +107,128 @@ public class BlockSpawner : MonoBehaviour
                     (int)_cangeneratelist.ObList[index].transform.position.z),
                 dropY,
                 0);
+            _cangeneratelist.ObList[index]._predict = true;
             _cangeneratelist.ObList.RemoveAt(index);
         }
     }
     
 
-    private bool IsCanGenerate(BlockType shape)
+    private List<GridTile> TargetList(BlockType shape, int rotation)
     {
         switch (shape)
         {
-            case BlockType.I: // I
-                if (_cangeneratelist.IUpList.Count == 0) return false;
-                return true;
-            case BlockType.O: // O
-                if (_cangeneratelist.OUpList.Count == 0) return false;
-                return true;
-
-            case BlockType.T: // T
-                if (_cangeneratelist.TUpList.Count == 0) return false;
-                return true;
-
-            case BlockType.S: // S
-                if (_cangeneratelist.SUpList.Count == 0) return false;
-                return true;
-
-            case BlockType.Z: // Z
-                if (_cangeneratelist.ZUpList.Count == 0) return false;
-                return true;
-
-            case BlockType.J: // J
-                if (_cangeneratelist.JUpList.Count == 0) return false;
-                return true;
-
-            case BlockType.L: //L
-                if (_cangeneratelist.LUpList.Count == 0) return false;
-                return true;
+            case BlockType.I:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.IUpList;
+                    case 1: return _cangeneratelist.ILeftList;
+                    case 2: return _cangeneratelist.IDownList;
+                    case 3: return _cangeneratelist.IRightList;
+                }
+                break;
+            
+            case BlockType.T:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.TUpList;
+                    case 1: return _cangeneratelist.TLeftList;
+                    case 2: return _cangeneratelist.TDownList;
+                    case 3: return _cangeneratelist.TRightList;
+                }
+                break;
+            case BlockType.O:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.OUpList;
+                    case 1: return _cangeneratelist.OLeftList;
+                    case 2: return _cangeneratelist.ODownList;
+                    case 3: return _cangeneratelist.ORightList;
+                }
+                break;
+            case BlockType.S:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.SUpList;
+                    case 1: return _cangeneratelist.SLeftList;
+                    case 2: return _cangeneratelist.SDownList;
+                    case 3: return _cangeneratelist.SRightList;
+                }
+                break;
+            case BlockType.Z:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.ZUpList;
+                    case 1: return _cangeneratelist.ZLeftList;
+                    case 2: return _cangeneratelist.ZDownList;
+                    case 3: return _cangeneratelist.ZRightList;
+                }
+                break;
+            case BlockType.J:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.JUpList;
+                    case 1: return _cangeneratelist.JLeftList;
+                    case 2: return _cangeneratelist.JDownList;
+                    case 3: return _cangeneratelist.JRightList;
+                }
+                break;
+            case BlockType.L:
+                switch (rotation)
+                {
+                    case 0: return _cangeneratelist.LUpList;
+                    case 1: return _cangeneratelist.LLeftList;
+                    case 2: return _cangeneratelist.LDownList;
+                    case 3: return _cangeneratelist.LRightList;
+                }
+                break;   
         }
-
-        return false;
+        return null;
     }
 
-    private Vector2Int GetVectortoList(BlockType shape)
+    private Vector2Int GetVecToGrid(GridTile grid)
+    {
+        return new Vector2Int(
+            (int)grid.transform.position.x,
+            (int)grid.transform.position.z);
+    }
+
+    private bool CanAny()
+    {
+        if(_cangeneratelist.IUpList.Count == 0 &&
+           _cangeneratelist.IDownList.Count == 0 &&
+           _cangeneratelist.ILeftList.Count == 0 &&
+           _cangeneratelist.IRightList.Count == 0 &&
+           _cangeneratelist.OUpList.Count == 0 &&
+           _cangeneratelist.ODownList.Count == 0 &&
+           _cangeneratelist.OLeftList.Count == 0 &&
+           _cangeneratelist.ORightList.Count == 0 &&
+           _cangeneratelist.TUpList.Count == 0 &&
+           _cangeneratelist.TDownList.Count == 0 &&
+           _cangeneratelist.TLeftList.Count == 0 &&
+           _cangeneratelist.TRightList.Count == 0 &&
+           _cangeneratelist.SUpList.Count == 0 &&
+           _cangeneratelist.SDownList.Count == 0 &&
+           _cangeneratelist.SLeftList.Count == 0 &&
+           _cangeneratelist.SRightList.Count == 0 &&
+           _cangeneratelist.ZUpList.Count == 0 &&
+           _cangeneratelist.ZDownList.Count == 0 &&
+           _cangeneratelist.ZLeftList.Count == 0 &&
+           _cangeneratelist.ZRightList.Count == 0 &&
+           _cangeneratelist.LUpList.Count == 0 &&
+           _cangeneratelist.LDownList.Count == 0 &&
+           _cangeneratelist.LLeftList.Count == 0 &&
+           _cangeneratelist.LRightList.Count == 0 &&
+           _cangeneratelist.JUpList.Count == 0 &&
+           _cangeneratelist.JDownList.Count == 0 &&
+           _cangeneratelist.JLeftList.Count == 0 &&
+           _cangeneratelist.JRightList.Count == 0)
+            return false;
+        return true;
+    }
+
+    
+
+    private GridTile GetVectortoList(BlockType shape, int rotation)
     {
         switch (shape)
         {
@@ -186,7 +253,6 @@ public class BlockSpawner : MonoBehaviour
             case BlockType.L: // L
                 return _cangeneratelist.LUpList[Random.Range(0, _cangeneratelist.LUpList.Count)];
         }
-
-        return new Vector2Int(0, 0);
+        return null;
     }
 }

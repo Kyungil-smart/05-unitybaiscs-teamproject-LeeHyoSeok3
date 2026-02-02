@@ -47,21 +47,25 @@ public class StageSystem
     {
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
         IsPlaying = true;
-        spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.2);
-        Debug.Log("Spawn Time: " + spawnTime);
+        spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.5);
+       
 
         if (_timer == null)
             _timer = new CooldownTimer(Mathf.Max(1, spawnTime));
-        else _timer.Resume();
-
 
         if (_obstacletimer == null)
             _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
-        else _obstacletimer.Resume();
 
         if (_monstertimer == null)
             _monstertimer = new CooldownTimer(Random.Range(spawnTime * 4, spawnTime * 8));
-        else _monstertimer.Resume();
+    }
+
+    public void ResumeStage()
+    {
+        IsPlaying = true;
+        _timer?.Resume();
+        _obstacletimer?.Resume();
+        _monstertimer?.Resume();
     }
 
     public void StopStage()
@@ -88,7 +92,7 @@ public class StageSystem
             return;
         }
 
-        StageTargetScore *= 2;
+        StageTargetScore += 1000;
 
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
     }

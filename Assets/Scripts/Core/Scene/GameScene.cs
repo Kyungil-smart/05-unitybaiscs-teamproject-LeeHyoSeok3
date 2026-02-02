@@ -32,6 +32,7 @@ public class GameScene : MonoBehaviour
     [SerializeField] private GameObject secondCameraMove;
     [SerializeField] private GameObject thirdCameraMove;
     [SerializeField] private GameObject fourthCameraMove;
+    [SerializeField] private GameObject topViewCamera;
     [Header("Remove")]
     [SerializeField] private GameObject removeSPSet;
 
@@ -39,6 +40,9 @@ public class GameScene : MonoBehaviour
     private int _currentScore;
     private int _currentStage;
     private int _targetScore;
+    private bool _cameraViewed = false;
+    private float _viewTransTime = 1.0f;
+    private bool _cameraMoving = false;
 
     void Awake()
     {
@@ -68,7 +72,7 @@ public class GameScene : MonoBehaviour
             PlayingState();
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameManager.Instance.StateMachine.CurrnetState is PlayingState)
             {
@@ -91,6 +95,20 @@ public class GameScene : MonoBehaviour
             StageSystem.Instance.TestSpawn();
         }
 
+        if (GameManager.Instance.StateMachine.CurrnetState is PlayingState && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && !_cameraMoving)
+        {
+            if (_cameraViewed == false)
+            {
+                StartCoroutine(ViewTrans(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation));
+                _cameraViewed = true;
+            }
+            else
+            {
+                StartCoroutine(ViewTrans(mainCamera.transform, topViewCamera.transform.position, topViewCamera.transform.rotation));
+                _cameraViewed = false;
+            }
+        }
+
     }
 
     private void OnDisable()
@@ -106,7 +124,6 @@ public class GameScene : MonoBehaviour
 
     public void ReadyState()
     {
-        Debug.Log("ReadyState CALLED");
         _IncreaseScore.gameObject.SetActive(false);
         _totalScore.gameObject.SetActive(false);
         _level.gameObject.SetActive(false);
@@ -124,7 +141,6 @@ public class GameScene : MonoBehaviour
 
     void PlayingState()
     {
-        Debug.Log("PlayingState CALLED");
         _darkOverlay.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);
@@ -143,7 +159,7 @@ public class GameScene : MonoBehaviour
         _gameExit.gameObject.SetActive(false);
         _returnGame.gameObject.SetActive(false);
         _returnGame2.gameObject.SetActive(false);
-        GameManager.Instance.PlayGame();
+        GameManager.Instance.ResumeGame();
     }
 
     public void PauseState()
@@ -163,7 +179,7 @@ public class GameScene : MonoBehaviour
 
     private IEnumerator GameOverRoutine()
     {
-        PlayerCollision.GetComponent<PlayerAnimator>().PlayerDeath();
+        PlayerCollision.GetComponentInParent<PlayerAnimator>().PlayerDeath();
 
         yield return new WaitForSeconds(4f);
 
@@ -217,18 +233,20 @@ public class GameScene : MonoBehaviour
     public void AreYouSure()
     {
         _gameExit.gameObject.SetActive(true);
+        _returnGame.gameObject.SetActive(false);
     }
 
     public void AreYouSure2()
     {
         _gameExit2.gameObject.SetActive(true);
+        _returnGame2.gameObject.SetActive(false);
     }
 
     private IEnumerator CameraMoveThenStartGame()
     {
         GameManager.Instance.StartGame();
         yield return StartCoroutine(MoveCamera(mainCamera.transform, firstCameraMove.transform.position, firstCameraMove.transform.rotation, moveDuration));
-        yield return StartCoroutine(MoveCamera(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation, moveDuration));
+        yield return StartCoroutine(MoveCamera(mainCamera.transform, topViewCamera.transform.position, topViewCamera.transform.rotation, moveDuration));
         ReadyState();
     }
 
@@ -265,6 +283,32 @@ public class GameScene : MonoBehaviour
 
             yield return null;
         }
+
+        cam.position = targetPos;
+        cam.rotation = targetRot;
+    }
+
+    private IEnumerator ViewTrans(Transform cam, Vector3 targetPos, Quaternion targetRot)
+    {
+        Vector3 startPos = cam.position;
+        Quaternion startRot = cam.rotation;
+        float elapsed = 0f;
+        _cameraMoving = true;
+
+        while (elapsed < _viewTransTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / _viewTransTime);
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            cam.position = Vector3.Lerp(startPos, targetPos, t);
+            cam.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+            yield return null;
+        }
+
+        elapsed = 0f;
+        _cameraMoving = false;
 
         cam.position = targetPos;
         cam.rotation = targetRot;

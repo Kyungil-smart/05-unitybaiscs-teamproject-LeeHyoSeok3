@@ -1,3 +1,4 @@
+using System;
 using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,40 +21,37 @@ public class PlayerCollision : MonoBehaviour
 
     private void Init()
     {
-        _collider = GetComponent<CapsuleCollider>();
-        _playerController = GetComponent<PlayerControler>();
+        _collider = GetComponent<SphereCollider>();
+        _playerController = GetComponentInParent<PlayerControler>();
         _playerDead = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!collision.gameObject.CompareTag("Block"))
+        if (!other.CompareTag("Block"))
             return;
 
-        var blockView = collision.gameObject.GetComponent<BlockView>();
+        var blockView = other.GetComponent<BlockView>();
         if (blockView == null)
             return;
 
         var blockController = blockView.Controler;
-        if (!(blockController.State == BlockState.Falling))
+        if (blockController.State != BlockState.Falling &&
+            blockController.State != BlockState.Locked)
             return;
 
-        CollisionWhere(collision);
+        Die();
     }
 
-    private void CollisionWhere(Collision collision)
-    {             
-        if (collision.transform.position.y > transform.position.y + 1)
-        {
-            Vector3 effectPosition = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+    private void Die()
+    {
+        Vector3 effectPosition =
+            transform.position + Vector3.up * 2f;
 
-            if (_deadEffectPrefab != null)
-            {
-                Instantiate(_deadEffectPrefab, effectPosition, Quaternion.identity);
-            }
-            _playerController.SetState(PlayerState.Dead);
-            _playerDead = true;
-            Debug.Log("Game Over");
-        }
+        if (_deadEffectPrefab != null)
+            Instantiate(_deadEffectPrefab, effectPosition, Quaternion.identity);
+
+        _playerController.SetState(PlayerState.Dead);
+        _playerDead = true;
     }
 }

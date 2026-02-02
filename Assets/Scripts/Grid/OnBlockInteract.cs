@@ -17,14 +17,10 @@ public class OnBlockInteract : MonoBehaviour
     {
         if(_onBlock != null && IsNeedClear)
         {
-            // Ŭ������ ���ο� �ִ� ���ϵ��� ��� ���·� �����ϱ� ���� ���� �׷� ����
-            BlockGroup RemainBlocksGroup = _onBlock.Controler.Group;
-            foreach(var block in RemainBlocksGroup.GetBlockList())
-            {
+            BlockControler controler =  _onBlock.Controler;
+            foreach(var block in controler.Group.Blocks) {
                 block.SetState(BlockState.Locked);
             }
-            // ���� ���� ����
-            BlockControler controler =  _onBlock.Controler;
             controler.Group.ReleaseControler(controler);
             
             _onBlock = null;

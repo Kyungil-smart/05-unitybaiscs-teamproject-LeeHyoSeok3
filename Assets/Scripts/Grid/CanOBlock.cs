@@ -5,7 +5,12 @@ using UnityEngine;
 public class CanOBlock : MonoBehaviour
 {
     [SerializeField] CangenerateBolockList _board;
+    private GridTile _this;
 
+    void Awake()
+    {
+        _this = GetComponent<GridTile>();
+    }
     void Start()
     {
         CanUp();
@@ -34,71 +39,71 @@ public class CanOBlock : MonoBehaviour
     void CanUp()
     {
         //가능성 판독
-        if( !gameObject.GetComponent<GridTile>()._blockOn && 
-            !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._upBlock._rightBlock._blockOn )
+        if( !_this._blockOn && 
+            !_this._rightBlock._blockOn &&
+            !_this._upBlock._blockOn &&
+            !_this._upBlock._rightBlock._blockOn )
         {
-            if(!_board.OUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.OUpList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.OUpList.Contains(_this))
+                _board.OUpList.Add(_this);
         }
         else
         {
-            if(_board.OUpList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.OUpList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.OUpList.Contains(_this))
+                _board.OUpList.Remove(_this);
         }
     }
     void CanRight()
     {
         //가능성 판독
-        if( !gameObject.GetComponent<GridTile>()._blockOn && 
-            !gameObject.GetComponent<GridTile>()._rightBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._rightBlock._blockOn )
+        if( !_this._blockOn && 
+            !_this._rightBlock._blockOn &&
+            !_this._downBlock._blockOn &&
+            !_this._downBlock._rightBlock._blockOn )
         {
-            if(!_board.ORightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.ORightList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.ORightList.Contains(_this))
+                _board.ORightList.Add(_this);
         }
         else
         {
-            if(_board.ORightList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.ORightList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.ORightList.Contains(_this))
+                _board.ORightList.Remove(_this);
         }
     }
     void CanDown()
     {
         //가능성 판독
-        if( !gameObject.GetComponent<GridTile>()._blockOn && 
-            !gameObject.GetComponent<GridTile>()._downBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._downBlock._leftBlock._blockOn )
+        if( !_this._blockOn && 
+            !_this._downBlock._blockOn &&
+            !_this._leftBlock._blockOn &&
+            !_this._downBlock._leftBlock._blockOn )
         {
-            if(!_board.ODownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.ODownList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.ODownList.Contains(_this))
+                _board.ODownList.Add(_this);
         }
         else
         {
-            if(_board.ODownList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.ODownList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.ODownList.Contains(_this))
+                _board.ODownList.Remove(_this);
         }
     }
     void CanLeft()
     {
         //가능성 판독
-        if( !gameObject.GetComponent<GridTile>()._blockOn && 
-            !gameObject.GetComponent<GridTile>()._upBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._leftBlock._blockOn &&
-            !gameObject.GetComponent<GridTile>()._upBlock._leftBlock._blockOn )
+        if( !_this._blockOn && 
+            !_this._upBlock._blockOn &&
+            !_this._leftBlock._blockOn &&
+            !_this._upBlock._leftBlock._blockOn )
         {
             //리스트에 업
-            if(!_board.OLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.OLeftList.Add(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if(!_board.OLeftList.Contains(_this))
+                _board.OLeftList.Add(_this);
         }
         else
         {
             //리스트에서 해제
-            if(_board.OLeftList.Contains(new Vector2Int((int)transform.position.x,(int)transform.position.z)))
-            _board.OLeftList.Remove(new Vector2Int((int)transform.position.x,(int)transform.position.z));
+            if( _board.OLeftList.Contains(_this))
+                _board.OLeftList.Remove(_this);
         }
     }
 }
