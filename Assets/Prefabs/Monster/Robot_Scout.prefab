@@ -181,4 +181,4 @@ MonoBehaviour:
   _duration: 0
   _decelerationPerTime: 0
   _explosionRange: 5
-  _stunDuration: 5
+  _stunDuration: 3

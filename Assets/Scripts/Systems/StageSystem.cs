@@ -88,7 +88,7 @@ public class StageSystem
             return;
         }
 
-        StageTargetScore *= 2;
+        StageTargetScore += 1000;
 
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
     }
