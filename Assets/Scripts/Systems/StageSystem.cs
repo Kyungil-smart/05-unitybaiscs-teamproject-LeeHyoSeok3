@@ -47,7 +47,7 @@ public class StageSystem
     {
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
         IsPlaying = true;
-        spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.2);
+        spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.5);
         Debug.Log("Spawn Time: " + spawnTime);
 
         if (_timer == null)
