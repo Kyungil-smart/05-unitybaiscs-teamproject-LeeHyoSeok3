@@ -36,7 +36,9 @@ public class MonsterController
 
         if (_movement._pathList.Count > 0)
         {
-
+            //_nextPos = _movement._pathList.Pop().transform.position;
+            //Vector3 dir = (_nextPos - _monView.GetVector()).normalized;
+            //_movement.SetMoveDirection(dir);
             if(_monView.StartMoveCouroutine != null) { _monView.StopCoroutine(_monView.StartMoveCouroutine); }
 
             _monView.StartMoveCouroutine = _monView.StartCoroutine(MovementCoroutine());

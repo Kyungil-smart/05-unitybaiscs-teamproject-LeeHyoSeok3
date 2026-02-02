@@ -46,7 +46,7 @@ public class MonsterView : MonoBehaviour, IPoolable
     {
         if (Controller.State == MonsterState.Chasing)
         {
-            if (GridPos == null )
+            if (GridPos == null || GridPos == Vector3.zero)
             {
                 Controller.ChasePlayer(transform.position, PlayerPos.position);
             }

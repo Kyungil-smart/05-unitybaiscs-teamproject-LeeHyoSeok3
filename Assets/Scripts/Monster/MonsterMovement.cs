@@ -29,12 +29,16 @@ public class MonsterMovement
     private GridTile _next;
     private GridTile _target;
 
+    private Vector3 _fixPos;
+
     public MonsterMovement()
     {
         _openList = new List<GridTile>();
         _closedList = new List<GridTile>();
         _nearList = new List<GridTile>();
         _pathList = new Stack<GridTile>();
+        _fixPos = new Vector3();
+
         _moveSpd = 1f;
         _rotateSpd = 18f;
         _canMove = false;
@@ -43,7 +47,15 @@ public class MonsterMovement
     public void ChasePlayer(Vector3 startPos, Vector3 targetPos)
     {
          _start = GetTile(startPos);
+        _start._g = 0;
+        _start._h = 0;
+        _start._f = 0;
+
         _target = GetTile(targetPos);
+        if(_target._blockOn)
+        {
+            FixTarget(targetPos);
+        }
 
         if(_start == _target) { return; }
 
@@ -55,6 +67,7 @@ public class MonsterMovement
         _closedList.Add(_start);
 
         int Min = _openList[0]._f;
+        _next = _openList[0];
 
         foreach (GridTile t in _openList)
         {
@@ -67,13 +80,23 @@ public class MonsterMovement
         _openList.Remove(_next);
         _closedList.Add(_next);
 
-        if (!(_openList.Count == 0) || !(_openList.Contains(_target)) || !(_closedList.Contains(_target)))
+        Findpath(_next);
+
+        _openList.Remove(_next);
+        _closedList.Add(_next);
+
+        if ( !(_openList.Contains(_target)) || !(_closedList.Contains(_target)))
         {
             // ��ǥ���� Ž��
             while (!(_openList.Count == 0) && !(_openList.Contains(_target)) && !(_closedList.Contains(_target)))
             {
-                if (!Findpath(_next))
-                    break;
+                if (Findpath(_next))
+                {
+                    _openList.Remove(_next);
+                    _closedList.Add(_next);
+                }
+
+                else { break; }
             }
         }
 
@@ -94,10 +117,8 @@ public class MonsterMovement
     {
         FindNear(_next, _target);
 
-        if (_canMove)
-        {
             // ���� �ڽ�Ʈ ��� Ž��
-            int Min = _nearList[0]._f;
+            int Min = _openList[0]._f;
 
             foreach (GridTile t in _openList)
             {
@@ -112,14 +133,7 @@ public class MonsterMovement
             }
 
             if(prevtile == _next) { return false; }
-
-            _openList.Remove(_next);
-            _closedList.Add(_next);
-
             return true;
-        }
-
-        else { return false; }
     }
 
     private void FindNear(GridTile current, GridTile target)
@@ -213,6 +227,10 @@ public class MonsterMovement
         else
         {
             _openList.Add(nexttile);
+            nexttile._g = 0;
+            nexttile._h = 0;
+            nexttile._f = 0;
+
             _canMove = true;
             nexttile.Parents = currentTile;
             return true;
@@ -221,8 +239,8 @@ public class MonsterMovement
 
     private void RegistTileInfo(GridTile current, GridTile next, GridTile target)
     {
-        Vector3 gVector = _start.transform.position - next.transform.position;
-        next._g = GetGCost(gVector);
+        Vector3 gVector = current.transform.position - next.transform.position;
+        next._g = current._g + GetGCost(gVector);
 
         Vector3 hVector = next.transform.position - target.transform.position;
         next._h = GetHCost(hVector);
@@ -258,6 +276,23 @@ public class MonsterMovement
         Quaternion smoothRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotateSpd * Time.deltaTime);
 
         _rb.MoveRotation(smoothRotation);
+    }
+
+    private void FixTarget(Vector3 targetPos)
+    {
+        if (_target.transform.position.x > targetPos.x)
+        { _fixPos.x = _target.transform.position.x - 1; }
+
+        else if (_target.transform.position.x < targetPos.x)
+        { _fixPos.x = _target.transform.position.x + 1; }
+
+        if (_target.transform.position.y > targetPos.y)
+        { _fixPos.y = _target.transform.position.y - 1; }
+
+        else if (_target.transform.position.x < targetPos.x)
+        { _fixPos.y = _target.transform.position.y + 1; }
+
+        _target = GetTile(_fixPos);
     }
 
     private void ResetPath()
