@@ -42,8 +42,8 @@ public class GridTile : MonoBehaviour
     {
 	    if(other.tag == "Block")
         {
+            // Debug.Log(gameObject.name + " 타일 트리거");
             _blockOn = true;
-            
             _predict = false;
         } // 자신의 블록 정보 수정
     }

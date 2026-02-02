@@ -127,9 +127,8 @@ public class BlockView : MonoBehaviour, IPoolable
     private void OnTriggerEnter(Collider other)
     {
         // 그리드와 충돌했을 때
-        if (other.gameObject.CompareTag("Grid"))
-        {
-            GameEventBus.Raise(new GridUpdateEvent());
+        if (other.gameObject.CompareTag("Grid")) {
+            Controler?.Group?.OnBlockEnterGrid();
         }
     }
 
