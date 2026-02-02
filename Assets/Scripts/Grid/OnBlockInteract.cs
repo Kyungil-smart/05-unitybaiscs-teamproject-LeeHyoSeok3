@@ -40,7 +40,24 @@ public class OnBlockInteract : MonoBehaviour
         if(_onBlock.Controler.State == BlockState.Held)
         {
             gameObject.GetComponent<GridTile>()._blockOn = false;
+            //
+            foreach (var block in _onBlock.Controler.Group.Blocks)
+            {
+                if (block.LocalOffset == Vector2Int.zero)
+                {
+                    // Tile CheckNear
+                    gameObject.GetComponent<CanIBlock>().CheckNear();
+                    gameObject.GetComponent<CanTBlock>().CheckNear();
+                    gameObject.GetComponent<CanOBlock>().CheckNear();
+                    gameObject.GetComponent<CanLBlock>().CheckNear();
+                    gameObject.GetComponent<CanJBlock>().CheckNear();
+                    gameObject.GetComponent<CanSBlock>().CheckNear();
+                    gameObject.GetComponent<CanZBlock>().CheckNear();
+                }
+            }
             _onBlock = null;
+            
+            GameEventBus.Raise(new GridUpdateEvent());
         }
         // 헬드 이벤트 때 블럭 상태가 헬드이면 정보 갱신
     }

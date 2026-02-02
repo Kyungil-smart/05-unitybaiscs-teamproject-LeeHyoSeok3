@@ -22,6 +22,14 @@ public class GridTile : MonoBehaviour
     public GridTile _leftBlock;
     public GridTile _rightBlock;
     
+    // 블럭 타입별 참조
+    public CanLBlock L;
+    public CanJBlock J;
+    public CanSBlock S;
+    public CanZBlock Z;
+    public CanOBlock O;
+    public CanIBlock I;
+    public CanTBlock T;
 
     void Awake()
     {
@@ -34,6 +42,13 @@ public class GridTile : MonoBehaviour
         GridPos = new Vector2Int((int)transform.position.x, (int)transform.position.z);
         Parents = null;
         _predict = false;
+        L = GetComponent<CanLBlock>();
+        J = GetComponent<CanJBlock>();
+        S = GetComponent<CanSBlock>();
+        Z = GetComponent<CanZBlock>();
+        O = GetComponent<CanOBlock>();
+        I = GetComponent<CanIBlock>();
+        T = GetComponent<CanTBlock>();
     }
 
     
@@ -139,6 +154,11 @@ public class GridTile : MonoBehaviour
         {
             Vec2ChangeLink(vec)._predict = true;
         }
+    }
+
+    public void Predict(Vector2Int offset)
+    {
+        Vec2ChangeLink(offset)._predict = true;
         
     }
     private Vector2Int Rotate(Vector2Int v, int rotation)
@@ -152,6 +172,15 @@ public class GridTile : MonoBehaviour
             3 => new Vector2Int( v.y, -v.x), // 270
             _ => v
         };
+    }
+
+    public bool OnPre()
+    {
+        if(_blockOn || _predict)
+        {
+            return true;
+        }
+        return false;
     }
 
 }

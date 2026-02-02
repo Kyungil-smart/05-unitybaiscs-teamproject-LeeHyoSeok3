@@ -11,10 +11,10 @@ public static class BlockShape
                 BlockType.I,
                 new[]
                 {
+                    new Vector2Int(-1, 0),
                     new Vector2Int(0, 0),
                     new Vector2Int(1, 0),
                     new Vector2Int(2, 0),
-                    new Vector2Int(3, 0),
                 }
             },
             {

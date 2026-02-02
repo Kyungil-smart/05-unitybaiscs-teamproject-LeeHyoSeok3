@@ -80,6 +80,13 @@ public class BlockSpawner : MonoBehaviour
         
         // 떨어질 자리 표시
         pivotgrid.Predict(type, rotation);
+        pivotgrid.GetComponent<CanJBlock>().CheckNear();
+        pivotgrid.GetComponent<CanOBlock>().CheckNear();
+        pivotgrid.GetComponent<CanSBlock>().CheckNear();
+        pivotgrid.GetComponent<CanZBlock>().CheckNear();
+        pivotgrid.GetComponent<CanLBlock>().CheckNear();
+        pivotgrid.GetComponent<CanIBlock>().CheckNear();
+        pivotgrid.GetComponent<CanTBlock>().CheckNear();
     }
 
     public void SpawnObstacle(int howmany)
@@ -108,6 +115,13 @@ public class BlockSpawner : MonoBehaviour
                 dropY,
                 0);
             _cangeneratelist.ObList[index]._predict = true;
+            _cangeneratelist.ObList[index].GetComponent<CanLBlock>().CheckNear();
+            _cangeneratelist.ObList[index].GetComponent<CanJBlock>().CheckNear();
+            _cangeneratelist.ObList[index].GetComponent<CanOBlock>().CheckNear();
+            _cangeneratelist.ObList[index].GetComponent<CanTBlock>().CheckNear();
+            _cangeneratelist.ObList[index].GetComponent<CanIBlock>().CheckNear();
+            _cangeneratelist.ObList[index].GetComponent<CanSBlock>().CheckNear();
+            _cangeneratelist.ObList[index].GetComponent<CanZBlock>().CheckNear();
             _cangeneratelist.ObList.RemoveAt(index);
         }
     }

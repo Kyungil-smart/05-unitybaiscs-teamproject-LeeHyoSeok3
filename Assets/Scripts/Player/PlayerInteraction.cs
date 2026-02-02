@@ -80,7 +80,6 @@ public class PlayerInteraction : MonoBehaviour
         HoldingGroup.SetOutline(Color.blue);
 
         GameEventBus.Raise(new HeldEvent());
-        GameEventBus.Raise(new GridUpdateEvent());
     }
 
     public void DropBlock()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,15 @@ public class BlockBuster : MonoBehaviour
     // [SerializeField] OnBlockInteract[] _blocks;
     [SerializeField] LineCheker[] _check;
     [SerializeField] private ScorePopup scorePopup;
-
+    private List<GridTile> _grids;
+    
     private Coroutine _clearCoroutine;
     private int _lastScore;
+
+    private void Start()
+    {
+        _grids = gameObject.GetComponentInParent<CangenerateBolockList>().Grids;
+    }
 
     void OnEnable()
     {
@@ -43,6 +50,17 @@ public class BlockBuster : MonoBehaviour
         if(gainedScore <= 0) gainedScore = (lineCount * lineCount) * 100; // 기본 점수 보정
 
         LineClear(gainedScore);
+
+        foreach (GridTile g in _grids)
+        {
+            g.L.CheckAll();
+            g.J.CheckAll();
+            g.S.CheckAll();
+            g.Z.CheckAll();
+            g.O.CheckAll();
+            g.I.CheckAll();
+            g.T.CheckAll();
+        }
 
         GameEventBus.Raise(new GridUpdateEvent());
     }

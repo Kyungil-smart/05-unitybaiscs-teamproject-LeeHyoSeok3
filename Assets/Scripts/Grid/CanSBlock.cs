@@ -6,6 +6,11 @@ public class CanSBlock : MonoBehaviour
 {
     [SerializeField] CangenerateBolockList _board;
     private GridTile _this;
+    CanSBlock _down;
+    CanSBlock _left;
+    CanSBlock _right;
+    CanSBlock _up;
+    
 
     void Awake()
     {
@@ -13,36 +18,60 @@ public class CanSBlock : MonoBehaviour
     }
     void Start()
     {
+        _down = _this._downBlock.GetComponent<CanSBlock>();
+        _left = _this._leftBlock.GetComponent<CanSBlock>();
+        _right = _this._rightBlock.GetComponent<CanSBlock>();
+        _up = _this._upBlock.GetComponent<CanSBlock>();
+        
         CanUp();
         CanRight();
         CanDown();
         CanLeft();
     }
 
-
-    void OnEnable()
-    {
-        GameEventBus.Subscribe<GridUpdateEvent>(CheckAll);
-    }
-    void OnDisable()
-    {
-        GameEventBus.Unsubscribe<GridUpdateEvent>(CheckAll);
-    }
-    void CheckAll(GridUpdateEvent evt)
+    public void CheckAll()
     {
         CanUp();
         CanRight();
         CanDown();
         CanLeft();
     }
-    
+
+    public void CheckNear()
+    {
+        _up._up.CheckAll();
+        _up._up._left.CheckAll();
+        _up._up._left._left.CheckAll();
+        _up._up._right.CheckAll();
+        _up._up._right._right.CheckAll();
+        _up.CheckAll();
+        _up._left.CheckAll();
+        _up._left._left.CheckAll();
+        _up._right.CheckAll();
+        _up._right._right.CheckAll();
+        _left.CheckAll();
+        _left._left.CheckAll();
+        CheckAll();
+        _right.CheckAll();
+        _right._right.CheckAll();
+        _down.CheckAll();
+        _down._left.CheckAll();
+        _down._left._left.CheckAll();
+        _down._right.CheckAll();
+        _down._right._right.CheckAll();
+        _down._down.CheckAll();
+        _down._down._left.CheckAll();
+        _down._down._left._left.CheckAll();
+        _down._down._right.CheckAll();
+        _down._down._right._right.CheckAll();
+    }
     void CanUp()
     {
         //가능성 판독
-        if( !_this._blockOn && 
-            !_this._leftBlock._blockOn &&
-            !_this._upBlock._blockOn &&
-            !_this._upBlock._rightBlock._blockOn )
+        if( !_this.OnPre() && 
+            !_this._leftBlock.OnPre() &&
+            !_this._upBlock.OnPre() &&
+            !_this._upBlock._rightBlock.OnPre() )
         {
             if(!_board.SUpList.Contains(_this))
                 _board.SUpList.Add(_this);
@@ -56,10 +85,10 @@ public class CanSBlock : MonoBehaviour
     void CanRight()
     {
         //가능성 판독
-        if( !_this._blockOn && 
-            !_this._upBlock._blockOn &&
-            !_this._rightBlock._blockOn &&
-            !_this._downBlock._rightBlock._blockOn )
+        if( !_this.OnPre() && 
+            !_this._upBlock.OnPre() &&
+            !_this._rightBlock.OnPre() &&
+            !_this._downBlock._rightBlock.OnPre() )
         {
             if(!_board.SRightList.Contains(_this))
                 _board.SRightList.Add(_this);
@@ -73,10 +102,10 @@ public class CanSBlock : MonoBehaviour
     void CanDown()
     {
         //가능성 판독
-        if( !_this._blockOn && 
-            !_this._rightBlock._blockOn &&
-            !_this._downBlock._blockOn &&
-            !_this._downBlock._leftBlock._blockOn )
+        if( !_this.OnPre() && 
+            !_this._rightBlock.OnPre() &&
+            !_this._downBlock.OnPre() &&
+            !_this._downBlock._leftBlock.OnPre() )
         {
             if(!_board.SDownList.Contains(_this))
                 _board.SDownList.Add(_this);
@@ -90,10 +119,10 @@ public class CanSBlock : MonoBehaviour
     void CanLeft()
     {
         //가능성 판독
-        if( !_this._blockOn && 
-            !_this._downBlock._blockOn &&
-            !_this._leftBlock._blockOn &&
-            !_this._leftBlock._upBlock._blockOn )
+        if( !_this.OnPre() && 
+            !_this._downBlock.OnPre() &&
+            !_this._leftBlock.OnPre() &&
+            !_this._leftBlock._upBlock.OnPre() )
         {
             //리스트에 업
             if(!_board.SLeftList.Contains(_this))
