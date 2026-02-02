@@ -338,13 +338,7 @@ public class BlockGroup
         foreach (var block in Blocks)
             block.View.HideOutLine();
     }
-
-    // 라인 클리어 전 그룹 내 블록 참조를 위한 메서드
-    public List<BlockControler> GetBlockList()
-    {
-        return Blocks;
-    }
-
+    
     // 블럭그룹의 PoolType 반환 메서드
     public BlockPoolType GetPoolType()
     {
@@ -360,5 +354,14 @@ public class BlockGroup
                 block.State != BlockState.Falling) return false;
         }
         return true;
+    }
+
+    public void CheckBlockElemAndLock()
+    {
+        if (Blocks.Count < 4)
+        {
+            foreach (var block in Blocks)
+                block.SetState(BlockState.Locked);
+        }
     }
 }

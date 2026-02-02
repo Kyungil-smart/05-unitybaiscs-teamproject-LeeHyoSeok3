@@ -31,23 +31,17 @@ public class BlockView : MonoBehaviour, IPoolable
 
     public void OnSpawn()
     {
-        gameObject.SetActive(true);   
-    }
+        gameObject.SetActive(true);
 
-    private void Update()
-    {
-        // 테스트용: D키 누르면 박스 비활성화
-        // if (Input.GetKeyDown(KeyCode.D))
-        // {
-        //     OnDespawn();
-        // }
+        if (_rb == null) return;
+        _rb.velocity = Vector3.zero;
+        _rb.Sleep();
     }
-
+    
     public void OnDespawn()
     {
         // 이펙트 표출하는 기능
-        if (_destroyEffectPrefab != null)
-        {
+        if (_destroyEffectPrefab != null) {
             Instantiate(_destroyEffectPrefab, transform.position, Quaternion.identity);
         }
         // 박스 비활성화
@@ -125,6 +119,7 @@ public class BlockView : MonoBehaviour, IPoolable
             else
             {
                 Controler.SetState(BlockState.Landed);
+                Controler.Group.CheckBlockElemAndLock();
             }
         }
     }
