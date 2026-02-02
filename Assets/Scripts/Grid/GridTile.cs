@@ -33,15 +33,19 @@ public class GridTile : MonoBehaviour
         Parents = null;
     }
 
-    
+
     // 블록이 올라왔을 때 반응
     void OnTriggerEnter(Collider other)
     {
-	    if(other.tag == "Block")
+        if (other.tag == "Block")
         {
             _blockOn = true;
         } // 자신의 블록 정보 수정
-        
+
+        if (other.tag == "Monster")
+        {
+            other.gameObject.GetComponent<MonsterView>().SetCurrentPos(transform.position);
+        }
     }
 
 

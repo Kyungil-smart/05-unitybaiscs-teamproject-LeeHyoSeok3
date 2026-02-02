@@ -10,6 +10,11 @@ public class MonsterView : MonoBehaviour, IPoolable
     public MonsterController Controller { get; private set; }
 
     public Transform PlayerPos { get; private set; }
+    private Vector3 _playerGridPos;
+    [SerializeField] public Vector3 GridPos;
+
+    public Coroutine StartMoveCouroutine;
+    public Coroutine StopMoveCouroutine;
 
     [SerializeField] private CFXR_Effect _destroyEffectPrefab;
 
@@ -21,9 +26,9 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     public void Initialize(MonsterController controller)
     {
+        PlayerPos = GameObject.Find("Player").transform;
         _attack = GetComponent<MonsterAttack>();
         Controller = controller;
-        SetGridTile();
         Controller._movement._rb = GetComponent<Rigidbody>();
 
         if(Controller.PoolType() == MonsterPoolType.Scout)
@@ -34,35 +39,26 @@ public class MonsterView : MonoBehaviour, IPoolable
         {
             Controller.SetState(MonsterState.Patrol);
         }
-    }
 
-    private void Update()
-    {
-        
+        SetGridTile();
     }
-
     private void FixedUpdate()
     {
-        SetGridTile();
-        PlayerPos = GameObject.Find("Player").transform;
-
         if (Controller.State == MonsterState.Chasing)
         {
-            Controller.ChasePlayer(transform.position, PlayerPos.position);
-            Debug.Log($"{PlayerPos.position}");
-            Debug.Log($"-----{transform.position}");
-            Debug.Log($"----{transform.localPosition}");
+            if (GridPos == null )
+            {
+                Controller.ChasePlayer(transform.position, PlayerPos.position);
+            }
+
+            Controller.ChasePlayer(GridPos, PlayerPos.position);
         }
     }
 
-    private void OnEnable()
+
+    public Vector3 GetVector()
     {
-        //Initialize(Controller);
-    }
-    
-    public Vector3Int GetIntVector()
-    {
-        return new Vector3Int((int)transform.position.x, 0, (int)transform.position.z);
+        return new Vector3(transform.position.x, 0, transform.position.z);
     }
     public void OnSpawn()
     {
@@ -71,18 +67,20 @@ public class MonsterView : MonoBehaviour, IPoolable
 
     public void OnDespawn()
     {
-
         // 이펙트 표출하는 기능
         if (_destroyEffectPrefab != null)
         {
             Instantiate(_destroyEffectPrefab, transform.position, Quaternion.identity);
         }
-        // view 초기화
-        // 컨트롤러 초기화
         gameObject.SetActive(false);
     }
 
     public void SetWorldPos(Vector3 pos) => transform.position = pos;
+
+    public void SetCurrentPos(Vector3 pos)
+    {
+        GridPos = pos;
+    }
 
     private void SetGridTile()
     {

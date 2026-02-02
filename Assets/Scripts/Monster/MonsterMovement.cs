@@ -70,7 +70,7 @@ public class MonsterMovement
         if (!(_openList.Count == 0) || !(_openList.Contains(_target)) || !(_closedList.Contains(_target)))
         {
             // ��ǥ���� Ž��
-            while (!(_openList.Count == 0) || !(_openList.Contains(_target)) || !(_closedList.Contains(_target)))
+            while (!(_openList.Count == 0) && !(_openList.Contains(_target)) && !(_closedList.Contains(_target)))
             {
                 if (!Findpath(_next))
                     break;
@@ -84,34 +84,37 @@ public class MonsterMovement
 
     private void BuildPath(GridTile tile)
     {
-        if (tile.Parents == null) { return; }
+        if (tile.Parents == null || tile == tile.Parents.Parents) { return; }
         _pathList.Push(tile);
 
         BuildPath(tile.Parents);
     }
 
-    private bool Findpath(GridTile tile)
+    private bool Findpath(GridTile prevtile)
     {
-        FindNear(tile, _target);
+        FindNear(_next, _target);
 
         if (_canMove)
         {
             // ���� �ڽ�Ʈ ��� Ž��
             int Min = _nearList[0]._f;
 
-            foreach (GridTile t in _nearList)
+            foreach (GridTile t in _openList)
             {
-                if (_openList.Contains(t) && !(_closedList.Contains(t)))
+                if (!(_closedList.Contains(t)))
                 {
-                    if (Min > t._f)
+                    if (Min >= t._f)
                     {
                         Min = t._f;
-                        tile = t;
+                        _next = t;
                     }
                 }
             }
-            _openList.Remove(tile);
-            _closedList.Add(tile);
+
+            if(prevtile == _next) { return false; }
+
+            _openList.Remove(_next);
+            _closedList.Add(_next);
 
             return true;
         }
@@ -124,43 +127,48 @@ public class MonsterMovement
         _nearList.Clear();
         _canMove = false;
 
-        if (current._upBlock != null)
-        {
+        if (current._upBlock != null && !(current._upBlock._blockOn))
             _nearList.Add(current._upBlock);
-
-            if (current._upBlock._rightBlock != null)
-                _nearList.Add(current._upBlock._rightBlock);
-
-            if (current._upBlock._leftBlock != null)
-                _nearList.Add(current._upBlock._leftBlock);
-        }
-        if (current._downBlock != null)
-        {
+        if (current._downBlock != null && !(current._downBlock._blockOn))
             _nearList.Add(current._downBlock);
 
-            if (current._downBlock._rightBlock != null)
-                _nearList.Add(current._downBlock._rightBlock);
-
-            if (current._downBlock._leftBlock != null)
-                _nearList.Add(current._downBlock._leftBlock);
-        }
-
-        if(current._rightBlock != null)
+        if(current._rightBlock != null && !(current._rightBlock._blockOn))
             _nearList.Add(current._rightBlock);
-        if(current._leftBlock != null)
+        if(current._leftBlock != null && !(current._leftBlock._blockOn))
             _nearList.Add(current._leftBlock);
-        
-       
 
-        foreach (GridTile tile in _nearList)
+        if (current._upBlock._rightBlock != null && 
+            !(current._upBlock._blockOn) &&
+            !(current._rightBlock._blockOn)
+            )
+            _nearList.Add(current._upBlock._rightBlock);
+
+        if (current._upBlock._leftBlock != null && 
+            !(current._upBlock._blockOn) &&
+            !(current._leftBlock._blockOn))
+            _nearList.Add(current._upBlock._leftBlock);
+
+        if (current._downBlock._rightBlock != null &&
+            !(current._downBlock._blockOn) &&
+            !(current._rightBlock._blockOn))
+            _nearList.Add(current._downBlock._rightBlock);
+
+        if (current._downBlock._leftBlock != null &&
+            !(current._downBlock._blockOn) &&
+            !(current._leftBlock._blockOn))
+            _nearList.Add(current._downBlock._leftBlock);
+
+
+        foreach (GridTile nexttile in _nearList)
         {
-            if (IsReachable(tile, current))
+            if (IsReachable(nexttile, current))
             {
-                RegistTileInfo(current, tile, target);
+                RegistTileInfo(current, nexttile, target);
             }
         }
     }
 
+    
     private int GetGCost(Vector3 vector)
     {
         int dx = (int)Mathf.Abs(vector.x);
@@ -182,25 +190,31 @@ public class MonsterMovement
     }
 
     // 도달할 수 있는지 정하기
-    private bool IsReachable(GridTile tile, GridTile currentTile)
+    private bool IsReachable(GridTile nexttile, GridTile currentTile)
     {
-        if (tile._blockOn || tile == NullTile || _closedList.Contains(tile) || tile == null)
+        if (nexttile._blockOn || nexttile == NullTile || _closedList.Contains(nexttile) ||
+            nexttile == null)
         {
             return false;
         }
 
-        else if (_openList.Contains(tile))
+        else if (_openList.Contains(nexttile))
         {
-            Vector3 gVector = currentTile.transform.position - tile.transform.position;
+            Vector3 gVector = currentTile.transform.position - nexttile.transform.position;
 
-            if (tile._g > GetGCost(gVector)) { return true; }
+            if (nexttile._g > currentTile._g + GetGCost(gVector)) 
+            {
+                nexttile.Parents = currentTile;
+                return true; 
+            }
             return false;
         }
 
         else
         {
-            _openList.Add(tile);
+            _openList.Add(nexttile);
             _canMove = true;
+            nexttile.Parents = currentTile;
             return true;
         }
     }
@@ -214,8 +228,6 @@ public class MonsterMovement
         next._h = GetHCost(hVector);
 
         next._f = next._g + next._h;
-
-        next.Parents = current;
     }
 
     private GridTile GetTile(Vector3 vector)

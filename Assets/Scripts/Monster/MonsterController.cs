@@ -13,6 +13,8 @@ public class MonsterController
 
     private readonly MonsterView _monView;
     private readonly MonsterPoolType _poolType;
+
+    private Vector3 _nextPos;
     
     public MonsterController(MonsterView view, Vector2Int gridPos, MonsterPoolType poolType)
     {
@@ -34,21 +36,20 @@ public class MonsterController
 
         if (_movement._pathList.Count > 0)
         {
-            Vector3 nextPos = _movement._pathList.Pop().transform.position;
-            Vector3 dir = (nextPos - _monView.GetIntVector()).normalized;
-            _movement.SetMoveDirection(dir);
-            _movement.Rotate();
-            _movement.Move();
+
+            if(_monView.StartMoveCouroutine != null) { _monView.StopCoroutine(_monView.StartMoveCouroutine); }
+
+            _monView.StartMoveCouroutine = _monView.StartCoroutine(MovementCoroutine());
         }
 
         else
         {
-            Vector3 dir = (_monView.PlayerPos.position - Start).normalized;
+            Vector3 dir = (_monView.PlayerPos.position - _monView.GetVector()).normalized;
             _movement.SetMoveDirection(dir);
-
-            _movement.Rotate();
-            _movement.Move();
         }
+
+        _movement.Rotate();
+        _movement.Move();
     }
 
     public void SetGridPosition(Vector2Int gridPos)
@@ -64,6 +65,17 @@ public class MonsterController
     public void Release()
     {
         PoolManager.Instance.GetPool<MonsterView>((int)_poolType).Release(_monView);
+    }
+
+    public IEnumerator MovementCoroutine()
+    {
+        _nextPos = _movement._pathList.Pop().transform.position;
+        Vector3 dir = (_nextPos - _monView.GetVector()).normalized;
+        _movement.SetMoveDirection(dir);
+        
+
+        yield return new WaitUntil( () => Mathf.Abs(_monView.GetVector().x - _nextPos.x) <= 0.3f ||
+            Mathf.Abs(_monView.GetVector().z - _nextPos.z) <= 0.3f);
     }
 
     public MonsterPoolType PoolType()
