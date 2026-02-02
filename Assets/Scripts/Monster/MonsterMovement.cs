@@ -42,7 +42,7 @@ public class MonsterMovement
 
     public void ChasePlayer(Vector3 startPos, Vector3 targetPos)
     {
-         _start = GetTile(startPos);
+        _start = GetTile(startPos);
         _start._g = 0;
         _start._h = 0;
         _start._f = 0;
@@ -61,6 +61,8 @@ public class MonsterMovement
         FindNear(_start, _target);
 
         _closedList.Add(_start);
+
+        if(_openList.Count == 0) { return; }
 
         int Min = _openList[0]._f;
         _next = _openList[0];
