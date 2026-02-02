@@ -41,7 +41,6 @@ public class MonsterMovement
 
         _moveSpd = 1f;
         _rotateSpd = 18f;
-        _canMove = false;
     }
 
     public void ChasePlayer(Vector3 startPos, Vector3 targetPos)
@@ -100,7 +99,7 @@ public class MonsterMovement
             }
         }
 
-        if (_canMove) { BuildPath(_target); }
+        if (_openList.Count == 0) { BuildPath(_target); }
 
         else { BuildPath(_next); }
     }
@@ -250,7 +249,7 @@ public class MonsterMovement
 
     private GridTile GetTile(Vector3 vector)
     {
-        return GridTiles[(int)vector.z, (int)vector.x];
+        return GridTiles[ (int)Mathf.Round(vector.z), (int) Mathf.Round(vector.x)];
     }
 
     public void Move()
