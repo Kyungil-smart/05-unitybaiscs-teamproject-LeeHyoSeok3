@@ -112,7 +112,7 @@ public class MonsterMovement
     private bool Findpath(GridTile prevtile)
     {
         FindNear(_next, _target);
-        //if (_openList.Count == 0) { return false; }
+        if (_openList.Count == 0) { return false; }
         // ���� �ڽ�Ʈ ��� Ž��
         int Min = _openList[0]._f;
 
