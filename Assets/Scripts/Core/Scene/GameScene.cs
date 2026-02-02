@@ -99,12 +99,12 @@ public class GameScene : MonoBehaviour
         {
             if (_cameraViewed == false)
             {
-                StartCoroutine(ViewTrans(mainCamera.transform, topViewCamera.transform.position, topViewCamera.transform.rotation));
+                StartCoroutine(ViewTrans(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation));
                 _cameraViewed = true;
             }
             else
             {
-                StartCoroutine(ViewTrans(mainCamera.transform, secondCameraMove.transform.position, secondCameraMove.transform.rotation));
+                StartCoroutine(ViewTrans(mainCamera.transform, topViewCamera.transform.position, topViewCamera.transform.rotation));
                 _cameraViewed = false;
             }
         }
