@@ -27,7 +27,8 @@ public class StageSystem
     private float spawnTime;
     private float _lastSpawnTime;
     private const float MIN_SPAWN_INTERVAL = 2f;
-    private int _spawnCount = 0;
+    private int _monsterSpawnCount = 0;
+    private int _obstacleSpawnCount = 0;
 
     public void Subscribe()
     {
@@ -63,10 +64,12 @@ public class StageSystem
             _timer = new CooldownTimer(Mathf.Max(1, spawnTime));
 
         if (_obstacletimer == null)
-            _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
+            _obstacletimer = new CooldownTimer(20); // 20초마다 장애물 스폰 시도
 
         if (_monstertimer == null)
-            _monstertimer = new CooldownTimer(Random.Range(spawnTime * 4, spawnTime * 8));
+            _monstertimer = new CooldownTimer(20); // 20초마다 몬스터 스폰 시도
+
+        _lastSpawnTime = Time.time;
     }
 
     public void ResumeStage()
@@ -93,7 +96,8 @@ public class StageSystem
         _obstacletimer = null;
         _monstertimer = null;
         CurrentStage++;
-        _spawnCount = 0;
+        _monsterSpawnCount = 0;
+        _obstacleSpawnCount = 0;
 
         if (CurrentStage > EndStage)
         {
@@ -113,7 +117,8 @@ public class StageSystem
         _timer = null;
         _obstacletimer = null;
         _monstertimer = null;
-        _spawnCount = 0;
+        _monsterSpawnCount = 0;
+        _obstacleSpawnCount = 0;
 
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
     }
@@ -126,7 +131,8 @@ public class StageSystem
         CurrentStage = 1;
         StageTargetScore = 1000;
         EndStage = 10;
-        _spawnCount = 0;
+        _monsterSpawnCount = 0;
+        _obstacleSpawnCount = 0;
     }
 
     public void BlockSpawn()
@@ -141,27 +147,34 @@ public class StageSystem
         if (Time.time - _lastSpawnTime < MIN_SPAWN_INTERVAL)
             return;
 
-        if (_timer.IsReady(Time.time))
+        float now = Time.time;
+
+        //  bool tryObstacle = _obstacleSpawnCount < CurrentStage; // 장애물 스폰 제한 걸려면 주석 해제 후 값 교체
+        bool tryObstacle = true;
+        bool tryMonster = _monsterSpawnCount < CurrentStage * 2;
+        bool tryBlock = true;
+
+        // 우선순위: 몬스터 > 장애물 > 블록 (시간이 겹칠 경우)
+        if (tryMonster && _monstertimer.IsReady(now)) // 1순위
+        {
+            MonsterSpawner.SpawnMonster(1);
+            _monsterSpawnCount++;
+        }
+        else if (tryObstacle && _obstacletimer.IsReady(now)) // 2순위
+        {
+            blockSpawner.SpawnObstacle(CurrentStage);
+            _obstacleSpawnCount++;
+        }
+        else if (tryBlock && _timer.IsReady(now)) // 3순위
         {
             blockSpawner.SpawnRandom();
-            _lastSpawnTime = Time.time;
+        }
+        else
+        {
             return;
         }
 
-        if (_obstacletimer.IsReady(Time.time))
-        {
-            blockSpawner.SpawnObstacle(CurrentStage);
-            _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
-            _lastSpawnTime = Time.time;
-        }
-
-        if (_monstertimer.IsReady(Time.time) && _spawnCount < CurrentStage)
-        {
-            MonsterSpawner.SpawnMonster(1);
-            _monstertimer = new CooldownTimer(Random.Range(spawnTime * 3, spawnTime * 6));
-            _lastSpawnTime = Time.time;
-            _spawnCount++;
-        }
+        _lastSpawnTime = now;
     }
 
     public void TestSpawn()
