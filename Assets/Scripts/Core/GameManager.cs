@@ -68,6 +68,13 @@ public class GameManager : MonoBehaviour
         StateMachine.ChangeState(new PlayingState(StateMachine));
         StageSystem.StartStage();
     }
+
+    public void ResumeGame()
+    {
+        StateMachine.ChangeState(new PlayingState(StateMachine));
+        StageSystem.ResumeStage();
+    }
+
     public void PauseGame()
     {
         StateMachine.ChangeState(new PausedState(StateMachine));

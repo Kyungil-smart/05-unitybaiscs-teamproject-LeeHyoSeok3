@@ -52,16 +52,20 @@ public class StageSystem
 
         if (_timer == null)
             _timer = new CooldownTimer(Mathf.Max(1, spawnTime));
-        else _timer.Resume();
-
 
         if (_obstacletimer == null)
             _obstacletimer = new CooldownTimer(Random.Range(spawnTime * 2, spawnTime * 4));
-        else _obstacletimer.Resume();
 
         if (_monstertimer == null)
             _monstertimer = new CooldownTimer(Random.Range(spawnTime * 4, spawnTime * 8));
-        else _monstertimer.Resume();
+    }
+
+    public void ResumeStage()
+    {
+        IsPlaying = true;
+        _timer?.Resume();
+        _obstacletimer?.Resume();
+        _monstertimer?.Resume();
     }
 
     public void StopStage()
