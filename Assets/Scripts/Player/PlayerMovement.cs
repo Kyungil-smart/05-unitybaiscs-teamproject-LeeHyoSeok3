@@ -44,7 +44,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 nextPos = GetNextPos();
         Vector3 velocity = _moveDir * _moveSpeed;
         velocity.y = _rb.velocity.y;
 
