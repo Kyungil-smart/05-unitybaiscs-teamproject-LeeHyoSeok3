@@ -37,6 +37,7 @@ public class BlockGroup
     private Vector3 _holdOffset;
     private HeldPointDetector _heldPoint;
     private bool _isHeld;
+    private bool _gridUpdated;
 
     private Transform _ghostRoot;
     private ObjectPool<GhostBlock> _ghostPool;
@@ -85,6 +86,16 @@ public class BlockGroup
         }
     }
 
+    public void OnBlockEnterGrid()
+    {
+        if (_gridUpdated) return;
+        _gridUpdated = true;
+        GameEventBus.Raise(new GridUpdateEvent());
+        // Debug.Log(Root.gameObject.name + " 블록 트리거");
+    }
+
+    public void ResetGridFlag() => _gridUpdated = false;
+
     // ------------------------
     // Pick / Follow / Drop
     // ------------------------
@@ -106,7 +117,8 @@ public class BlockGroup
             local.y = 0f;
             block.View.transform.localPosition = local;
         }
-        
+
+        ResetGridFlag();
     }
 
     public void FollowHeld()
