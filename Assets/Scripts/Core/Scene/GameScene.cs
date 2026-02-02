@@ -141,7 +141,7 @@ public class GameScene : MonoBehaviour
         _gameExit.gameObject.SetActive(false);
         _returnGame.gameObject.SetActive(false);
         _returnGame2.gameObject.SetActive(false);
-        GameManager.Instance.PlayGame();
+        GameManager.Instance.ResumeGame();
     }
 
     public void PauseState()
@@ -215,11 +215,13 @@ public class GameScene : MonoBehaviour
     public void AreYouSure()
     {
         _gameExit.gameObject.SetActive(true);
+        _returnGame.gameObject.SetActive(false);
     }
 
     public void AreYouSure2()
     {
         _gameExit2.gameObject.SetActive(true);
+        _returnGame2.gameObject.SetActive(false);
     }
 
     private IEnumerator CameraMoveThenStartGame()

@@ -40,6 +40,8 @@ public class BlockBuster : MonoBehaviour
         //라인 클리어 후 증가한 점수
         int gainedScore = ScoreSystem.Instance.Score - _lastScore;
 
+        if(gainedScore <= 0) gainedScore = (lineCount * lineCount) * 100; // 기본 점수 보정
+
         LineClear(gainedScore);
 
         GameEventBus.Raise(new GridUpdateEvent());
