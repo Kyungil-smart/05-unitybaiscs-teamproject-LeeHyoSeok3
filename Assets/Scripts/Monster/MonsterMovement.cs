@@ -46,6 +46,7 @@ public class MonsterMovement
         _start._f = 0;
 
         _target = GetTile(targetPos);
+        if (_target == null) return;
         if(_target._blockOn)
         {
             FixTarget(targetPos);
