@@ -31,24 +31,27 @@ public class MonsterController
 
     public void ChasePlayer(Vector3 Start, Vector3 target)
     {
-        Start = new Vector3(Start.x, 0f, Start.z);
-        if (State == MonsterState.Chasing) { _movement.ChasePlayer(Start, target); }
+        // Start = new Vector3(Start.x, 0f, Start.z);
+        // if (State == MonsterState.Chasing) { _movement.ChasePlayer(Start, target); }
 
-        if (_movement._pathList.Count > 0)
-        {
-            _nextPos = _movement._pathList.Pop().transform.position;
-            Vector3 dir = (_nextPos - _monView.GetVector()).normalized;
-            _movement.SetMoveDirection(dir);
-            //if(_monView.StartMoveCouroutine != null) { _monView.StopCoroutine(_monView.StartMoveCouroutine); }
-
-            //_monView.StartMoveCouroutine = _monView.StartCoroutine(MovementCoroutine());
-        }
-
-        else
-        {
-            Vector3 dir = (_monView.PlayerPos.position - _monView.GetVector()).normalized;
-            _movement.SetMoveDirection(dir);
-        }
+        // if (_movement._pathList.Count > 0)
+        // {
+        //     _nextPos = _movement._pathList.Pop().transform.position;
+        //     Vector3 dir = (_nextPos - _monView.GetVector()).normalized;
+        //     _movement.SetMoveDirection(dir);
+        //     //if(_monView.StartMoveCouroutine != null) { _monView.StopCoroutine(_monView.StartMoveCouroutine); }
+        //
+        //     //_monView.StartMoveCouroutine = _monView.StartCoroutine(MovementCoroutine());
+        // }
+        //
+        // else
+        // {
+        //     Vector3 dir = (_monView.PlayerPos.position - _monView.GetVector()).normalized;
+        //     _movement.SetMoveDirection(dir);
+        // }
+        
+        Vector3 dir = (_monView.PlayerPos.position - _monView.GetVector()).normalized;
+        _movement.SetMoveDirection(dir);
 
         _movement.Rotate();
         _movement.Move();
