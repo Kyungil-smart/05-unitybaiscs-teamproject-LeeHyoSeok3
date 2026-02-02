@@ -68,7 +68,5 @@ public class PlayerCollision : MonoBehaviour
 
         _playerController.SetState(PlayerState.Dead);
         _playerDead = true;
-
-        Debug.Log("Game Over");
     }
 }

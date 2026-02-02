@@ -12,7 +12,6 @@ public class GameOverState : GameState
     public override void Enter()
     {
         Time.timeScale = 0f;
-        Debug.Log("GAMEOVER ENTER");
     }
 
     public override void Exit()

@@ -90,7 +90,6 @@ public class BlockView : MonoBehaviour, IPoolable
             _test = Controler.State;
             if (_test != _previousState)
             {
-                Debug.Log($"Block State Changed: {_previousState} -> {_test}");
                 _previousState = _test;
             }
         }
@@ -127,7 +126,6 @@ public class BlockView : MonoBehaviour, IPoolable
             {
                 Controler.SetState(BlockState.Landed);
             }
-            Debug.Log($"Block State : {Controler.State}");
         }
     }
 
@@ -136,7 +134,6 @@ public class BlockView : MonoBehaviour, IPoolable
         // 그리드와 충돌했을 때
         if (other.gameObject.CompareTag("Grid"))
         {
-            Debug.Log("Block Triggered Grid");
             GameEventBus.Raise(new GridUpdateEvent());
         }
     }

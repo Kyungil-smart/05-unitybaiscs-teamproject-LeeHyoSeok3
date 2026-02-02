@@ -76,9 +76,6 @@ public class BlockSpawner : MonoBehaviour
         //Grid에서 생성가능한 좌표 가져오기
         GridTile pivotgrid = TargetList(type, rotation)[Random.Range(0, TargetList(type, rotation).Count)];
         Vector2Int baseGrid = GetVecToGrid(pivotgrid);
-        Debug.Log($"Type : {type}, Rotation : {rotation}");
-        Debug.Log($"X: {pivotgrid.transform.position.x}, Y: {pivotgrid.transform.position.z}");
-        Debug.Log($"x: {baseGrid.x}, y: {baseGrid.y}");
         _current = _factory.Create(type, poolType, baseGrid, dropY, rotation);
         
         // 떨어질 자리 표시
