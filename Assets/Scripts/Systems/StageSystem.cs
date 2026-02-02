@@ -13,7 +13,7 @@ public class StageSystem
         Instance = this;
     }
 
-    private float BlockSpawnTime = 6f;
+    // private float BlockSpawnTime = 6f;
     public int CurrentStage { get; private set; }
     public int StageTargetScore { get; private set; }
     public bool IsPlaying { get; private set; } = false;
@@ -47,9 +47,18 @@ public class StageSystem
     {
         GameEventBus.Raise(new StageStartedEvent(CurrentStage, StageTargetScore));
         IsPlaying = true;
-        spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.5);
-       
+        // spawnTime = BlockSpawnTime - (float)(CurrentStage * 0.5);
 
+        spawnTime = CurrentStage switch
+        {
+            1 => 5f,
+            2 => 4f,
+            3 => 3f,
+            4 => 2f,
+            _ => 5f
+        };
+        
+        
         if (_timer == null)
             _timer = new CooldownTimer(Mathf.Max(1, spawnTime));
 
