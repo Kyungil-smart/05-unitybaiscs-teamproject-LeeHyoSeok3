@@ -10,8 +10,6 @@ public class MonsterMovement
     private Vector3 _movedir;
     public Rigidbody _rb;
 
-    private bool _canMove;
-
     private List<GridTile> _nearList;
     private List<GridTile> _openList;
 
@@ -114,9 +112,9 @@ public class MonsterMovement
     private bool Findpath(GridTile prevtile)
     {
         FindNear(_next, _target);
-
-            // ���� �ڽ�Ʈ ��� Ž��
-            int Min = _openList[0]._f;
+        //if (_openList.Count == 0) { return false; }
+        // ���� �ڽ�Ʈ ��� Ž��
+        int Min = _openList[0]._f;
 
             foreach (GridTile t in _openList)
             {
@@ -137,7 +135,6 @@ public class MonsterMovement
     private void FindNear(GridTile current, GridTile target)
     {
         _nearList.Clear();
-        _canMove = false;
 
         if (current._upBlock != null && !(current._upBlock._blockOn))
             _nearList.Add(current._upBlock);
@@ -224,14 +221,16 @@ public class MonsterMovement
 
         else
         {
-            _openList.Add(nexttile);
-            nexttile._g = 0;
-            nexttile._h = 0;
-            nexttile._f = 0;
-
-            _canMove = true;
-            nexttile.Parents = currentTile;
-            return true;
+            if (_openList.Count <= 49)
+            {
+                _openList.Add(nexttile);
+                nexttile._g = 0;
+                nexttile._h = 0;
+                nexttile._f = 0;
+                nexttile.Parents = currentTile;
+                return true;
+            }
+            return false;
         }
     }
 
@@ -248,7 +247,23 @@ public class MonsterMovement
 
     private GridTile GetTile(Vector3 vector)
     {
-        return GridTiles[ (int)Mathf.Round(vector.z), (int) Mathf.Round(vector.x)];
+        int PosZ = (int)Mathf.Round(vector.z);
+
+        if (PosZ  >= GridTiles.GetLength(0) / 4)
+        {
+            PosZ = GridTiles.GetLength(0)/4 - 1;
+        }
+
+        else if (PosZ < 0)
+        { PosZ = 0; }
+
+        int PosX = (int)Mathf.Round(vector.x);
+        if(PosX >= GridTiles.GetLength(1)) { PosX = GridTiles.GetLength(1) - 1; }
+
+        else if (PosX < 0)
+        { PosX = 0; }
+
+        return GridTiles[ PosZ, PosX ];
     }
 
     public void Move()
