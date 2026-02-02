@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2012422744458124850}
   m_Layer: 0
   m_Name: Robot_Scout_HyperX
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17f44e72607f8d489e441144cd0130a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GridPos: {x: 0, y: 0, z: 0}
   _destroyEffectPrefab: {fileID: 1347780276449787774, guid: 99bc28c0d45f51c4fbac01080b73edc7, type: 3}
 --- !u!54 &5528317289236876002
 Rigidbody:
