@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 3605189956624140507}
   m_Layer: 7
   m_Name: GridTIle
-  m_TagString: Untagged
+  m_TagString: GridTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,6 +75,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blockOn: 0
+  _g: 0
+  _h: 0
+  _f: 0
+  Parents: {fileID: 0}
   _upBlock: {fileID: 0}
   _downBlock: {fileID: 0}
   _leftBlock: {fileID: 0}
