@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(1, 100)] private float _rotateSpeed;
     [SerializeField] private CFXR_Effect _slowEffectPrefab;
 
-    public Vector3 LastMoveDelta { get; private set; }
 
     private Coroutine coroutine;
     private Rigidbody _rb;
@@ -19,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     private float _initialSpeed;
 
 
-    public float MoveAmount { get; private set; }
 
     private void Awake()
     {
@@ -36,8 +34,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_moveDir == Vector3.zero)
         {
-            MoveAmount = 0f;
-            LastMoveDelta = Vector3.zero;
+            _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
             return;
         }
 
@@ -48,8 +45,10 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         Vector3 nextPos = GetNextPos();
-        LastMoveDelta = nextPos - _rb.position;
-        _rb.MovePosition(nextPos);
+        Vector3 velocity = _moveDir * _moveSpeed;
+        velocity.y = _rb.velocity.y;
+
+        _rb.velocity = velocity;
     }
 
     private void Rotate()
@@ -60,14 +59,6 @@ public class PlayerMovement : MonoBehaviour
         _rb.MoveRotation(smoothRotation);
     }
 
-    private Vector3 GetNextPos()
-    {
-        Vector3 movement = _moveDir * (_moveSpeed * Time.fixedDeltaTime);
-
-        MoveAmount = movement.magnitude / Time.fixedDeltaTime;
-
-        return _rb.position + movement;
-    }
 
     public void Slow(float speed, float time, float dece) // 외부에서 접근하는 속도 감소 코루틴
     {
