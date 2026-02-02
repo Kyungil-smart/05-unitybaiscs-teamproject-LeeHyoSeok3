@@ -40,8 +40,38 @@ public class CangenerateBolockList : MonoBehaviour
     void Awake()
     {
     
-    ObList = new List<GridTile>(Grids.Count);
-    GetNonBlockList();
+        ObList = new List<GridTile>(Grids.Count);
+        GetNonBlockList();
+        
+        
+        JUpList = new List<GridTile>();
+        JRightList = new List<GridTile>();
+        JDownList = new List<GridTile>();
+        JLeftList = new List<GridTile>();
+        LUpList = new List<GridTile>();
+        LRightList = new List<GridTile>();
+        LDownList = new List<GridTile>();
+        LLeftList = new List<GridTile>();
+        OUpList = new List<GridTile>();
+        ORightList = new List<GridTile>();
+        ODownList = new List<GridTile>();
+        OLeftList = new List<GridTile>();
+        TUpList = new List<GridTile>();
+        TRightList = new List<GridTile>();
+        TDownList = new List<GridTile>();
+        TLeftList = new List<GridTile>();
+        SUpList = new List<GridTile>();
+        SRightList = new List<GridTile>();
+        SDownList = new List<GridTile>();
+        SLeftList = new List<GridTile>();
+        ZUpList = new List<GridTile>();
+        ZRightList = new List<GridTile>();
+        ZDownList = new List<GridTile>();
+        ZLeftList = new List<GridTile>();
+        IUpList = new List<GridTile>();
+        IRightList = new List<GridTile>();
+        IDownList = new List<GridTile>();
+        ILeftList = new List<GridTile>();
     
     }
 

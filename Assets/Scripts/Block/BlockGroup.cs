@@ -30,7 +30,7 @@ public class BlockGroup
     public Vector2Int PivotGrid { get; private set; }
     public List<BlockControler> Blocks { get; private set; }
     public Transform Root { get; }
-    public GridTile Tile { private get; set; }
+    public GridTile Tile { get; set; }
 
     private GameObject _rootObject;
     private Transform _followTarget;
@@ -139,6 +139,21 @@ public class BlockGroup
         foreach (var block in Blocks) {
             if (Tile.CanSetTargetBlock(block.LocalOffset)) return false;
         }
+        // Tile Predict 수정
+        foreach (var block in Blocks)
+        {
+            Tile.Predict(block.LocalOffset);
+        }
+        
+        // Tile CheckNear
+        Tile.GetComponent<CanIBlock>().CheckNear();
+        Tile.GetComponent<CanTBlock>().CheckNear();
+        Tile.GetComponent<CanOBlock>().CheckNear();
+        Tile.GetComponent<CanLBlock>().CheckNear();
+        Tile.GetComponent<CanJBlock>().CheckNear();
+        Tile.GetComponent<CanSBlock>().CheckNear();
+        Tile.GetComponent<CanZBlock>().CheckNear();
+        
         
         _isHeld = false;
         _followTarget = null;
