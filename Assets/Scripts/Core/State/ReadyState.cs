@@ -11,12 +11,10 @@ public class ReadyState : GameState
     public override void Enter()
     {
         Time.timeScale = 0f;
-        Debug.Log("READY ENTER");
     }
 
     public override void Exit()
     {
         Time.timeScale = 1f;
-        Debug.Log("READY EXIT");
     }
 }

@@ -106,7 +106,6 @@ public class GameScene : MonoBehaviour
 
     public void ReadyState()
     {
-        Debug.Log("ReadyState CALLED");
         _IncreaseScore.gameObject.SetActive(false);
         _totalScore.gameObject.SetActive(false);
         _level.gameObject.SetActive(false);
@@ -124,7 +123,6 @@ public class GameScene : MonoBehaviour
 
     void PlayingState()
     {
-        Debug.Log("PlayingState CALLED");
         _darkOverlay.gameObject.SetActive(false);
         _readyState.gameObject.SetActive(false);
         _pauseState.gameObject.SetActive(false);

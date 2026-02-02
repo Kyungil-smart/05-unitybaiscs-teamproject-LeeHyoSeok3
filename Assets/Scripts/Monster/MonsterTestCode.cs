@@ -9,11 +9,9 @@ public class MonsterTestCode : MonoBehaviour
     {
         if (tile != GameObject.Find("boolBox").GetComponent<GridTile>())
         {
-            Debug.Log("같지않다");
         }
         else if (tile == GameObject.Find("boolBox").GetComponent<GridTile>())
         {
-            Debug.Log("같다");
         }
     }
 }

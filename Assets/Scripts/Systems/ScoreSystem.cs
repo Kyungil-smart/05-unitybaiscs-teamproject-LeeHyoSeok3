@@ -39,7 +39,6 @@ public class ScoreSystem
     public void OnLineCleared(LineClearedEvent evt)
     {
         Score += (evt.Count * evt.Count) * 100;
-        Debug.Log($"Score : {Score}");
         GameEventBus.Raise(new ScoreUpdatedEvent(Score));
 
         if (Score >= _currentStageTargetScore)

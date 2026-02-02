@@ -12,12 +12,10 @@ public class PausedState : GameState
     public override void Enter()
     {
         Time.timeScale = 0f;
-        Debug.Log("PAUSED ENTER");
     }
 
     public override void Exit()
     {
         Time.timeScale = 1f;
-        Debug.Log("PAUSED EXIT");
     }
 }

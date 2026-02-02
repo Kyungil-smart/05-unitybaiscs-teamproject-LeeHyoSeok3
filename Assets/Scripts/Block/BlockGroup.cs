@@ -31,7 +31,8 @@ public class BlockGroup
     public List<BlockControler> Blocks { get; private set; }
     public Transform Root { get; }
     public GridTile Tile { private get; set; }
-    
+
+    private GameObject _rootObject;
     private Transform _followTarget;
     private Vector3 _holdOffset;
     private HeldPointDetector _heldPoint;
@@ -54,7 +55,8 @@ public class BlockGroup
         PivotGrid = pivotGrid;
         Blocks = blocks;
 
-        Root = new GameObject($"BlockGroupRoot_{blockType}").transform;
+        _rootObject = new GameObject($"BlockGroupRoot_{blockType}"); 
+        Root = _rootObject.transform;
 
         foreach (var block in Blocks)
         {
@@ -74,8 +76,12 @@ public class BlockGroup
             {
                 Blocks[i].Release();
                 Blocks.RemoveAt(i);
-                return;
+                break;
             }
+        }
+
+        if (Blocks.Count == 0) {
+            Object.Destroy(_rootObject);
         }
     }
 
