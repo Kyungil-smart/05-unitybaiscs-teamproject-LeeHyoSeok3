@@ -26,22 +26,6 @@ public class PlayerCollision : MonoBehaviour
         _playerDead = false;
     }
 
-    // private void OnCollisionEnter(Collision collision)
-    // {
-    //     if (!collision.gameObject.CompareTag("Block"))
-    //         return;
-    //
-    //     var blockView = collision.gameObject.GetComponent<BlockView>();
-    //     if (blockView == null)
-    //         return;
-    //
-    //     var blockController = blockView.Controler;
-    //     if (!(blockController.State == BlockState.Falling))
-    //         return;
-    //
-    //     CollisionWhere(collision);
-    // }
-
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Block"))
@@ -52,7 +36,8 @@ public class PlayerCollision : MonoBehaviour
             return;
 
         var blockController = blockView.Controler;
-        if (blockController.State != BlockState.Falling)
+        if (blockController.State != BlockState.Falling &&
+            blockController.State != BlockState.Locked)
             return;
 
         Die();
