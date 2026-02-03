@@ -57,6 +57,11 @@ public class BlockSpawner : MonoBehaviour
         {
             SpawnRandom();
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            SpawnObstacle(1);
+        }
     }
 
     public void SpawnRandom()
