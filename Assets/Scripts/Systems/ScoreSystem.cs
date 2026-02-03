@@ -16,6 +16,7 @@ public class ScoreSystem
 
     private int _currentStageTargetScore;
     private int _currentStageIndex;
+    private PlayerControler _playerController;
 
     // 테스트 코드
     public void Test()
@@ -38,8 +39,20 @@ public class ScoreSystem
 
     public void OnLineCleared(LineClearedEvent evt)
     {
+
         Score += (evt.Count * evt.Count) * 100;
         GameEventBus.Raise(new ScoreUpdatedEvent(Score));
+        if(_playerController == null)
+        {
+            var playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                _playerController = playerObj.GetComponent<PlayerControler>();
+            }
+        }
+
+        if (_playerController.State == PlayerState.Dead)
+            return;
 
         if (Score >= _currentStageTargetScore)
         {

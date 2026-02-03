@@ -29,6 +29,7 @@ public class StageSystem
     private const float MIN_SPAWN_INTERVAL = 2f;
     private int _monsterSpawnCount = 0;
     private int _obstacleSpawnCount = 0;
+    private PlayerControler _playerController;
 
     public void Subscribe()
     {
@@ -98,6 +99,18 @@ public class StageSystem
         CurrentStage++;
         _monsterSpawnCount = 0;
         _obstacleSpawnCount = 0;
+
+        if (_playerController == null)
+        {
+            var playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                _playerController = playerObj.GetComponent<PlayerControler>();
+            }
+        }
+
+        if (_playerController.State == PlayerState.Dead)
+            return;
 
         if (CurrentStage > EndStage)
         {
