@@ -101,8 +101,6 @@ public class BlockBuster : MonoBehaviour
         // 실제 블록 제거
         foreach (LineCheker l in _check)
         {
-            if (!l.IsLineFull()) continue;
-
             foreach (GridTile tile in l._tielOnLine)
             {
                 tile.GetComponent<OnBlockInteract>().ClearBlock();
