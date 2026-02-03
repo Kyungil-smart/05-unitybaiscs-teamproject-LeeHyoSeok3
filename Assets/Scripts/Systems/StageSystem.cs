@@ -130,7 +130,7 @@ public class StageSystem
     {
         CurrentStage = 1;
         StageTargetScore = 1000;
-        EndStage = 10;
+        EndStage = 4;
         _monsterSpawnCount = 0;
         _obstacleSpawnCount = 0;
     }
