@@ -95,6 +95,7 @@ public class BlockSpawner : MonoBehaviour
         BlockPoolType poolType = BlockPoolType.Rock;
 
 
+        _cangeneratelist.GetNonBlockList();
         if(_cangeneratelist.ObList.Count < howmany) // 빈 자리보다 생성 블럭이 많을 때 처리
         {
             howmany = _cangeneratelist.ObList.Count;

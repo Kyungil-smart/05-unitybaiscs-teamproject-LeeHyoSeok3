@@ -87,12 +87,12 @@ public class CangenerateBolockList : MonoBehaviour
     {
         GetNonBlockList();
     }
-    void GetNonBlockList()
+    public void GetNonBlockList()
     {
         ObList.Clear();
         foreach(GridTile grid in Grids)
         {
-            if(!grid._blockOn)
+            if(!(grid._blockOn || grid._predict))
             {
                 ObList.Add(grid);
             }
