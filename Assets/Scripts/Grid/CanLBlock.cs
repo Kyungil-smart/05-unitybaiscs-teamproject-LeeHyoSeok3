@@ -40,6 +40,10 @@ public class CanLBlock : MonoBehaviour
 
     public void CheckNear()
     {
+        _up._up._up._up.CheckAll();
+        _up._up._up.CheckAll();
+        _up._up._up._left.CheckAll();
+        _up._up._up._right.CheckAll();
         _up._up.CheckAll();
         _up._up._left.CheckAll();
         _up._up._left._left.CheckAll();
@@ -48,23 +52,35 @@ public class CanLBlock : MonoBehaviour
         _up.CheckAll();
         _up._left.CheckAll();
         _up._left._left.CheckAll();
-        _up._right.CheckAll();
+        _up._left._left._left.CheckAll();
+        _up._right._right._right.CheckAll();
         _up._right._right.CheckAll();
+        _up._right.CheckAll();
         _left.CheckAll();
         _left._left.CheckAll();
+        _left._left._left.CheckAll();
+        _left._left._left._left.CheckAll();
         CheckAll();
         _right.CheckAll();
         _right._right.CheckAll();
-        _down.CheckAll();
-        _down._left.CheckAll();
-        _down._left._left.CheckAll();
-        _down._right.CheckAll();
-        _down._right._right.CheckAll();
+        _right._right._right.CheckAll();
+        _right._right._right._right.CheckAll();
+        _down._down._down._down.CheckAll();
+        _down._down._down.CheckAll();
+        _down._down._down._left.CheckAll();
+        _down._down._down._right.CheckAll();
         _down._down.CheckAll();
         _down._down._left.CheckAll();
         _down._down._left._left.CheckAll();
         _down._down._right.CheckAll();
         _down._down._right._right.CheckAll();
+        _down.CheckAll();
+        _down._left.CheckAll();
+        _down._left._left.CheckAll();
+        _down._left._left._left.CheckAll();
+        _down._right._right._right.CheckAll();
+        _down._right._right.CheckAll();
+        _down._right.CheckAll();
     }
     
     void CanUp()
