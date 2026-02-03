@@ -12,7 +12,7 @@
 - 프로젝트 기간 : 7일
 - 팀장 : 이효석
 - 팀원 : 강세환, 안정연, 조민형, 정재훈
-- 시연 영상 : https://www.youtube.com/watch?v=2ogE45Vr1hc
+- 시연 영상 : [https://www.youtube.com/watch?v=2ogE45Vr1hc](https://www.youtube.com/watch?v=08mw4Y487Bg)
 
 ## 1. 게임 특징
 
