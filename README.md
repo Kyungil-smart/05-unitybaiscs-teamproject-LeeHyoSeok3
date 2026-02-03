@@ -45,33 +45,6 @@
 
 ### 1-2. 프로그램 구조
 
-```
-                    [ GameScene ]
-                          │
-                          ▼
-                   [ GameManager ]
-                          │
-        ┌─────────────────┼─────────────────┐
-        ▼                 ▼                 ▼
- [ StageSystem ]   [ ScoreSystem ]     [ GameEventBus ]
-                                                │
-                         ┌──────────────────────┼──────────────────────┐
-                         ▼                      ▼                      ▼
-                      [ Block ]             [ Monster ]             [ Player ]
-                         │                      │                      │
-                         └──────────────┐       │       ┌──────────────┘
-                                        ▼       ▼
-                                     [ Grid ]  (Collision / Line Clear)
-
-────────────────────────────────────────────────────────────────────────
-
-                    [ PoolManager (Singleton) ]
-                              │
-              ┌───────────────┼───────────────┐
-              ▼                               ▼
-        [ Block Pool ]                  [ Monster Pool ]
-```
-
 #### [Object Pooling (Singleton Pattern)]
 - 잦은 오브젝트 생성/삭제로 인한 성능 저하를 방지하기 위해
 Singleton 기반 Object Pooling 구조를 사용한다.
@@ -92,7 +65,7 @@ Singleton 기반 Object Pooling 구조를 사용한다.
   - 풀링 대상 오브젝트 인터페이스
   - OnDisableObject()를 통해 공통 비활성화 처리
 
-- 블록, 몬스터, 이펙트 등 반복 생성되는 모든 오브젝트에 적용하여
+- 블록, 몬스터 등 반복 생성되는 모든 오브젝트에 적용하여
 런타임 성능을 안정적으로 유지한다.
 
 #### [Block]
